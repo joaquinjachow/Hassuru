@@ -1,6 +1,7 @@
 import Navbar from "@/components/NavBar";
 import React from "react";
 import Image from "next/image";
+import Footer from "@/components/Footer";
 
 export default function Home() {
   return (
@@ -27,6 +28,7 @@ export default function Home() {
           />
         </div>
       </div>
+      <Footer/>
     </div>
   );
 }
