@@ -1,17 +1,30 @@
 const mongoose = require('mongoose');
 require('dotenv').config();
-const clientOptions = { serverApi: { version: '1', strict: true, deprecationErrors: true } };
+
 async function run() {
-    try {
-        const uri = process.env.MONGODB_URI;
-        await mongoose.connect(uri, clientOptions);
-        await mongoose.connection.db.admin().command({ ping: 1 });
-        console.log("Conectado a MongoDB");
-      } catch (error) {
-        console.error("Error durante la conexión a MongoDB:", error);
-      } finally {
-        await mongoose.disconnect();
-        console.log("Conexión a MongoDB cerrada.");
-      }
+  try {
+    const uri = process.env.MONGODB_URI;
+
+    // Verificar si el URI está definido
+    if (!uri) {
+      throw new Error('MONGODB_URI no está definida en el archivo .env');
     }
-run().catch(console.dir);
+
+    // Conectar a MongoDB
+    await mongoose.connect(uri);
+    console.log('Conectado a MongoDB');
+
+    // Hacer alguna operación, por ejemplo, ping a la base de datos
+    await mongoose.connection.db.admin().command({ ping: 1 });
+    console.log('Ping exitoso a MongoDB');
+
+    // Aquí podrías realizar operaciones con la base de datos
+    // ...
+
+  } catch (error) {
+    console.error('Error durante la conexión a MongoDB:', error);
+  }
+}
+
+// Ejecutar la función sin desconectar inmediatamente
+run().catch(console.error);
