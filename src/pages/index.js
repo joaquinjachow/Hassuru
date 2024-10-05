@@ -7,12 +7,8 @@ import Footer from "@/components/Footer";
 export default function Home() {
   return (
     <div>
-      <Navbar />
-      {/* Contenedor centrado y con ancho máximo */}
       <div className="container p-4 mx-auto">
-        {/* Flex para alinear las imágenes */}
         <div className="flex items-center justify-between gap-x-4">
-          {/* Ajuste de las imágenes para que ocupen el ancho completo */}
           <Image
             src="/images/Catalogo.jpg"
             alt="Catalogo"
@@ -29,8 +25,9 @@ export default function Home() {
           />
         </div>
       </div>
-      <Carousell />
-      <Footer/>
+      <div className="mt-2 mb-10">
+        <Carousell />
+      </div>
     </div>
   );
 }
