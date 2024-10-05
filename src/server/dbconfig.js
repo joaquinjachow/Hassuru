@@ -1,3 +1,4 @@
+
 // dbconfig.js
 
 const express = require('express');
@@ -29,5 +30,3 @@ app.use('/api/admin', adminRoutes);
 app.listen(PORT, () => {
   console.log(`Backend corriendo en http://localhost:${PORT}`);
 });
-
-
