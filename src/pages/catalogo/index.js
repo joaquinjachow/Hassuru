@@ -1,5 +1,5 @@
 import React from "react";
-import Stock from "../../components/Stock";
+import Stock from "@/components/stock";
 
 export default function catalogo() {
   return (
