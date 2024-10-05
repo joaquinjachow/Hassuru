@@ -1,11 +1,10 @@
 import React from "react";
+import Stock from "@/components/stock";
 
-
-export default function Stock() {
+export default function Catalogo() {
   return (
     <div>
-      <h1>Hassuru</h1>
-    <stock/>
+      <Stock/>
     </div>
   );
 }
