@@ -1,5 +1,6 @@
 import Navbar from "@/components/NavBar";
 import React from "react";
+import Carousell from "@/components/Carousell";
 import Image from "next/image";
 import Footer from "@/components/Footer";
 
@@ -28,6 +29,7 @@ export default function Home() {
           />
         </div>
       </div>
+      <Carousell />
       <Footer/>
     </div>
   );
