@@ -1,10 +1,9 @@
 import React from "react";
-import Carousell from "@/components/Carousell";
 
-export default function stock() {
+export default function Stock() {
   return (
     <div>
-      <h1>Hassuru</h1>
+      <h1>a</h1>
     </div>
   );
 }
