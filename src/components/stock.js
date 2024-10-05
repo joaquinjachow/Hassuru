@@ -1,7 +1,6 @@
 import React from "react";
-import Carousell from "@/components/Carousell";
 
-export default function stock() {
+export default function Stock() {
   return (
     <div>
       <h1>Hassuru</h1>
