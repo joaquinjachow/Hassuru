@@ -1,4 +1,5 @@
 // routes/productos.js
+const authMiddleware = require('../middlewares/authMiddleware');
 
 const express = require('express');
 const Producto = require('../models/Producto');
@@ -16,7 +17,7 @@ router.get('/', async (req, res) => {
 });
 
 // Ruta para agregar un producto
-router.post('/', async (req, res) => {
+router.post('/', authMiddleware, async (req, res) => {
   try {
     // Asegúrate de que 'tallas' sea un objeto y no un array
     if (typeof req.body.tallas !== 'object' || Array.isArray(req.body.tallas)) {
@@ -46,7 +47,7 @@ router.get('/:id', async (req, res) => {
 });
 
 // Ruta para actualizar un producto
-router.put('/:id', async (req, res) => {
+router.put('/:id', authMiddleware, async (req, res) => {
   try {
     const productoActualizado = await Producto.findByIdAndUpdate(req.params.id, req.body, { new: true });
     if (!productoActualizado) {
@@ -59,7 +60,7 @@ router.put('/:id', async (req, res) => {
 });
 
 // Ruta para eliminar un producto
-router.delete('/:id', async (req, res) => {
+router.delete('/:id', authMiddleware, async (req, res) => {
   try {
     const productoEliminado = await Producto.findByIdAndDelete(req.params.id);
     if (!productoEliminado) {
