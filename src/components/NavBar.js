@@ -21,7 +21,9 @@ export default function Navbar() {
       <div className="container flex items-center justify-between mx-auto">
         {/* Logo visible en todas las pantallas */}
         <div className="flex items-center">
-          <Image src="/logo.png" alt="Logo" width={100} height={100} className="" />
+          <Link href="/">
+            <Image src="/logo.png" alt="Logo" width={100} height={100} className="" />
+          </Link>
         </div>
 
         {/* Hamburguesa visible solo en mobile */}
