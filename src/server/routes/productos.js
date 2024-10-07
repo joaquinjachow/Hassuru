@@ -17,7 +17,7 @@ router.get('/', async (req, res) => {
 });
 
 // Ruta para agregar un producto
-router.post('/', async (req, res) => {
+router.post('/', authMiddleware, async (req, res) => {
   try {
     // Asegúrate de que 'tallas' sea un objeto y no un array
     if (typeof req.body.tallas !== 'object' || Array.isArray(req.body.tallas)) {
