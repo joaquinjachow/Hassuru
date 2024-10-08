@@ -4,6 +4,7 @@ const AddProductModal = ({ isOpen, onClose, fetchProducts}) => {
   const [product, setProduct] = useState({
     nombre: '',
     descripcion: '',
+    marca: '',
     categoria: '',
     precios: { USD: '', AR: '' },
     tallas: {}, // Ahora es un objeto
@@ -83,6 +84,7 @@ const AddProductModal = ({ isOpen, onClose, fetchProducts}) => {
     const productoAEnviar = {
       nombre: product.nombre,
       descripcion: product.descripcion,
+      marca: product.marca,
       categoria: product.categoria,
       precios: {
         USD: parseFloat(product.precios.USD),
@@ -145,6 +147,14 @@ const AddProductModal = ({ isOpen, onClose, fetchProducts}) => {
             name="descripcion"
             placeholder="Descripción"
             value={product.descripcion}
+            onChange={handleInputChange}
+            className="border p-2 mb-4 w-full"
+          />
+          <input
+            type="text"
+            name="marca"
+            placeholder="Marca"
+            value={product.marca}
             onChange={handleInputChange}
             required
             className="border p-2 mb-4 w-full"
