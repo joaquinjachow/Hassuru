@@ -54,7 +54,7 @@ export default function Navbar() {
               <li key={index}>
                 <Link
                   href={menu.href}
-                  className="px-4 py-2 text-lg font-medium text-black no-underline rounded-md hover:bg-black hover:text-white focus:text-white focus:outline-none"
+                  className="px-4 py-2 text-lg font-medium text-black no-underline rounded-md hover:bg-black hover:text-white focus:outline-none"
                 >
                   {menu.name}
                 </Link>
