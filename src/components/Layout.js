@@ -4,18 +4,6 @@ import { useRouter } from 'next/router';
 import { FaWhatsapp } from 'react-icons/fa'
 
 const Layout = ({ children }) => {
-
-  
-  return (
-    <div>
-
-        <main>
-          {children}
-        </main>
-
-
-
-const Layout = ({ children }) => {
   const router = useRouter();
   const showLayout = router.pathname !== '/admin';
   const whatsappNumber = "3512591212"
