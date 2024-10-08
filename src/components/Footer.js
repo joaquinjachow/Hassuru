@@ -28,7 +28,7 @@ export default function Footer() {
       </div>
 
       {/* Derechos reservados */}
-      <div className="mt-4 text-sm text-center">
+      <div className="pb-4 mt-4 text-sm text-center">
         &copy; 2024 @Hassuru. Todos los derechos reservados.
       </div>
     </footer>
