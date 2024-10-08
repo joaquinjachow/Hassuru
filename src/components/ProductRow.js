@@ -1,5 +1,7 @@
 // components/ProductRow.js
 import React, { useState } from "react";
+import { RiDeleteBin5Line } from "react-icons/ri";
+import { IoAddCircleOutline } from "react-icons/io5";
 
 const ProductRow = ({ 
   producto, 
@@ -106,10 +108,9 @@ const ProductRow = ({
       });
 
       if (response.ok) {
-        toast.success('Producto eliminado con éxito'); // Mostrar mensaje de éxito
+        alert('Producto eliminado con èxito');
         fetchProducts(); // Recarga los productos
-      } else {
-        toast.error('Error al eliminar el producto'); // Mostrar mensaje de error
+      } else { // Mostrar mensaje de error
         console.error('Error al eliminar el producto');
       }
     }
@@ -127,7 +128,7 @@ const ProductRow = ({
   };
 
   return (
-    <tr className="text-gray-600">
+    <tr className="text-gray-600 overflow-x-auto">
       <td className="border px-4 py-2">
         <input
           type="radio"
@@ -136,57 +137,69 @@ const ProductRow = ({
           checked={selectedProduct === producto._id}
         />
       </td>
-      <td className="border px-4 py-2">
+      <td className="border px-2 py-2">
         {selectedProduct === producto._id ? (
           <input
             type="text"
             value={producto.nombre}
             onChange={(e) => handleProductChange(e, "nombre")}
-            className="border p-1"
+            className="border p-1 w-full"
           />
         ) : (
           producto.nombre
         )}
       </td>
-      <td className="border px-4 py-2">
+      <td className="border px-2 py-2">
         {selectedProduct === producto._id ? (
           <input
             type="text"
             value={producto.descripcion}
             onChange={(e) => handleProductChange(e, "descripcion")}
-            className="border p-1"
+            className="border p-1 w-full"
           />
         ) : (
           producto.descripcion
         )}
       </td>
-      <td className="border px-4 py-2">
+      <td className="border px-2 py-2">
+        {selectedProduct === producto._id ? (
+          <input
+            type="text"
+            value={producto.marca}
+            onChange={(e) => handleProductChange(e, "marca")}
+            className="border p-1 w-full"
+          />
+        ) : (
+          producto.marca
+        )}
+      </td>
+      <td className="border px-2 py-2">
         {selectedProduct === producto._id ? (
           <input
             type="text"
             value={producto.categoria}
             onChange={(e) => handleProductChange(e, "categoria")}
-            className="border p-1"
+            className="border p-1 w-full"
           />
         ) : (
           producto.categoria
         )}
       </td>
-      <td className="border px-4 py-2">
+      <td className="border px-2 py-2">
         {selectedProduct === producto._id ? (
-          <div>
+          <div className="flex flex-col">
             <input
               type="text"
               value={producto.precios.USD}
               onChange={(e) => handleProductChange(e, "precios.USD")}
-              className="border p-1 mb-1 w-1/3 block"
+              className="border p-1 mb-2 w-full"
               placeholder="Precio en USD"
             />
             <input
               type="text"
               value={producto.precios.AR}
               onChange={(e) => handleProductChange(e, "precios.AR")}
-              className="border p-1 w-1/3 block"
+              className="border p-1 w-full"
               placeholder="Precio en ARS"
             />
           </div>
@@ -198,28 +211,28 @@ const ProductRow = ({
         )}
       </td>
       {/* Edición de tallas y stock */}
-      <td className="border px-4 py-2">
+      <td className="border px-2 py-2">
         {selectedProduct === producto._id ? (
           <div>
             {Object.entries(producto.tallas).map(([talla, cantidad]) => (
-              <div key={talla} className="flex items-center">
+              <div key={talla} className="flex items-center mb-1">
                 <input 
                   type="text" 
                   value={talla} 
                   readOnly 
-                  className="border p-1 mr-2 w-1/4" 
+                  className="border p-1 mr-2 w-1/3" 
                 />
                 <input 
                   type="number" 
                   value={cantidad} 
                   onChange={(e) => handleTallaChange(e, talla)} 
-                  className="border p-1 w-1/4" 
+                  className="border p-1 w-1/3" 
                 />
                 <button 
                   onClick={() => handleDeleteTalla(talla)} 
                   className="bg-red-500 text-white px-2 py-1 ml-2 rounded"
                 >
-                  Eliminar
+                  <RiDeleteBin5Line />
                 </button>
               </div>
             ))}
@@ -230,20 +243,20 @@ const ProductRow = ({
                 value={newTalla} 
                 onChange={(e) => setNewTalla(e.target.value)} 
                 placeholder="Nueva talla" 
-                className="border p-1 mr-2 w-1/4" 
+                className="border p-1 mr-2 w-1/3" 
               />
               <input 
                 type="number" 
                 value={newStock} 
                 onChange={(e) => setNewStock(e.target.value)} 
                 placeholder="Stock" 
-                className="border p-1 w-1/4" 
+                className="border p-1 w-1/3" 
               />
               <button 
                 onClick={handleAddTalla} 
                 className="bg-blue-500 text-white px-2 py-1 ml-2 rounded"
               >
-                Agregar Talla
+                <IoAddCircleOutline />
               </button>
             </div>
           </div>
@@ -259,11 +272,11 @@ const ProductRow = ({
       </td>
 
       {/* Edición de colores */}
-      <td className="border px-4 py-2">
+      <td className="border px-2 py-2">
         {selectedProduct === producto._id ? (
           <div>
             {producto.colores.map(color => (
-              <div key={color._id} className="flex items-center">
+              <div key={color._id} className="flex items-center mb-1">
                 <input 
                   type="text" 
                   value={color.color} 
@@ -274,7 +287,7 @@ const ProductRow = ({
                   onClick={() => handleDeleteColor(color._id)} 
                   className="bg-red-500 text-white px-2 py-1 ml-2 rounded"
                 >
-                  Eliminar
+                  <RiDeleteBin5Line />
                 </button>
               </div>
             ))}
@@ -289,9 +302,9 @@ const ProductRow = ({
               />
               <button 
                 onClick={handleAddColor} 
-                className="bg-blue-500 text-white px-2 py-1 ml-2 rounded"
+                className="bg-blue-500 text-white px-2 py-1 mt-2 rounded"
               >
-                Agregar Color
+                <IoAddCircleOutline />
               </button>
             </div>
           </div>
@@ -308,18 +321,18 @@ const ProductRow = ({
           <img src={producto.image.url} alt={producto.nombre} className="w-16 h-16 object-cover" />
         )}
       </td>
-      <td className="border px-4 py-2">
+      <td className="border px-2 py-2 text-center">
         {selectedProduct === producto._id && (
           <button 
             onClick={() => handleProductUpdate(producto)} 
-            className="bg-blue-500 text-white px-4 py-2 rounded"
+            className="bg-blue-500 text-white px-2 py-1 mb-1 rounded"
           >
             Guardar
           </button>
         )}
         <button 
           onClick={() => handleProductDelete(producto._id)} 
-          className="bg-red-500 text-white px-4 py-2 rounded"
+          className="bg-red-500 text-white px-2 py-1 rounded"
         >
           Eliminar
         </button>

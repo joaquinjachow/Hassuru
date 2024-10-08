@@ -1,12 +1,19 @@
 import Navbar from './NavBar'; 
 import Footer from './Footer';
+import { useRouter } from 'next/router';
+
 
 const Layout = ({ children }) => {
+  const router = useRouter();
+  const showLayout = router.pathname !== '/admin';
+  
   return (
     <div>
-      <Navbar />
-      <main>{children}</main>
-      <Footer />
+      {showLayout && <Navbar />}
+        <main>
+          {children}
+        </main>
+      {showLayout && <Footer />}
     </div>
   );
 };

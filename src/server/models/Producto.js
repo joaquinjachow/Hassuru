@@ -8,7 +8,7 @@ const ProductoSchema = new mongoose.Schema({
   },
   descripcion: {
     type: String,
-    required: [true, 'La descripción es obligatoria'],
+    // required: [true, 'La descripción es obligatoria'],
   },
   precios: {
     AR: {
@@ -19,6 +19,10 @@ const ProductoSchema = new mongoose.Schema({
       type: Number,
       required: [true, 'El precio en USD es obligatorio'],
     },
+  },
+  marca: {
+    type: String,
+    required: [true, 'La marca del producto es obligatoria'],
   },
   categoria: {
     type: String,
