@@ -2,11 +2,12 @@
 
 const express = require('express');
 const Producto = require('../models/Producto');
+const authMiddleware = require('../middlewares/authMiddleware');
 
 const router = express.Router();
 
 // Ruta para actualizar el stock de un producto
-router.put('/:id', async (req, res) => {
+router.put('/:id', authMiddleware, async (req, res) => {
   try {
     const { tallas } = req.body; // Esperamos un objeto de tallas con cantidades
     const producto = await Producto.findById(req.params.id);

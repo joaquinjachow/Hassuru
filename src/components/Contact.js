@@ -6,7 +6,9 @@ export default function Contact() {
         apellido: "",
         prenda: "",
         talle: "",
-        contacto: ""
+        contacto: "",
+        url: "",  // URL opcional
+        foto: null // Foto opcional
     });
 
     const handleInputChange = (e) => {
@@ -14,19 +16,26 @@ export default function Contact() {
         setFormData({ ...formData, [name]: value });
     };
 
+    const handleFileChange = (e) => {
+        setFormData({ ...formData, foto: e.target.files[0] });
+    };
+
     const handleSubmit = (e) => {
         e.preventDefault();
 
-        const { nombre, apellido, prenda, talle, contacto } = formData;
+        const { nombre, apellido, prenda, talle, contacto, url, foto } = formData;
+        // Condicionalmente agregar URL y Foto si existen
         const mensaje = `Hola, me gustaría encargar lo siguiente:
         - Nombre: ${nombre}
         - Apellido: ${apellido}
         - Prenda o par a encargar: ${prenda}
         - Talle: ${talle}
-        - Número de contacto: ${contacto}`;
+        - Número de contacto: ${contacto}
+        ${url ? `- URL de referencia: ${url}` : ""}
+        ${foto ? `- Foto: ${foto.name}` : "No se adjuntó una foto"}`;
 
-        const url = `https://api.whatsapp.com/send?phone=3573694877&text=${encodeURIComponent(mensaje)}`;
-        window.open(url, "_blank");
+        const whatsappUrl = `https://api.whatsapp.com/send?phone=3512591212&text=${encodeURIComponent(mensaje)}`;
+        window.open(whatsappUrl, "_blank");
     };
 
     const inputStyle = "p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#9F1E40]";
@@ -74,6 +83,23 @@ export default function Contact() {
                         placeholder="Número de contacto"
                         value={formData.contacto}
                         onChange={handleInputChange}
+                        className={inputStyle}
+                    />
+                    {/* Campo opcional para URL */}
+                    <input
+                        type="url"
+                        name="url"
+                        placeholder="URL de referencia (opcional)"
+                        value={formData.url}
+                        onChange={handleInputChange}
+                        className={inputStyle}
+                    />
+                    {/* Campo opcional para subir foto */}
+                    <input
+                        type="file"
+                        name="foto"
+                        accept="image/*"
+                        onChange={handleFileChange}
                         className={inputStyle}
                     />
                     <button
