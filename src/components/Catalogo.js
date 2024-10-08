@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from "react";
+import Card from "./Card";
+import Link from "next/link";
 
 export default function Catalogo() {
   const [products, setProducts] = useState([]);
@@ -129,18 +131,18 @@ export default function Catalogo() {
 
   // Renderización del componente
   return (
-    <div className="container mx-auto py-10 flex">
+    <div className="container flex py-10 mx-auto">
       {/* Columna para filtros */}
       <aside className="w-1/4 px-4">
         <div className="mb-4">
-          <h3 className="text-xl font-semibold mb-3">Filtros</h3>
+          <h3 className="mb-3 text-xl font-semibold">Filtros</h3>
           {/* Filtro por tallas */}
           <div className="mb-4">
-            <label className="block font-medium mb-1">Talla</label>
+            <label className="block mb-1 font-medium">Talla</label>
             <select
               value={selectedTalla}
               onChange={handleTallaFilter}
-              className="w-full border border-gray-300 p-2 rounded bg-transparent"
+              className="w-full p-2 bg-transparent border border-gray-300 rounded"
             >
               <option value="">Todas las tallas</option>
               <option value="38">38</option>
@@ -153,32 +155,32 @@ export default function Catalogo() {
           </div>
           {/* Filtro por rango de precio */}
           <div className="mb-4">
-            <label className="block font-medium mb-1">Precio mínimo (USD)</label>
+            <label className="block mb-1 font-medium">Precio mínimo (USD)</label>
             <input
               type="number"
               value={precioMin}
               onChange={handlePrecioMinFilter}
-              className="w-full border border-gray-300 p-2 rounded bg-transparent"
+              className="w-full p-2 bg-transparent border border-gray-300 rounded"
               placeholder="Ej: 50"
             />
           </div>
           <div className="mb-4">
-            <label className="block font-medium mb-1">Precio máximo (USD)</label>
+            <label className="block mb-1 font-medium">Precio máximo (USD)</label>
             <input
               type="number"
               value={precioMax}
               onChange={handlePrecioMaxFilter}
-              className="w-full border border-gray-300 p-2 rounded bg-transparent"
+              className="w-full p-2 bg-transparent border border-gray-300 rounded"
               placeholder="Ej: 100"
             />
           </div>
           {/* Filtro por marcas */}
           <div className="mb-4">
-            <label className="block font-medium mb-1">Marca</label>
+            <label className="block mb-1 font-medium">Marca</label>
             <select
               value={selectedMarca}
               onChange={handleMarcaFilter}
-              className="w-full border border-gray-300 p-2 rounded bg-transparent"
+              className="w-full p-2 bg-transparent border border-gray-300 rounded"
             >
               <option value="">Todas las marcas</option>
               <option value="Marca1">Marca1</option>
@@ -187,7 +189,7 @@ export default function Catalogo() {
             </select>
           </div>
           {/* Filtro por stock */}
-          <div className="mb-4 flex gap-2">
+          <div className="flex gap-2 mb-4">
             <button
               onClick={handleStockOnlyChange}
               className={`w-full ${
@@ -206,7 +208,7 @@ export default function Catalogo() {
             </button>
           </div>
           {/* Botón de buscar */}
-          <button onClick={handleSearch} className="w-full bg-blue-500 text-white p-2 rounded">
+          <button onClick={handleSearch} className="w-full p-2 text-white bg-blue-500 rounded">
             Buscar
           </button>
         </div>
@@ -221,27 +223,7 @@ export default function Catalogo() {
         ) : currentProducts.length === 0 ? (
           <p>No hay productos disponibles.</p> // Mostrar mensaje si no hay productos
         ) : (
-          <div className="grid grid-cols-4 gap-4">
-            {currentProducts.map((product, index) => {
-              const disponibilidad = getDisponibilidad(product);
-              return (
-                <div key={index} className="flex flex-col justify-between h-full transition-transform transform hover:scale-105">
-                  <img
-                    src={product.image?.url || "/images/default.png"} // Ruta por defecto si no hay imagen
-                    alt={product.nombre}
-                    className="w-full object-contain mb-3"
-                  />
-                  <h3 className="text-lg font-semibold">{product.nombre}</h3>
-                  <div className="flex flex-col mt-2">
-                    <p className="text-lg font-bold text-gray-800">
-                      ${product.precios.USD} USD
-                    </p>
-                    <span className={disponibilidad.color}>{disponibilidad.message}</span>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
+          <Card currentProducts={currentProducts} getDisponibilidad={getDisponibilidad}/>
         )}
 
         {/* Paginación */}
