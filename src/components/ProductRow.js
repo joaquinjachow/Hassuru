@@ -127,21 +127,30 @@ const ProductRow = ({
   const handleProductChange = (e, field, index) => {
     const updatedProducts = [...editableProducts];
     const newValue = e.target.value;
-    
-    console.log(`Campo: ${field}, Nuevo valor: ${newValue}`);
+
+    // Verificar si el producto en el índice existe
+  if (!updatedProducts[index]) {
+    console.error(`Producto en el índice ${index} no existe.`);
+    return; // Salir si no existe
+  }
   
     // Verificar si el campo es uno de los precios
     if (field.includes('precios')) {
       const [priceType, priceKey] = field.split('.'); // Obtiene 'precios' y 'USD' o 'AR'
+
       updatedProducts[index][priceType][priceKey] = newValue;
     } else if (field === 'categoria') {
       // Manejar la categoría directamente
       updatedProducts[index][field] = newValue; // Asignar el nuevo valor a la categoría
     } else {
+      if (!updatedProducts[index][field]) {
+        updatedProducts[index][field] = ''; // Inicializar con un valor vacío si no existe
+      }
       updatedProducts[index][field] = newValue; // Manejar otros campos
     }
   
     setEditableProducts(updatedProducts);
+    console.log(`Productos actualizados:`, updatedProducts);
   };
 
   return (
@@ -159,7 +168,7 @@ const ProductRow = ({
           <input
             type="text"
             value={producto.nombre}
-            onChange={(e) => handleProductChange(e, "nombre")}
+            onChange={(e) => handleProductChange(e, "nombre", index)}
             className="border p-1 w-full"
           />
         ) : (
@@ -171,7 +180,7 @@ const ProductRow = ({
           <input
             type="text"
             value={producto.descripcion}
-            onChange={(e) => handleProductChange(e, "descripcion")}
+            onChange={(e) => handleProductChange(e, "descripcion", index)}
             className="border p-1 w-full"
           />
         ) : (
@@ -183,7 +192,7 @@ const ProductRow = ({
           <input
             type="text"
             value={producto.marca}
-            onChange={(e) => handleProductChange(e, "marca")}
+            onChange={(e) => handleProductChange(e, "marca", index)}
             className="border p-1 w-full"
           />
         ) : (
@@ -211,14 +220,14 @@ const ProductRow = ({
             <input
               type="text"
               value={producto.precios.USD}
-              onChange={(e) => handleProductChange(e, "precios.USD")}
+              onChange={(e) => handleProductChange(e, "precios.USD", index)}
               className="border p-1 mb-2 w-full"
               placeholder="Precio en USD"
             />
             <input
               type="text"
               value={producto.precios.AR}
-              onChange={(e) => handleProductChange(e, "precios.AR")}
+              onChange={(e) => handleProductChange(e, "precios.AR", index)}
               className="border p-1 w-full"
               placeholder="Precio en ARS"
             />
