@@ -4,6 +4,7 @@ const AddProductModal = ({ isOpen, onClose, fetchProducts}) => {
   const [product, setProduct] = useState({
     nombre: '',
     descripcion: '',
+    marca: '',
     categoria: '',
     precios: { USD: '', AR: '' },
     tallas: {}, // Ahora es un objeto
@@ -15,6 +16,13 @@ const AddProductModal = ({ isOpen, onClose, fetchProducts}) => {
   const [tallaInput, setTallaInput] = useState('');
   const [cantidadTalla, setCantidadTalla] = useState('');
   const [colorInput, setColorInput] = useState('');
+
+  // Lista de categorías disponibles
+  const categoriasDisponibles = [
+    'ropa',
+    'zapatillas',
+    'accesorios',
+  ];
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -83,6 +91,7 @@ const AddProductModal = ({ isOpen, onClose, fetchProducts}) => {
     const productoAEnviar = {
       nombre: product.nombre,
       descripcion: product.descripcion,
+      marca: product.marca,
       categoria: product.categoria,
       precios: {
         USD: parseFloat(product.precios.USD),
@@ -123,6 +132,7 @@ const AddProductModal = ({ isOpen, onClose, fetchProducts}) => {
       alert('Error al agregar el producto');
     }
   };
+  
 
   if (!isOpen) return null;
 
@@ -146,18 +156,32 @@ const AddProductModal = ({ isOpen, onClose, fetchProducts}) => {
             placeholder="Descripción"
             value={product.descripcion}
             onChange={handleInputChange}
-            required
             className="border p-2 mb-4 w-full"
           />
           <input
             type="text"
-            name="categoria"
-            placeholder="Categoría"
-            value={product.categoria}
+            name="marca"
+            placeholder="Marca"
+            value={product.marca}
             onChange={handleInputChange}
             required
             className="border p-2 mb-4 w-full"
           />
+          {/* Campo para seleccionar la categoría */}
+          <select
+            name="categoria"
+            value={product.categoria}
+            onChange={handleInputChange}
+            required
+            className="border p-2 mb-4 w-full"
+          >
+            <option value="">Seleccione una categoría</option>
+            {categoriasDisponibles.map((categoria, index) => (
+              <option key={index} value={categoria}>
+                {categoria}
+              </option>
+            ))}
+          </select>
           <input
             type="text"
             name="precios.USD"
