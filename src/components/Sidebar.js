@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import AddProductModal from './AddProductModal'; // Importa el componente del modal
 
-const Sidebar = ({ handleLogout, fetchProducts }) => {
+const Sidebar = ({ handleLogout, fetchProducts, categoriasDisponibles }) => {
   const [isModalOpen, setModalOpen] = useState(false); // Estado para controlar el modal
 
   return (
@@ -38,6 +38,7 @@ const Sidebar = ({ handleLogout, fetchProducts }) => {
         isOpen={isModalOpen} 
         onClose={() => setModalOpen(false)} 
         fetchProducts={fetchProducts}
+        categorias={categoriasDisponibles}
       />
     </aside>
   );

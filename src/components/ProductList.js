@@ -6,20 +6,21 @@ import { MdFilterAltOff } from "react-icons/md";
 const ProductList = ({ editableProducts, setEditableProducts, selectedProduct, setSelectedProduct, fetchProducts, fetchProductsFiltered }) => {
   const [marcaFilter, setMarcaFilter] = useState(""); // Estado para la marca
   const [categoriaFilter, setCategoriaFilter] = useState(""); // Estado para la categoría
+
   const handleProductSelect = (id) => {
     setSelectedProduct(id);
   };
 
   const handleFilterSubmit = async (e) => {
     e.preventDefault(); // Evitar que la página se recargue
-    // Llamar a la función fetchProducts con los filtros
-    await fetchProductsFiltered({ marca: marcaFilter, categoria: categoriaFilter });
+    if (categoriaFilter) { // Verifica que haya una categoría seleccionada
+      await fetchProductsFiltered(categoriaFilter); // Solo filtra por categoría
+    }
   };
 
   // Función para remover filtros
   const handleRemoveFilters = () => {
-    setMarcaFilter("");
-    setCategoriaFilter("");
+    setCategoriaFilter(""); // Limpia el filtro de categoría
     fetchProducts(); // Llama a fetchProducts para cargar todos los productos nuevamente
   };
 
@@ -29,20 +30,24 @@ const ProductList = ({ editableProducts, setEditableProducts, selectedProduct, s
 
       {/* Formulario de Filtros */}
       <form onSubmit={handleFilterSubmit} className="mb-6 flex space-x-4">
-        <input
+        {/* <input
           type="text"
           placeholder="Marca"
           value={marcaFilter}
           onChange={(e) => setMarcaFilter(e.target.value)}
           className="border rounded p-2"
-        />
-        <input
-          type="text"
-          placeholder="Categoría"
+        /> */}
+        {/* Select para Categoría */}
+        <select
           value={categoriaFilter}
           onChange={(e) => setCategoriaFilter(e.target.value)}
           className="border rounded p-2"
-        />
+        >
+          <option value="">Seleccione una categoría</option>
+          <option value="zapatillas">Zapatillas</option>
+          <option value="ropa">Ropa</option>
+          <option value="accesorios">Accesorios</option>
+        </select>
         <button type="submit" className="bg-blue-500 text-white rounded p-2">
           Filtrar
         </button>
