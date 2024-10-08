@@ -11,12 +11,13 @@ const ProductRow = ({
   editableProducts, // Lista de productos editable
   setEditableProducts, // Manejador de cambios en la lista editable
   fetchProducts, // Función para recargar la lista editable
-  setSelectedProduct // Manejador de selección de producto
+  setSelectedProduct,
 }) => {
 
   const [newTalla, setNewTalla] = useState(""); // Para la nueva talla
   const [newStock, setNewStock] = useState(0);  // Para el stock de la nueva talla
   const [newColor, setNewColor] = useState(""); // Para el nuevo color
+
 
   // Función para actualizar las tallas
   const handleTallaChange = (e, talla) => {
@@ -78,15 +79,22 @@ const ProductRow = ({
 
 
   const handleProductUpdate = async (producto) => {
+    // Aquí deberías asegurarte de que el producto tiene la categoría actualizada
+    const updatedProduct = {
+      ...producto,
+      // Asegúrate de que la categoría se está actualizando correctamente
+      categoria: producto.categoria, // Esta línea es importante para asegurarte de que la categoría se incluya
+    };
+  
     const response = await fetch(`http://localhost:5000/api/productos/${producto._id}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${localStorage.getItem('token')}`,
       },
-      body: JSON.stringify(producto),
+      body: JSON.stringify(updatedProduct), // Aquí utilizas el objeto actualizado
     });
-
+  
     if (response.ok) {
       alert('Producto actualizado con éxito'); // Mostrar alerta
       fetchProducts(); // Recarga los productos
@@ -116,14 +124,23 @@ const ProductRow = ({
     }
   };
 
-  const handleProductChange = (e, field) => {
-    const updatedProducts = [...editableProducts]; // Asegúrate de que editableProducts esté definido
+  const handleProductChange = (e, field, index) => {
+    const updatedProducts = [...editableProducts];
+    const newValue = e.target.value;
+    
+    console.log(`Campo: ${field}, Nuevo valor: ${newValue}`);
+  
+    // Verificar si el campo es uno de los precios
     if (field.includes('precios')) {
       const [priceType, priceKey] = field.split('.'); // Obtiene 'precios' y 'USD' o 'AR'
-      updatedProducts[index][priceType][priceKey] = e.target.value;
+      updatedProducts[index][priceType][priceKey] = newValue;
+    } else if (field === 'categoria') {
+      // Manejar la categoría directamente
+      updatedProducts[index][field] = newValue; // Asignar el nuevo valor a la categoría
     } else {
-      updatedProducts[index][field] = e.target.value;
+      updatedProducts[index][field] = newValue; // Manejar otros campos
     }
+  
     setEditableProducts(updatedProducts);
   };
 
@@ -175,12 +192,15 @@ const ProductRow = ({
       </td>
       <td className="border px-2 py-2">
         {selectedProduct === producto._id ? (
-          <input
-            type="text"
+          <select
             value={producto.categoria}
-            onChange={(e) => handleProductChange(e, "categoria")}
+            onChange={(e) => handleProductChange(e, "categoria", index)}
             className="border p-1 w-full"
-          />
+          >
+            <option value="ropa">Ropa</option>
+            <option value="accesorios">Accesorios</option>
+            <option value="zapatillas">Zapatillas</option>
+          </select>
         ) : (
           producto.categoria
         )}

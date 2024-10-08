@@ -17,6 +17,13 @@ const AddProductModal = ({ isOpen, onClose, fetchProducts}) => {
   const [cantidadTalla, setCantidadTalla] = useState('');
   const [colorInput, setColorInput] = useState('');
 
+  // Lista de categorías disponibles
+  const categoriasDisponibles = [
+    'ropa',
+    'zapatillas',
+    'accesorios',
+  ];
+
   const handleInputChange = (e) => {
     const { name, value } = e.target;
   
@@ -125,6 +132,7 @@ const AddProductModal = ({ isOpen, onClose, fetchProducts}) => {
       alert('Error al agregar el producto');
     }
   };
+  
 
   if (!isOpen) return null;
 
@@ -159,15 +167,21 @@ const AddProductModal = ({ isOpen, onClose, fetchProducts}) => {
             required
             className="border p-2 mb-4 w-full"
           />
-          <input
-            type="text"
+          {/* Campo para seleccionar la categoría */}
+          <select
             name="categoria"
-            placeholder="Categoría"
             value={product.categoria}
             onChange={handleInputChange}
             required
             className="border p-2 mb-4 w-full"
-          />
+          >
+            <option value="">Seleccione una categoría</option>
+            {categoriasDisponibles.map((categoria, index) => (
+              <option key={index} value={categoria}>
+                {categoria}
+              </option>
+            ))}
+          </select>
           <input
             type="text"
             name="precios.USD"

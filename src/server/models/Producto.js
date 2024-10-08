@@ -26,6 +26,7 @@ const ProductoSchema = new mongoose.Schema({
   },
   categoria: {
     type: String,
+    enum: ['zapatillas', 'ropa', 'accesorios'],
     required: true,
   },
   tallas: {

@@ -40,30 +40,24 @@ export default function AdminDashboard() {
     fetchProducts();
   }, []);
 
-  const fetchProductsFiltered = async ({marca, categoria} = {}) => {
-    setLoading(true);
+  const fetchProductsFiltered = async (categoria) => {
+    setLoading(true); // Comienza la carga
     try {
-      const url = new URL("http://localhost:5000/api/productos/filtrar");
-      if (marca) url.searchParams.append("marca", marca);
-      if (categoria) url.searchParams.append("categoria", categoria);
-
-      const response = await fetch(url, {
+      const response = await fetch(`http://localhost:5000/api/productos/categoria/${categoria}`, {
         headers: {
           "Authorization": `Bearer ${localStorage.getItem("token")}`,
         },
       });
-
       if (!response.ok) {
-        throw new Error("Error al cargar los productos");
+        throw new Error("Error al cargar los productos filtrados por categoría");
       }
-
       const data = await response.json();
-      console.log(data); 
       setEditableProducts(data);
     } catch (error) {
       console.error(error);
+      // Manejo de errores (opcional)
     } finally {
-      setLoading(false); // Finaliza la carga
+      setLoading(false);
     }
   };
 
@@ -78,6 +72,7 @@ export default function AdminDashboard() {
       <Sidebar
         handleLogout={handleLogout}
         fetchProducts={fetchProducts}
+        
       />
       <div className="w-full flex-1 p-4 md:p-10">
         <h2 className="text-2xl font-semibold mb-6 text-black">Bienvenido al Dashboard</h2>
