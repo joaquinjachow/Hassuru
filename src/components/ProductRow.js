@@ -79,11 +79,9 @@ const ProductRow = ({
 
 
   const handleProductUpdate = async (producto) => {
-    // Aquí deberías asegurarte de que el producto tiene la categoría actualizada
     const updatedProduct = {
       ...producto,
-      // Asegúrate de que la categoría se está actualizando correctamente
-      categoria: producto.categoria, // Esta línea es importante para asegurarte de que la categoría se incluya
+      categoria: producto.categoria, // Agregar la categoría al objeto actualizado
     };
   
     const response = await fetch(`http://localhost:5000/api/productos/${producto._id}`, {
@@ -92,7 +90,7 @@ const ProductRow = ({
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${localStorage.getItem('token')}`,
       },
-      body: JSON.stringify(updatedProduct), // Aquí utilizas el objeto actualizado
+      body: JSON.stringify(updatedProduct),
     });
   
     if (response.ok) {
@@ -118,7 +116,7 @@ const ProductRow = ({
       if (response.ok) {
         alert('Producto eliminado con èxito');
         fetchProducts(); // Recarga los productos
-      } else { // Mostrar mensaje de error
+      } else { 
         console.error('Error al eliminar el producto');
       }
     }
@@ -128,10 +126,10 @@ const ProductRow = ({
     const updatedProducts = [...editableProducts];
     const newValue = e.target.value;
 
-    // Verificar si el producto en el índice existe
+  // Verificar si el producto en el índice existe
   if (!updatedProducts[index]) {
     console.error(`Producto en el índice ${index} no existe.`);
-    return; // Salir si no existe
+    return; 
   }
   
     // Verificar si el campo es uno de los precios
@@ -151,6 +149,13 @@ const ProductRow = ({
   
     setEditableProducts(updatedProducts);
     console.log(`Productos actualizados:`, updatedProducts);
+  };
+
+  // Función para manejar el cambio de estado de "destacado"
+  const handleDestacadoChange = (e) => {
+    const updatedProducts = [...editableProducts];
+    updatedProducts[index].destacado = e.target.checked; 
+    setEditableProducts(updatedProducts);
   };
 
   return (
@@ -348,6 +353,23 @@ const ProductRow = ({
       <td className="border px-4 py-2">
         {producto.image?.url && (
           <img src={producto.image.url} alt={producto.nombre} className="w-16 h-16 object-cover" />
+        )}
+      </td>
+
+      {/* Switch para destacado */}
+      <td className="border px-2 py-2">
+        {selectedProduct === producto._id ? (
+        <label className="flex items-center">
+          <input
+            type="checkbox"
+            checked={producto.destacado}
+            onChange={handleDestacadoChange}
+            className="mr-2"
+          />
+          Destacado
+        </label>
+        ) : (
+          producto.destacado ? "Sí" : "No"
         )}
       </td>
       <td className="border px-2 py-2 text-center">
