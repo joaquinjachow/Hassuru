@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import Card from "./Card";
-import Link from "next/link";
 
 export default function Catalogo() {
   const [products, setProducts] = useState([]);
@@ -38,14 +37,6 @@ export default function Catalogo() {
   useEffect(() => {
     fetchProducts();
   }, []);
-
-  const getDisponibilidad = (product) => {
-    if (product.tallas && Object.keys(product.tallas).length > 0) {
-      return { message: "Entrega inmediata", color: "text-green-500" };
-    } else {
-      return { message: "Disponible en 15 días", color: "text-red-500" };
-    }
-  };
 
   const handleTallaFilter = (e) => {
     setSelectedTalla(e.target.value);
@@ -223,7 +214,7 @@ export default function Catalogo() {
         ) : currentProducts.length === 0 ? (
           <p>No hay productos disponibles.</p> // Mostrar mensaje si no hay productos
         ) : (
-          <Card currentProducts={currentProducts} getDisponibilidad={getDisponibilidad}/>
+          <Card currentProducts={currentProducts}/>
         )}
 
         {/* Paginación */}
