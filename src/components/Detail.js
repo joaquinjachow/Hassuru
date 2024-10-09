@@ -9,20 +9,16 @@ export default function Detail({ product }) {
     const message = selectedTalla
       ? `Hola, quiero comprar la zapatilla ${product.nombre} en el talle ${selectedTalla}`
       : `Hola, quiero encargar estas zapatillas ${product.nombre} en talle ${customTalla}`;
-    const phoneNumber = '3512591212';
-    const whatsappUrl = `https://api.whatsapp.com/send?phone=${phoneNumber}&text=${encodeURIComponent(message)}`;
+    const whatsappUrl = `https://api.whatsapp.com/send?phone=3512591212&text=${encodeURIComponent(message)}`;
 
     window.open(whatsappUrl, "_blank");
   };
-
   const handleTallaSelect = (talla) => {
     if (selectedTalla === talla) {
-      // Si ya está seleccionada, deseleccionar
       setSelectedTalla(null);
     } else {
-      // Seleccionar la talla
       setSelectedTalla(talla);
-      setCustomTalla(""); // Limpiar el talle personalizado
+      setCustomTalla("");
     }
   };
 
@@ -39,8 +35,9 @@ export default function Detail({ product }) {
 
       {/* Detalles del producto */}
       <div className="flex flex-col w-1/2 space-y-4">
-        <h2 className="text-3xl font-semibold text-gray-800">{product.nombre}</h2>
-        <div className="text-gray-800">
+        <h2 className="text-4xl font-bold text-gray-800">{product.nombre}</h2>
+        <div className="space-y-2 text-gray-800">
+          <p className="text-lg font-semibold">{product.descripcion}</p>
           <p className="text-2xl font-bold">${product.precios.AR.toLocaleString()} (ARS)</p>
           <p className="text-lg text-gray-500">Aprox USD ${product.precios.USD}</p>
         </div>
@@ -62,7 +59,7 @@ export default function Detail({ product }) {
                   className={`w-full px-4 py-2 text-left hover:bg-gray-100 ${
                     selectedTalla === talla ? "font-bold" : ""
                   }`}
-                  onClick={() => handleTallaSelect(talla)} // Cambia el estado de la talla seleccionada
+                  onClick={() => handleTallaSelect(talla)}
                 >
                   Talla {talla} {stock > 0 ? "(En stock)" : "(Sin stock)"}
                 </button>
@@ -74,15 +71,15 @@ export default function Detail({ product }) {
                   placeholder="Ingresa tu talle"
                   value={customTalla}
                   onChange={(e) => setCustomTalla(e.target.value)}
-                  className="border border-gray-400 rounded-md px-2 py-1"
+                  className="px-2 py-1 border border-gray-400 rounded-md"
                 />
                 <button
                   onClick={() => {
                     if (customTalla) {
-                      handleCompraClick(); // Redirige a WhatsApp con el mensaje de encargo
+                      handleCompraClick();
                     }
                   }}
-                  className="bg-red-500 text-white rounded-md px-2 py-1" // Botón de pedir talle en rojo
+                  className="px-2 py-1 text-white bg-red-500 rounded-md"
                 >
                   Pedir talle
                 </button>
