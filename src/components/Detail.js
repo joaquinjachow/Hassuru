@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 
-export default function Detail({ product }) { // Recibe el producto como prop
+export default function Detail({ product }) {
   const [showTallas, setShowTallas] = useState(false);
-console.log(product)
+  console.log(product)
   return (
     <div className="container flex py-10 mx-auto">
       {/* Imagen del producto */}
@@ -31,12 +31,12 @@ console.log(product)
           </button>
           {showTallas && (
             <div className="absolute z-10 w-full mt-2 bg-white border border-gray-300 rounded-md shadow-md">
-              {product.tallas.map((talla, index) => (
+              {Object.entries(product.tallas).map(([talla, stock], index) => (
                 <button
                   key={index}
                   className="w-full px-4 py-2 text-left hover:bg-gray-100"
                 >
-                  {talla}
+                  Talla {talla}
                 </button>
               ))}
             </div>
