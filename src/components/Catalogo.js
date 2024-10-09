@@ -9,10 +9,10 @@ export default function Catalogo() {
   const [currentPage, setCurrentPage] = useState(1);
   const [productsPerPage] = useState(20);
 
-  const [selectedTalla, setSelectedTalla] = useState("");
+  const [selectedTallaRopa, setSelectedTallaRopa] = useState("");
+  const [selectedTallaZapatilla, setSelectedTallaZapatilla] = useState("");
   const [precioMin, setPrecioMin] = useState("");
   const [precioMax, setPrecioMax] = useState("");
-  const [selectedMarca, setSelectedMarca] = useState("");
   const [stockOnly, setStockOnly] = useState(false);
   const [availableIn15Days, setAvailableIn15Days] = useState(false);
 
@@ -25,6 +25,7 @@ export default function Catalogo() {
         throw new Error("Error al cargar los productos");
       }
       const data = await response.json();
+      console.log(data); // Verifica la estructura de los datos
       setProducts(data);
       setFilteredProducts(data);
     } catch (error) {
@@ -35,11 +36,23 @@ export default function Catalogo() {
   };
 
   useEffect(() => {
-    fetchProducts();
+    fetchProducts().then(() => {
+      // Restablecer filtros al cargar productos
+      setSelectedTallaRopa("");
+      setSelectedTallaZapatilla("");
+      setPrecioMin("");
+      setPrecioMax("");
+      setStockOnly(false);
+      setAvailableIn15Days(false);
+    });
   }, []);
 
-  const handleTallaFilter = (e) => {
-    setSelectedTalla(e.target.value);
+  const handleTallaRopaFilter = (e) => {
+    setSelectedTallaRopa(e.target.value);
+  };
+
+  const handleTallaZapatillaFilter = (e) => {
+    setSelectedTallaZapatilla(e.target.value);
   };
 
   const handlePrecioMinFilter = (e) => {
@@ -48,10 +61,6 @@ export default function Catalogo() {
 
   const handlePrecioMaxFilter = (e) => {
     setPrecioMax(e.target.value);
-  };
-
-  const handleMarcaFilter = (e) => {
-    setSelectedMarca(e.target.value);
   };
 
   const handleStockOnlyChange = () => {
@@ -71,12 +80,22 @@ export default function Catalogo() {
   useEffect(() => {
     let filtered = products;
 
-    if (selectedTalla) {
+    // Filtrar por talla de ropa si está seleccionada
+    if (selectedTallaRopa) {
       filtered = filtered.filter((product) =>
-        Object.keys(product.tallas).includes(selectedTalla)
+        product.tallasRopa && product.tallasRopa[selectedTallaRopa] === true // Asegúrate de que sea true
       );
     }
 
+    // Filtrar por talla de zapatillas si está seleccionada
+    if (selectedTallaZapatilla) {
+      filtered = filtered.filter((product) =>
+        product.tallasZapatilla &&
+        product.tallasZapatilla[selectedTallaZapatilla] > 0 // Comprobar si hay stock disponible
+      );
+    }
+
+    // Filtrar por precio mínimo y máximo
     if (precioMin || precioMax) {
       filtered = filtered.filter((product) => {
         const precio = product.precios.USD;
@@ -91,29 +110,28 @@ export default function Catalogo() {
       });
     }
 
-    if (selectedMarca) {
-      filtered = filtered.filter((product) => product.marca === selectedMarca);
-    }
-
+    // Filtrar por stock
     if (stockOnly) {
       filtered = filtered.filter((product) =>
         product.tallas && Object.keys(product.tallas).length > 0
       );
     }
 
+    // Filtrar por disponibilidad en 15 días
     if (availableIn15Days) {
       filtered = filtered.filter((product) =>
         product.tallas && Object.keys(product.tallas).length === 0
       );
     }
 
-    // Order products by price
+    console.log(filtered); // Verifica los productos filtrados
+    // Ordenar productos por precio
     filtered.sort((a, b) => a.precios.USD - b.precios.USD);
 
     setFilteredProducts(filtered);
-  }, [selectedTalla, precioMin, precioMax, selectedMarca, stockOnly, availableIn15Days, products]);
+  }, [selectedTallaRopa, selectedTallaZapatilla, precioMin, precioMax, stockOnly, availableIn15Days, products]);
 
-  // Pagination logic
+  // Lógica de paginación
   const indexOfLastProduct = currentPage * productsPerPage;
   const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
   const currentProducts = filteredProducts.slice(indexOfFirstProduct, indexOfLastProduct);
@@ -127,21 +145,36 @@ export default function Catalogo() {
       <aside className="w-1/4 px-4">
         <div className="mb-4">
           <h3 className="mb-3 text-xl font-semibold">Filtros</h3>
-          {/* Filtro por tallas */}
+          {/* Filtro por tallas de ropa */}
           <div className="mb-4">
-            <label className="block mb-1 font-medium">Talla</label>
+            <label className="block mb-1 font-medium">Talla de Ropa</label>
             <select
-              value={selectedTalla}
-              onChange={handleTallaFilter}
+              value={selectedTallaRopa}
+              onChange={handleTallaRopaFilter}
               className="w-full p-2 bg-transparent border border-gray-300 rounded"
             >
               <option value="">Todas las tallas</option>
-              <option value="38">38</option>
-              <option value="39">39</option>
-              <option value="40">40</option>
-              <option value="41">41</option>
-              <option value="42">42</option>
-              <option value="43">43</option>
+              <option value="S">S</option>
+              <option value="M">M</option>
+              <option value="L">L</option>
+              <option value="XL">XL</option>
+              <option value="XXL">XXL</option>
+            </select>
+          </div>
+          {/* Filtro por tallas de zapatillas */}
+          <div className="mb-4">
+            <label className="block mb-1 font-medium">Talla de Zapatillas</label>
+            <select
+              value={selectedTallaZapatilla}
+              onChange={handleTallaZapatillaFilter}
+              className="w-full p-2 bg-transparent border border-gray-300 rounded"
+            >
+              <option value="">Todas las tallas</option>
+              {Array.from({ length: 18 }, (_, index) => (
+                <option key={index} value={(35.5 + index * 0.5).toFixed(1)}>
+                  {(35.5 + index * 0.5).toFixed(1)}
+                </option>
+              ))}
             </select>
           </div>
           {/* Filtro por rango de precio */}
@@ -165,41 +198,23 @@ export default function Catalogo() {
               placeholder="Ej: 100"
             />
           </div>
-          {/* Filtro por marcas */}
-          <div className="mb-4">
-            <label className="block mb-1 font-medium">Marca</label>
-            <select
-              value={selectedMarca}
-              onChange={handleMarcaFilter}
-              className="w-full p-2 bg-transparent border border-gray-300 rounded"
-            >
-              <option value="">Todas las marcas</option>
-              <option value="Marca1">Marca1</option>
-              <option value="Marca2">Marca2</option>
-              <option value="Marca3">Marca3</option>
-            </select>
-          </div>
           {/* Filtro por stock */}
           <div className="flex gap-2 mb-4">
             <button
               onClick={handleStockOnlyChange}
-              className={`w-full ${
-                stockOnly ? "bg-blue-500 text-white" : "bg-gray-200"
-              } p-2 rounded`}
+              className={`w-full ${stockOnly ? "bg-red-500 text-white" : "bg-gray-200"} p-2 rounded`}
             >
               Solo en stock
             </button>
             <button
               onClick={handleAvailableIn15DaysChange}
-              className={`w-full ${
-                availableIn15Days ? "bg-blue-500 text-white" : "bg-gray-200"
-              } p-2 rounded`}
+              className={`w-full ${availableIn15Days ? "bg-red-500 text-white" : "bg-gray-200"} p-2 rounded`}
             >
               Disponible en 15 días
             </button>
           </div>
           {/* Botón de buscar */}
-          <button onClick={handleSearch} className="w-full p-2 text-white bg-blue-500 rounded">
+          <button onClick={handleSearch} className="w-full p-2 text-white bg-red-500 rounded">
             Buscar
           </button>
         </div>
@@ -216,23 +231,6 @@ export default function Catalogo() {
         ) : (
           <Card currentProducts={currentProducts}/>
         )}
-
-        {/* Paginación */}
-        <div className="flex justify-center mt-6">
-          {Array.from({ length: totalPages }, (_, index) => (
-            <button
-              key={index}
-              className={`px-3 py-1 rounded mx-1 ${
-                currentPage === index + 1
-                  ? "bg-blue-500 text-white"
-                  : "bg-gray-200"
-              }`}
-              onClick={() => setCurrentPage(index + 1)}
-            >
-              {index + 1}
-            </button>
-          ))}
-        </div>
       </section>
     </div>
   );
