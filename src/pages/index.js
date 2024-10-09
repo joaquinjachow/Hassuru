@@ -4,6 +4,8 @@ import Carousell from "@/components/Carousell";
 import Image from "next/image";
 import Footer from "@/components/Footer";
 import Link from "next/link";
+import Newsletter from "../components/Newsletter";
+
 
 export default function Home() {
   return (
@@ -32,6 +34,8 @@ export default function Home() {
       </div>
       <div className="mt-2 mb-10">
         <Carousell />
+        <Newsletter />
+
       </div>
     </div>
   );
