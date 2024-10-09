@@ -127,21 +127,30 @@ const ProductRow = ({
   const handleProductChange = (e, field, index) => {
     const updatedProducts = [...editableProducts];
     const newValue = e.target.value;
-    
-    console.log(`Campo: ${field}, Nuevo valor: ${newValue}`);
+
+    // Verificar si el producto en el índice existe
+  if (!updatedProducts[index]) {
+    console.error(`Producto en el índice ${index} no existe.`);
+    return; // Salir si no existe
+  }
   
     // Verificar si el campo es uno de los precios
     if (field.includes('precios')) {
       const [priceType, priceKey] = field.split('.'); // Obtiene 'precios' y 'USD' o 'AR'
+
       updatedProducts[index][priceType][priceKey] = newValue;
     } else if (field === 'categoria') {
       // Manejar la categoría directamente
       updatedProducts[index][field] = newValue; // Asignar el nuevo valor a la categoría
     } else {
+      if (!updatedProducts[index][field]) {
+        updatedProducts[index][field] = ''; // Inicializar con un valor vacío si no existe
+      }
       updatedProducts[index][field] = newValue; // Manejar otros campos
     }
   
     setEditableProducts(updatedProducts);
+    console.log(`Productos actualizados:`, updatedProducts);
   };
 
   return (
@@ -159,7 +168,7 @@ const ProductRow = ({
           <input
             type="text"
             value={producto.nombre}
-            onChange={(e) => handleProductChange(e, "nombre")}
+            onChange={(e) => handleProductChange(e, "nombre", index)}
             className="border p-1 w-full"
           />
         ) : (
@@ -171,7 +180,7 @@ const ProductRow = ({
           <input
             type="text"
             value={producto.descripcion}
-            onChange={(e) => handleProductChange(e, "descripcion")}
+            onChange={(e) => handleProductChange(e, "descripcion", index)}
             className="border p-1 w-full"
           />
         ) : (
@@ -183,7 +192,7 @@ const ProductRow = ({
           <input
             type="text"
             value={producto.marca}
-            onChange={(e) => handleProductChange(e, "marca")}
+            onChange={(e) => handleProductChange(e, "marca", index)}
             className="border p-1 w-full"
           />
         ) : (
@@ -211,14 +220,14 @@ const ProductRow = ({
             <input
               type="text"
               value={producto.precios.USD}
-              onChange={(e) => handleProductChange(e, "precios.USD")}
+              onChange={(e) => handleProductChange(e, "precios.USD", index)}
               className="border p-1 mb-2 w-full"
               placeholder="Precio en USD"
             />
             <input
               type="text"
               value={producto.precios.AR}
-              onChange={(e) => handleProductChange(e, "precios.AR")}
+              onChange={(e) => handleProductChange(e, "precios.AR", index)}
               className="border p-1 w-full"
               placeholder="Precio en ARS"
             />
@@ -235,46 +244,46 @@ const ProductRow = ({
         {selectedProduct === producto._id ? (
           <div>
             {Object.entries(producto.tallas).map(([talla, cantidad]) => (
-              <div key={talla} className="flex items-center mb-1">
+              <div key={talla} className="flex flex-col sm:flex-row items-center mb-1">
                 <input 
                   type="text" 
                   value={talla} 
                   readOnly 
-                  className="border p-1 mr-2 w-1/3" 
+                  className="border p-1 mr-2 w-full sm:w-1/3 mb-2 sm:mb-0" 
                 />
                 <input 
                   type="number" 
                   value={cantidad} 
                   onChange={(e) => handleTallaChange(e, talla)} 
-                  className="border p-1 w-1/3" 
+                  className="border p-1 mr-2 w-full sm:w-1/3 mb-2 sm:mb-0" 
                 />
                 <button 
                   onClick={() => handleDeleteTalla(talla)} 
-                  className="bg-red-500 text-white px-2 py-1 ml-2 rounded"
+                  className="bg-red-500 text-white px-2 py-1 ml-0 sm:ml-2 mt-2 sm:mt-0 rounded"
                 >
                   <RiDeleteBin5Line />
                 </button>
               </div>
             ))}
 
-            <div className="mt-2">
+            <div className="mt-2 flex flex-col sm:flex-row">
               <input 
                 type="text" 
                 value={newTalla} 
                 onChange={(e) => setNewTalla(e.target.value)} 
                 placeholder="Nueva talla" 
-                className="border p-1 mr-2 w-1/3" 
+                className="border p-1 mr-2 w-full sm:w-1/3 mb-2 sm:mb-0" 
               />
               <input 
                 type="number" 
                 value={newStock} 
                 onChange={(e) => setNewStock(e.target.value)} 
                 placeholder="Stock" 
-                className="border p-1 w-1/3" 
+                className="border p-1 w-full sm:w-1/3" 
               />
               <button 
                 onClick={handleAddTalla} 
-                className="bg-blue-500 text-white px-2 py-1 ml-2 rounded"
+                className="bg-blue-500 text-white px-2 py-1 ml-0 sm:ml-2 mt-2 sm:mt-0 rounded"
               >
                 <IoAddCircleOutline />
               </button>
