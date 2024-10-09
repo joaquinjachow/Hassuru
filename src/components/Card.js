@@ -1,14 +1,20 @@
 import React from "react";
 import Link from "next/link";
 
-export default function Card({ currentProducts, getDisponibilidad }) {
-    console.log(currentProducts)
+export default function Card({ currentProducts }) {
+    const getDisponibilidad = (product) => {
+        if (product.tallas && Object.keys(product.tallas).length > 0) {
+          return { message: "Entrega inmediata", color: "text-green-500" };
+        } else {
+          return { message: "Disponible en 15 días", color: "text-red-500" };
+        }
+      };
     return (
         <div className="grid grid-cols-4 gap-4">
             {currentProducts.map((product, index) => {
                 const disponibilidad = getDisponibilidad(product);
                 return (
-                    <Link href={`/catalogo/${product._id}`} key={product.id}>
+                    <Link href={`/producto/${product._id}`} key={product.id}>
                         <div key={index} className="flex flex-col justify-between h-full transition-transform transform hover:scale-105">
                             <img
                                 src={product.image?.url || "/images/default.png"}
