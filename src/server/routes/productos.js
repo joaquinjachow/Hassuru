@@ -29,26 +29,36 @@ router.get('/:id', async (req, res) => {
   }
 });
 
-// Ruta para filtrar productos
-router.get('/filtrar', async (req, res) => {
+
+// Ruta para filtrar productos por nombre usando params
+router.get('/nombre/:nombre', async (req, res) => {
   try {
-    const { marca } = req.query;
+    const { nombre } = req.params;
 
-    const filtros = {};
-    if (marca) {
-      filtros.marca = marca;
+    // Validación: Verifica si el nombre está vacío o solo contiene espacios
+    if (!nombre || nombre.trim() === '') {
+      return res.status(400).json({ error: 'Debes proporcionar un nombre para filtrar.' });
     }
 
-    if (Object.keys(filtros).length === 0) {
-      return res.status(400).json({ error: 'Debes especificar al menos un filtro (marca).' });
+    // Validación: Verifica si el nombre contiene caracteres no permitidos
+    const caracteresNoPermitidos = /[^a-zA-Z0-9 áéíóúñÑ]/; // Solo permite letras, números y algunos caracteres
+    if (caracteresNoPermitidos.test(nombre)) {
+      return res.status(400).json({ error: 'El nombre contiene caracteres no permitidos.' });
     }
 
-    const productosFiltrados = await Producto.find(filtros);
+    // Filtra los productos que contengan el nombre proporcionado, insensible a mayúsculas
+    const productosFiltrados = await Producto.find({
+      nombre: { $regex: new RegExp(nombre, 'i') }
+    });
+
     res.status(200).json(productosFiltrados);
   } catch (error) {
+    console.error('Error al filtrar productos por nombre:', error);
     res.status(500).json({ error: error.message });
   }
 });
+
+
 
 // Ruta para filtrar productos por categoría
 router.get('/categoria/:categoria', async (req, res) => {
