@@ -29,26 +29,24 @@ const ProductList = ({ editableProducts, setEditableProducts, selectedProduct, s
       <h2 className="text-xl font-semibold mb-6 text-black">Lista de Productos</h2>
 
       {/* Formulario de Filtros */}
-      <form onSubmit={handleFilterSubmit} className="mb-6 flex space-x-4">
-        {/* <input
-          type="text"
-          placeholder="Marca"
-          value={marcaFilter}
-          onChange={(e) => setMarcaFilter(e.target.value)}
-          className="border rounded p-2"
-        /> */}
+      <form onSubmit={handleFilterSubmit} className="mb-6 flex flex-col sm:flex-row items-center gap-4">
         {/* Select para Categoría */}
         <select
           value={categoriaFilter}
           onChange={(e) => setCategoriaFilter(e.target.value)}
-          className="border rounded p-2"
+          className="border rounded p-2 w-full sm:w-auto"
         >
           <option value="">Seleccione una categoría</option>
           <option value="zapatillas">Zapatillas</option>
           <option value="ropa">Ropa</option>
           <option value="accesorios">Accesorios</option>
         </select>
-        <button type="submit" className="bg-blue-500 text-white rounded p-2">
+
+        {/* Botón Filtrar */}
+        <button 
+          type="submit" 
+          className="bg-blue-500 text-white rounded p-2 w-full sm:w-auto"
+        >
           Filtrar
         </button>
 
@@ -56,9 +54,9 @@ const ProductList = ({ editableProducts, setEditableProducts, selectedProduct, s
         <button 
           type="button" 
           onClick={handleRemoveFilters} 
-          className="flex items-center bg-red-500 text-white rounded p-2 ml-2"
+          className="bg-red-500 text-white rounded p-2 w-full sm:w-auto text-center"
         >
-          <MdFilterAltOff className="mr-1" /> Remover Filtros
+          <MdFilterAltOff className="mr-1 hidden sm:inline-block" /> Remover Filtros
         </button>
       </form>
 

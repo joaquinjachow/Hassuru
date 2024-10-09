@@ -244,46 +244,46 @@ const ProductRow = ({
         {selectedProduct === producto._id ? (
           <div>
             {Object.entries(producto.tallas).map(([talla, cantidad]) => (
-              <div key={talla} className="flex items-center mb-1">
+              <div key={talla} className="flex flex-col sm:flex-row items-center mb-1">
                 <input 
                   type="text" 
                   value={talla} 
                   readOnly 
-                  className="border p-1 mr-2 w-1/3" 
+                  className="border p-1 mr-2 w-full sm:w-1/3 mb-2 sm:mb-0" 
                 />
                 <input 
                   type="number" 
                   value={cantidad} 
                   onChange={(e) => handleTallaChange(e, talla)} 
-                  className="border p-1 w-1/3" 
+                  className="border p-1 mr-2 w-full sm:w-1/3 mb-2 sm:mb-0" 
                 />
                 <button 
                   onClick={() => handleDeleteTalla(talla)} 
-                  className="bg-red-500 text-white px-2 py-1 ml-2 rounded"
+                  className="bg-red-500 text-white px-2 py-1 ml-0 sm:ml-2 mt-2 sm:mt-0 rounded"
                 >
                   <RiDeleteBin5Line />
                 </button>
               </div>
             ))}
 
-            <div className="mt-2">
+            <div className="mt-2 flex flex-col sm:flex-row">
               <input 
                 type="text" 
                 value={newTalla} 
                 onChange={(e) => setNewTalla(e.target.value)} 
                 placeholder="Nueva talla" 
-                className="border p-1 mr-2 w-1/3" 
+                className="border p-1 mr-2 w-full sm:w-1/3 mb-2 sm:mb-0" 
               />
               <input 
                 type="number" 
                 value={newStock} 
                 onChange={(e) => setNewStock(e.target.value)} 
                 placeholder="Stock" 
-                className="border p-1 w-1/3" 
+                className="border p-1 w-full sm:w-1/3" 
               />
               <button 
                 onClick={handleAddTalla} 
-                className="bg-blue-500 text-white px-2 py-1 ml-2 rounded"
+                className="bg-blue-500 text-white px-2 py-1 ml-0 sm:ml-2 mt-2 sm:mt-0 rounded"
               >
                 <IoAddCircleOutline />
               </button>
