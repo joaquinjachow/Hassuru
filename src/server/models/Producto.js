@@ -49,6 +49,10 @@ const ProductoSchema = new mongoose.Schema({
       required: true,
     },
   },
+  encargo: {
+    type: Boolean,
+    default: false,
+  },
   destacado: {
     type: Boolean,
     default: false,

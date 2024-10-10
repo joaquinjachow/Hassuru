@@ -76,8 +76,6 @@ const ProductRow = ({
     setEditableProducts(updatedProducts);
   };
 
-
-
   const handleProductUpdate = async (producto) => {
     const updatedProduct = {
       ...producto,
@@ -155,6 +153,13 @@ const ProductRow = ({
   const handleDestacadoChange = (e) => {
     const updatedProducts = [...editableProducts];
     updatedProducts[index].destacado = e.target.checked; 
+    setEditableProducts(updatedProducts);
+  };
+
+   // Función para manejar el cambio de estado de "encargo"
+   const handleEncargoChange = (e) => {
+    const updatedProducts = [...editableProducts];
+    updatedProducts[index].encargo = e.target.checked; 
     setEditableProducts(updatedProducts);
   };
 
@@ -370,6 +375,22 @@ const ProductRow = ({
         </label>
         ) : (
           producto.destacado ? "Sí" : "No"
+        )}
+      </td>
+      {/* Switch para encargo */}
+      <td className="border px-2 py-2">
+        {selectedProduct === producto._id ? (
+        <label className="flex items-center">
+          <input
+            type="checkbox"
+            checked={producto.encargo}
+            onChange={handleEncargoChange}
+            className="mr-2"
+          />
+          Encargo
+        </label>
+        ) : (
+          producto.encargo ? "Sí" : "No"
         )}
       </td>
       <td className="border px-2 py-2 text-center">
