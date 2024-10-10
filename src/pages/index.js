@@ -35,7 +35,6 @@ export default function Home() {
       <div className="mt-2 mb-10">
         <Carousell />
         <Newsletter />
-
       </div>
     </div>
   );
