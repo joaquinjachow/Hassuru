@@ -69,6 +69,16 @@ const AddProductModal = ({ isOpen, onClose, fetchProducts}) => {
     }
   };
 
+  const handleRemoveTalla = (tallaToRemove) => {
+    const updatedTallas = { ...product.tallas }; // Copia las tallas actuales
+    delete updatedTallas[tallaToRemove]; // Elimina la talla seleccionada
+    setProduct((prevProduct) => ({
+      ...prevProduct,
+      tallas: updatedTallas,
+    }));
+  };
+  
+
   const handleAddColor = () => {
     if (colorInput) {
       setProduct((prev) => ({
@@ -229,7 +239,15 @@ const AddProductModal = ({ isOpen, onClose, fetchProducts}) => {
           </div>
           <ul className="mb-4">
             {Object.entries(product.tallas).map(([talla, cantidad], index) => (
-              <li key={index}>Talla {talla}: {cantidad} unidades</li>
+              <li key={index} className="flex justify-between items-center">
+                Talla {talla}: {cantidad} unidades
+                <button 
+                  type="button" 
+                  onClick={() => handleRemoveTalla(talla)} 
+                  className="bg-red-500 text-white px-4 py-2 rounded">
+                    Eliminar
+                </button>
+              </li>
             ))}
           </ul>
           
