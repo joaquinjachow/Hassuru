@@ -114,7 +114,6 @@ const AddProductModal = ({ isOpen, onClose, fetchProducts}) => {
       },
       destacado: false, // Campo destacado
     };
-
     console.log("Producto a enviar:", productoAEnviar);
 
     try {
