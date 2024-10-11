@@ -8,7 +8,6 @@ export default function Contact() {
         talle: "",
         contacto: "",
         url: "",  // URL opcional
-        foto: null // Foto opcional
     });
 
     const handleInputChange = (e) => {
@@ -31,8 +30,7 @@ export default function Contact() {
         - Prenda o par a encargar: ${prenda}
         - Talle: ${talle}
         - Número de contacto: ${contacto}
-        ${url ? `- URL de referencia: ${url}` : ""}
-        ${foto ? `- Foto: ${foto.name}` : "No se adjuntó una foto"}`;
+        ${url ? `- URL de referencia: ${url}` : ""}`
 
         const whatsappUrl = `https://api.whatsapp.com/send?phone=3512591212&text=${encodeURIComponent(mensaje)}`;
         window.open(whatsappUrl, "_blank");
@@ -92,14 +90,6 @@ export default function Contact() {
                         placeholder="URL de referencia (opcional)"
                         value={formData.url}
                         onChange={handleInputChange}
-                        className={inputStyle}
-                    />
-                    {/* Campo opcional para subir foto */}
-                    <input
-                        type="file"
-                        name="foto"
-                        accept="image/*"
-                        onChange={handleFileChange}
                         className={inputStyle}
                     />
                     <button

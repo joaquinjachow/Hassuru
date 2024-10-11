@@ -9,8 +9,8 @@ export default function Footer() {
     window.open(url, "_blank");
 };
   return (
-    <footer className="=p-4 text-black bg-white shadow-md">
-      <div className="container flex flex-col items-center justify-between mx-auto space-y-4 border-t-2 border-black rounded-sm md:flex-row md:space-y-0">
+    <footer className="=p-4 text-black bg-white shadow-md border-t-2 border-black">
+      <div className="container flex flex-col items-center justify-between mx-auto space-y-4 rounded-sm md:flex-row md:space-y-0">
         <div className="flex space-x-6">
           <Link href="https://www.instagram.com/hassuru" aria-label="Instagram">
             <FaInstagram className="w-6 h-6 hover:text-gray-500" />

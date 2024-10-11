@@ -15,7 +15,7 @@ export default function Filter({ products, setFilteredProducts }) {
     const tallasZapatillaSet = new Set();
 
     products.forEach((product) => {
-      if (product.categoria === "ropas" && product.categoria === "accesorios") {
+      if (product.categoria === "ropas" || product.categoria === "accesorios") {
         Object.keys(product.tallas).forEach((talla) => tallasRopaSet.add(talla));
       } else if (product.categoria === "zapatillas") {
         Object.keys(product.tallas).forEach((talla) => tallasZapatillaSet.add(talla));
@@ -32,7 +32,8 @@ export default function Filter({ products, setFilteredProducts }) {
     if (selectedTallaRopa) {
       filtered = filtered.filter(
         (product) =>
-          product.categoria === "ropas" && product.tallas[selectedTallaRopa]
+          (product.categoria === "ropas" || product.categoria === "accesorios") &&
+          product.tallas[selectedTallaRopa] !== undefined
       );
     }
 
@@ -195,13 +196,19 @@ export default function Filter({ products, setFilteredProducts }) {
   
         <div className="flex gap-2 mt-4">
           <button
-            onClick={() => setStockOnly(!stockOnly)}
+            onClick={() => {
+              setStockOnly(true);
+              setAvailableIn15Days(false);
+            }}
             className={`w-full ${stockOnly ? "bg-red-500 text-white" : "bg-gray-200"} p-2 rounded`}
           >
             Solo en stock
           </button>
           <button
-            onClick={() => setAvailableIn15Days(!availableIn15Days)}
+            onClick={() => {
+              setStockOnly(false);
+              setAvailableIn15Days(true);
+            }}
             className={`w-full ${availableIn15Days ? "bg-red-500 text-white" : "bg-gray-200"} p-2 rounded`}
           >
             Disponible en 15 días
