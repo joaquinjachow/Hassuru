@@ -8,13 +8,8 @@ const ProductoSchema = new mongoose.Schema({
   },
   descripcion: {
     type: String,
-    // required: [true, 'La descripción es obligatoria'],
   },
   precios: {
-    AR: {
-      type: Number,
-      required: [true, 'El precio en AR es obligatorio'],
-    },
     USD: {
       type: Number,
       required: [true, 'El precio en USD es obligatorio'],
@@ -49,7 +44,15 @@ const ProductoSchema = new mongoose.Schema({
       required: true,
     },
   },
+  encargo: {
+    type: Boolean,
+    default: false,
+  },
   destacado: {
+    type: Boolean,
+    default: false,
+  },
+  destacado_zapatillas: {
     type: Boolean,
     default: false,
   },
