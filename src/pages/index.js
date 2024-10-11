@@ -68,6 +68,7 @@ export default function Home() {
           <Carousell products={zapatillas} title={"Zapatillas"} />
         </div>
         <Newsletter />
+      </div>
     </div>
   );
 }
