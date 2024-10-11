@@ -1,7 +1,8 @@
 // components/ProductRow.js
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { RiDeleteBin5Line } from "react-icons/ri";
 import { IoAddCircleOutline } from "react-icons/io5";
+import useFetchDolar from "@/hooks/useFetchDolar";
 
 const ProductRow = ({ 
   producto, 
@@ -17,6 +18,8 @@ const ProductRow = ({
   const [newTalla, setNewTalla] = useState(""); // Para la nueva talla
   const [newStock, setNewStock] = useState(0);  // Para el stock de la nueva talla
   const [newColor, setNewColor] = useState(""); // Para el nuevo color
+  const { dolarBlue, loading, error } = useFetchDolar();
+
 
 
   // Función para actualizar las tallas
@@ -156,8 +159,14 @@ const ProductRow = ({
     setEditableProducts(updatedProducts);
   };
 
+  const handleDestacadoZapatillasChange = (e) => {
+    const updatedProducts = [...editableProducts];
+    updatedProducts[index].destacado_zapatillas = e.target.checked; 
+    setEditableProducts(updatedProducts);
+  };
+
    // Función para manejar el cambio de estado de "encargo"
-   const handleEncargoChange = (e) => {
+  const handleEncargoChange = (e) => {
     const updatedProducts = [...editableProducts];
     updatedProducts[index].encargo = e.target.checked; 
     setEditableProducts(updatedProducts);
@@ -234,18 +243,26 @@ const ProductRow = ({
               className="border p-1 mb-2 w-full"
               placeholder="Precio en USD"
             />
-            <input
-              type="text"
-              value={producto.precios.AR}
-              onChange={(e) => handleProductChange(e, "precios.AR", index)}
-              className="border p-1 w-full"
-              placeholder="Precio en ARS"
-            />
+            {dolarBlue ? (
+              <input
+                type="text"
+                value={(producto.precios.USD * dolarBlue).toFixed(2)}
+                readOnly
+                className="border p-1 w-full"
+                placeholder="Precio en ARS"
+              />
+            ) : (
+              <p>Cargando cotización...</p>
+            )}
           </div>
         ) : (
           <div>
             <p>{producto.precios.USD} USD</p>
-            <p>{producto.precios.AR} ARS</p>
+            {dolarBlue ? (
+              <p>{(producto.precios.USD * dolarBlue).toFixed(2)} ARS</p>
+            ) : (
+              <p>Cargando cotización...</p>
+            )}
           </div>
         )}
       </td>
@@ -375,6 +392,22 @@ const ProductRow = ({
         </label>
         ) : (
           producto.destacado ? "Sí" : "No"
+        )}
+      </td>
+      {/* Switch para destacado zapatillas*/}
+      <td className="border px-2 py-2">
+        {selectedProduct === producto._id ? (
+        <label className="flex items-center">
+          <input
+            type="checkbox"
+            checked={producto.destacado_zapatillas}
+            onChange={handleDestacadoZapatillasChange}
+            className="mr-2"
+          />
+          Destacado Zapatillas
+        </label>
+        ) : (
+          producto.destacado_zapatillas ? "Sí" : "No"
         )}
       </td>
       {/* Switch para encargo */}
