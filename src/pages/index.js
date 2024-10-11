@@ -5,7 +5,6 @@ import Link from "next/link";
 import Newsletter from "../components/Newsletter";
 import { useState, useEffect } from "react";
 
-
 export default function Home() {
   const [allProducts, setAllProducts] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -35,7 +34,7 @@ export default function Home() {
   if (error) return <div>Error: {error}</div>;
 
   const destacados = allProducts.filter(product => product.destacado === true);
-  const zapatillas = allProducts.filter(product => product.categoria === "zapatillas");
+  const zapatillas = allProducts.filter(product => product.destacado_zapatillas === true);
 
   return (
     <div>
