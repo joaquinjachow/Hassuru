@@ -6,10 +6,10 @@ export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
 
   const navigation = [
-    { name: "Zapatillas", href: "/productos/categoria/zapatillas" },
-    { name: "Ropa", href: "/productos/categoria/ropa" },
-    { name: "Accesorios", href: "/productos/categoria/accesorios" },
-    { name: "Encargos", href: "/encargos" },
+    { name: "ZAPATILLAS", href: "/productos/categoria/zapatillas" },
+    { name: "ROPA", href: "/productos/categoria/ropa" },
+    { name: "ACCESORIOS", href: "/productos/categoria/accesorios" },
+    { name: "ENCARGOS", href: "/encargos" },
   ];
 
   const toggleMenu = () => {
@@ -17,12 +17,28 @@ export default function Navbar() {
   };
 
   return (
-    <nav className="p-4 bg-white shadow-md">
-      <div className="container flex items-center justify-between mx-auto">
+    <nav className="relative p-8 bg-white shadow-md">
+      <div className="container flex items-center mx-auto">
+        {/* Espacio flexible a la izquierda para menú en desktop */}
+        <div className="justify-start flex-grow hidden md:flex md:items-center md:space-x-6">
+          <ul className="flex flex-row space-x-6">
+            {navigation.map((menu, index) => (
+              <li key={index}>
+                <Link
+                  href={menu.href}
+                  className="px-4 py-2 text-lg font-medium text-black no-underline rounded-md hover:bg-black hover:text-white focus:outline-none"
+                >
+                  {menu.name}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </div>
+
         {/* Logo visible en todas las pantallas */}
-        <div className="flex items-center">
+        <div className="absolute transform -translate-x-1/2 left-[50.5%]">
           <Link href="/">
-            <Image src="/logo.png" alt="Logo" width={100} height={100} className="" />
+            <Image src="/logo.png" alt="Logo" width={100} height={100} />
           </Link>
         </div>
 
@@ -46,27 +62,11 @@ export default function Navbar() {
             />
           </svg>
         </button>
-
-        {/* Menú en desktop */}
-        <div className="hidden md:flex md:items-center md:space-x-6">
-          <ul className="flex flex-row space-x-6">
-            {navigation.map((menu, index) => (
-              <li key={index}>
-                <Link
-                  href={menu.href}
-                  className="px-4 py-2 text-lg font-medium text-black no-underline rounded-md hover:bg-black hover:text-white focus:outline-none"
-                >
-                  {menu.name}
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </div>
       </div>
 
       {/* Menú desplegable en mobile, debajo del logo */}
       {isOpen && (
-        <div className="mt-4 md:hidden">
+        <div className="mt-8 md:hidden">
           <ul className="space-y-4">
             {navigation.map((menu, index) => (
               <li key={index}>
