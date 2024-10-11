@@ -1,49 +1,68 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import useFetchDolar from '../hooks/useFetchDolar';
 
-const AddProductModal = ({ isOpen, onClose, fetchProducts}) => {
+const AddProductModal = ({ isOpen, onClose, fetchProducts }) => {
   const [product, setProduct] = useState({
     nombre: '',
     descripcion: '',
     marca: '',
     categoria: '',
-    precios: { USD: '', AR: '' },
-    tallas: {}, // Ahora es un objeto
-    colores: [], // Array de objetos { color: '' }
+    precios: { USD: ''},
+    tallas: {},
+    colores: [],
     image: { url: '' },
-    destacado: false, // Se agrega campo destacado
+    destacado: false,
   });
 
   const [tallaInput, setTallaInput] = useState('');
   const [cantidadTalla, setCantidadTalla] = useState('');
   const [colorInput, setColorInput] = useState('');
 
-  // Lista de categorías disponibles
+  const [dolarBlue, setDolarBlue] = useState(null); // Estado para el precio del dólar blue
+
   const categoriasDisponibles = [
     'ropa',
     'zapatillas',
     'accesorios',
   ];
 
+  // Obtener el precio del dólar blue al cargar el componente
+  useEffect(() => {
+    const fetchDolarBlue = async () => {
+      try {
+        const response = await fetch("https://dolarapi.com/v1/dolares/blue");
+        const data = await response.json();
+        console.log(data);
+        console.log("Datos del Dólar Blue:", data?.venta);
+        setDolarBlue(data?.venta);
+      } catch (error) {
+        console.error("Error al obtener el precio del dólar blue:", error);
+      }
+    };
+
+    fetchDolarBlue();
+  }, []);
+
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-  
+
     // Verifica si el campo es para la URL de la imagen
     if (name === 'image.url') {
       setProduct((prev) => ({
         ...prev,
-        image: { url: value }, // Actualiza solo la URL de la imagen
+        image: { url: value },
       }));
       return;
     }
-  
+
     // Si el campo es parte de los precios, conviértelo en número
-    if (name === 'precios.USD' || name === 'precios.AR') {
-      const [key, subkey] = name.split('.');
+    if (name === 'precios.USD') {
+      const priceUSD = value ? parseFloat(value) : ''; // Solo convertir si el valor no está vacío
       setProduct((prev) => ({
         ...prev,
-        [key]: {
-          ...prev[key],
-          [subkey]: parseFloat(value), // Convertir el precio a número
+        precios: {
+          ...prev.precios,
+          USD: priceUSD,
         },
       }));
     } else {
@@ -53,7 +72,6 @@ const AddProductModal = ({ isOpen, onClose, fetchProducts}) => {
       }));
     }
   };
-  
 
   const handleAddTalla = () => {
     if (tallaInput && cantidadTalla) {
@@ -61,21 +79,30 @@ const AddProductModal = ({ isOpen, onClose, fetchProducts}) => {
         ...prev,
         tallas: {
           ...prev.tallas,
-          [tallaInput]: parseInt(cantidadTalla, 10), // Agrega la talla y la cantidad
+          [tallaInput]: parseInt(cantidadTalla, 10),
         },
       }));
-      setTallaInput(''); // Limpiar el input de la talla
-      setCantidadTalla(''); // Limpiar el input de la cantidad
+      setTallaInput('');
+      setCantidadTalla('');
     }
+  };
+
+  const handleRemoveTalla = (tallaToRemove) => {
+    const updatedTallas = { ...product.tallas };
+    delete updatedTallas[tallaToRemove];
+    setProduct((prevProduct) => ({
+      ...prevProduct,
+      tallas: updatedTallas,
+    }));
   };
 
   const handleAddColor = () => {
     if (colorInput) {
       setProduct((prev) => ({
         ...prev,
-        colores: [...prev.colores, { color: colorInput }], // Agrega un objeto con el color
+        colores: [...prev.colores, { color: colorInput }],
       }));
-      setColorInput(''); // Limpiar el input de color
+      setColorInput('');
     }
   };
 
@@ -87,7 +114,6 @@ const AddProductModal = ({ isOpen, onClose, fetchProducts}) => {
       return;
     }
 
-    // Verifica los datos antes de enviarlos
     const productoAEnviar = {
       nombre: product.nombre,
       descripcion: product.descripcion,
@@ -95,16 +121,14 @@ const AddProductModal = ({ isOpen, onClose, fetchProducts}) => {
       categoria: product.categoria,
       precios: {
         USD: parseFloat(product.precios.USD),
-        AR: parseFloat(product.precios.AR),
       },
-      tallas: product.tallas, // Ya es un objeto con las tallas y cantidades
-      colores: product.colores, // Array de objetos con { color: 'color' }
+      tallas: product.tallas,
+      colores: product.colores,
       image: {
         url: product.image.url,
       },
-      destacado: false, // Campo destacado
+      destacado: false,
     };
-
     console.log("Producto a enviar:", productoAEnviar);
 
     try {
@@ -123,16 +147,15 @@ const AddProductModal = ({ isOpen, onClose, fetchProducts}) => {
         alert(`Error al agregar el producto: ${errorData.message || 'Error desconocido'}`);
         return;
       }
-      
 
       alert('Producto agregado con éxito');
-      onClose(); // Cierra el modal
+      fetchProducts();
+      onClose();
     } catch (error) {
       console.error('Error al agregar el producto:', error);
       alert('Error al agregar el producto');
     }
   };
-  
 
   if (!isOpen) return null;
 
@@ -167,7 +190,6 @@ const AddProductModal = ({ isOpen, onClose, fetchProducts}) => {
             required
             className="border p-2 mb-4 w-full"
           />
-          {/* Campo para seleccionar la categoría */}
           <select
             name="categoria"
             value={product.categoria}
@@ -191,15 +213,7 @@ const AddProductModal = ({ isOpen, onClose, fetchProducts}) => {
             required
             className="border p-2 mb-4 w-full"
           />
-          <input
-            type="text"
-            name="precios.AR"
-            placeholder="Precio en ARS"
-            value={product.precios.AR}
-            onChange={handleInputChange}
-            required
-            className="border p-2 mb-4 w-full"
-          />
+          
           <input
             type="text"
             name="image.url"
@@ -208,8 +222,6 @@ const AddProductModal = ({ isOpen, onClose, fetchProducts}) => {
             onChange={handleInputChange}
             className="border p-2 mb-4 w-full"
           />
-          
-          {/* Campo para agregar tallas */}
           <div className="mb-4">
             <input
               type="text"
@@ -229,28 +241,48 @@ const AddProductModal = ({ isOpen, onClose, fetchProducts}) => {
           </div>
           <ul className="mb-4">
             {Object.entries(product.tallas).map(([talla, cantidad], index) => (
-              <li key={index}>Talla {talla}: {cantidad} unidades</li>
+              <li key={index} className="flex justify-between items-center">
+                Talla {talla}: {cantidad} unidades
+                <button 
+                  type="button" 
+                  onClick={() => handleRemoveTalla(talla)} 
+                  className="bg-red-500 text-white px-4 py-2 rounded">
+                    Eliminar
+                </button>
+              </li>
             ))}
           </ul>
-          
-          {/* Campo para agregar colores */}
           <div className="mb-4">
             <input
               type="text"
               value={colorInput}
               onChange={(e) => setColorInput(e.target.value)}
               placeholder="Agregar Color"
-              className="border p-2 mr-2 w-2/3"
+              className="border p-2 mr-2 w-1/4"
             />
             <button type="button" onClick={handleAddColor} className="bg-blue-500 text-white px-4 py-2 rounded">Agregar Color</button>
           </div>
-          <ul className="mb-4">
+          <div className="mb-4">
+            <h3>Colores:</h3>
             {product.colores.map((color, index) => (
-              <li key={index}>{color.color}</li>
+              <div key={index} className="flex justify-between items-center">
+                {color.color}
+                <button 
+                  type="button" 
+                  onClick={() => setProduct((prev) => ({
+                    ...prev,
+                    colores: prev.colores.filter((_, i) => i !== index)
+                  }))} 
+                  className="bg-red-500 text-white px-4 py-2 rounded">
+                    Eliminar
+                </button>
+              </div>
             ))}
-          </ul>
-          <button type="submit" className="bg-green-500 text-white px-4 py-2 rounded">Agregar Producto</button>
-          <button type="button" onClick={onClose} className="bg-red-500 text-white px-4 py-2 rounded ml-2">Cancelar</button>
+          </div>
+          <div className="flex justify-end">
+            <button type="button" onClick={onClose} className="bg-gray-500 text-white px-4 py-2 rounded mr-2">Cancelar</button>
+            <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded">Agregar Producto</button>
+          </div>
         </form>
       </div>
     </div>
