@@ -36,29 +36,29 @@ export default function Home() {
 
   const destacados = allProducts.filter(product => product.destacado === true);
   const zapatillas = allProducts.filter(product => product.categoria === "zapatillas");
-  
+
   return (
     <div>
       <div className="container p-4 mx-auto">
         <div className="flex items-center justify-between gap-x-4">
+        <Link className="w-[50.49%] h-auto block" href="/catalogo">
             <Image
               src="/images/Catalogo.jpg"
               alt="Catalogo"
               width={620}
               height={500}
-              className="object-cover w-[50.49%] h-auto"
+              className="object-cover w-full h-full"
             />
-          {/* <Link className="object-cover w-[50%] h-auto" href="/catalogo">
-          </Link> */}
+          </Link>
+          <Link className="w-[49.51%] h-auto block" href="/encargos">
             <Image
               src="/images/Encargo.png"
               alt="Encargo"
               width={600}
               height={500}
-              className="object-cover w-[49.51%] h-auto"
+              className="object-cover w-full h-full"
             />
-          {/* <Link className="object-cover w-[50%] h-auto" href="/encargos">
-          </Link> */}
+          </Link>
         </div>
       </div>
         <div className="mt-2">
