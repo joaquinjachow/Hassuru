@@ -69,6 +69,5 @@ export default function Home() {
         </div>
         <Newsletter />
       </div>
-    </div>
   );
 }
