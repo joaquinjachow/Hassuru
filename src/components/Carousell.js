@@ -1,50 +1,25 @@
-import React, { useState, useEffect, useRef } from "react";
-import { FaChevronLeft, FaChevronRight } from "react-icons/fa"; // Importa los íconos
+import React, { useEffect, useRef } from "react";
+import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 
-export default function Carousell() {
-  const [products, setProducts] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+export default function Carousell({title, products}) {
   const carouselRef = useRef(null);
 
-  const fetchProducts = async () => {
-    setLoading(true);
-    setError(null);
-    try {
-      const response = await fetch("http://localhost:5000/api/productos");
-      if (!response.ok) {
-        throw new Error("Error al cargar los productos");
-      }
-      const data = await response.json();
-      setProducts(data);
-    } catch (error) {
-      setError(error.message);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    fetchProducts();
-  }, []);
-
-  // Auto-scroll cada 3 segundos
   useEffect(() => {
     const interval = setInterval(() => {
       carouselRef.current.scrollBy({
-        left: 300, // Cantidad de desplazamiento
+        left: 300,
         behavior: "smooth",
       });
-    }, 3000); // Intervalo de 3 segundos
+    }, 3000);
 
-    return () => clearInterval(interval); // Limpiar el intervalo al desmontar
+    return () => clearInterval(interval);
   }, []);
 
   return (
     <div className="relative w-full overflow-hidden">
       <div className="container mx-auto">
         <div className="flex items-center justify-between mb-2">
-          <h1 className="text-4xl font-bold">Destacados</h1>
+          <h1 className="text-4xl font-bold">{title}</h1>
           {/* Botones de navegación */}
           <div>
             <button
