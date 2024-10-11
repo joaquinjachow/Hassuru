@@ -135,6 +135,7 @@ const AddProductModal = ({ isOpen, onClose, fetchProducts}) => {
       
 
       alert('Producto agregado con éxito');
+      fetchProducts();
       onClose(); // Cierra el modal
     } catch (error) {
       console.error('Error al agregar el producto:', error);
