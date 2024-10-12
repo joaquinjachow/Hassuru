@@ -15,7 +15,7 @@ export default function Filter({ products, setFilteredProducts }) {
     const tallasZapatillaSet = new Set();
 
     products.forEach((product) => {
-      if (product.categoria === "ropas" || product.categoria === "accesorios") {
+      if (product.categoria === "ropa" || product.categoria === "accesorios") {
         Object.keys(product.tallas).forEach((talla) => tallasRopaSet.add(talla));
       } else if (product.categoria === "zapatillas") {
         Object.keys(product.tallas).forEach((talla) => tallasZapatillaSet.add(talla));
@@ -32,7 +32,7 @@ export default function Filter({ products, setFilteredProducts }) {
     if (selectedTallaRopa) {
       filtered = filtered.filter(
         (product) =>
-          (product.categoria === "ropas" || product.categoria === "accesorios") &&
+          (product.categoria === "ropa" || product.categoria === "accesorios") &&
           product.tallas[selectedTallaRopa] !== undefined
       );
     }
@@ -91,9 +91,9 @@ export default function Filter({ products, setFilteredProducts }) {
 
   return (
     <main className="px-4 font-semibold md:px-12">
-    <div className="mb-4">
-      <h3 className="mb-3 text-xl font-semibold">Filtros</h3>
-  
+      <div className="mb-4">
+        <h3 className="mb-3 text-xl font-semibold">Filtros</h3>
+
         <div className="mb-4">
           {selectedTallaRopa && (
             <div className="flex items-center mb-2">
@@ -103,7 +103,7 @@ export default function Filter({ products, setFilteredProducts }) {
               </button>
             </div>
           )}
-  
+
           {selectedTallaZapatilla && (
             <div className="flex items-center mb-2">
               <span className="mr-2">Talla de Zapatillas: {selectedTallaZapatilla}</span>
@@ -112,7 +112,7 @@ export default function Filter({ products, setFilteredProducts }) {
               </button>
             </div>
           )}
-  
+
           {stockOnly && (
             <div className="flex items-center mb-2">
               <span className="mr-2">Solo en stock</span>
@@ -121,7 +121,7 @@ export default function Filter({ products, setFilteredProducts }) {
               </button>
             </div>
           )}
-  
+
           {availableIn15Days && (
             <div className="flex items-center mb-2">
               <span className="mr-2">Disponible en 15 días</span>
@@ -131,39 +131,44 @@ export default function Filter({ products, setFilteredProducts }) {
             </div>
           )}
         </div>
-  
-        <div className="mb-4">
-          <label className="block mb-1 font-medium">Talla de Ropa</label>
-          <select
-            value={selectedTallaRopa}
-            onChange={(e) => setSelectedTallaRopa(e.target.value)}
-            className="w-full p-2 bg-transparent border border-gray-300 rounded"
-          >
-            <option value="">Todas las tallas</option>
-            {tallasRopa.map((talla, index) => (
-              <option value={talla} key={index}>
-                {talla}
-              </option>
-            ))}
-          </select>
-        </div>
-  
-        <div className="mb-4">
-          <label className="block mb-1 font-medium">Talla de Zapatillas</label>
-          <select
-            value={selectedTallaZapatilla}
-            onChange={(e) => setSelectedTallaZapatilla(e.target.value)}
-            className="w-full p-2 bg-transparent border border-gray-300 rounded"
-          >
-            <option value="">Todas las tallas</option>
-            {tallasZapatilla.map((talla, index) => (
-              <option value={talla} key={index}>
-                {talla}
-              </option>
-            ))}
-          </select>
-        </div>
-  
+
+        {tallasRopa.length > 0 && (
+          <div className="mb-4">
+            <label className="block mb-1 font-medium">Talla de Ropa</label>
+            <select
+              value={selectedTallaRopa}
+              onChange={(e) => setSelectedTallaRopa(e.target.value)}
+              className="w-full p-2 bg-transparent border border-gray-300 rounded"
+            >
+              <option value="">Todas las tallas</option>
+              {tallasRopa.map((talla, index) => (
+                <option value={talla} key={index}>
+                  {talla}
+                </option>
+              ))}
+            </select>
+          </div>
+        )}
+
+        {/* Mostrar solo si hay tallas de zapatillas */}
+        {tallasZapatilla.length > 0 && (
+          <div className="mb-4">
+            <label className="block mb-1 font-medium">Talla de Zapatillas</label>
+            <select
+              value={selectedTallaZapatilla}
+              onChange={(e) => setSelectedTallaZapatilla(e.target.value)}
+              className="w-full p-2 bg-transparent border border-gray-300 rounded"
+            >
+              <option value="">Todas las tallas</option>
+              {tallasZapatilla.map((talla, index) => (
+                <option value={talla} key={index}>
+                  {talla}
+                </option>
+              ))}
+            </select>
+          </div>
+        )}
+
         <div className="mb-4">
           <label className="block mb-1 font-medium">Precio mínimo (USD)</label>
           <input
@@ -174,7 +179,7 @@ export default function Filter({ products, setFilteredProducts }) {
             placeholder="Ej: 50"
           />
         </div>
-  
+
         <div className="mb-4">
           <label className="block mb-1 font-medium">Precio máximo (USD)</label>
           <input
@@ -185,15 +190,15 @@ export default function Filter({ products, setFilteredProducts }) {
             placeholder="Ej: 100"
           />
         </div>
-  
+
         <button onClick={handleSearch} className="w-full p-2 text-white bg-red-500 rounded">
           Buscar
         </button>
-  
+
         <button onClick={resetFilters} className="w-full p-2 mt-2 text-white bg-black rounded">
           Resetear Filtros
         </button>
-  
+
         <div className="flex gap-2 mt-4">
           <button
             onClick={() => {
