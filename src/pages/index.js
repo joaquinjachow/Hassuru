@@ -40,7 +40,7 @@ export default function Home() {
   return (
     <div>
       <div className="container p-4 mx-auto">
-        <div className="flex flex-col md:flex-row items-center justify-between gap-4">
+        <div className="flex flex-col items-center justify-between gap-4 md:flex-row">
           <Link className="w-full md:w-[50.49%] h-auto block" href="/catalogo">
             <Image
               src="/images/Catalogo.jpg"
@@ -67,7 +67,9 @@ export default function Home() {
       <div className="mt-8 mb-10">
         <Carousell products={zapatillas} title={"Zapatillas"} />
       </div>
-      <Newsletter />
+      <div className="mb-4">
+        <Newsletter />
+      </div>
     </div>
   );
 }

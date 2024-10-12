@@ -90,7 +90,7 @@ export default function Filter({ products, setFilteredProducts }) {
   };
 
   return (
-    <main className="px-4 md:px-12">
+    <main className="px-4 font-semibold md:px-12">
     <div className="mb-4">
       <h3 className="mb-3 text-xl font-semibold">Filtros</h3>
   
@@ -190,7 +190,7 @@ export default function Filter({ products, setFilteredProducts }) {
           Buscar
         </button>
   
-        <button onClick={resetFilters} className="w-full p-2 mt-2 text-white bg-gray-500 rounded">
+        <button onClick={resetFilters} className="w-full p-2 mt-2 text-white bg-black rounded">
           Resetear Filtros
         </button>
   
@@ -200,7 +200,7 @@ export default function Filter({ products, setFilteredProducts }) {
               setStockOnly(true);
               setAvailableIn15Days(false);
             }}
-            className={`w-full ${stockOnly ? "bg-red-500 text-white" : "bg-gray-200"} p-2 rounded`}
+            className={`w-full ${stockOnly ? "bg-black text-white " : " bg-red-500 text-white"} p-2 rounded`}
           >
             Solo en stock
           </button>
@@ -209,7 +209,7 @@ export default function Filter({ products, setFilteredProducts }) {
               setStockOnly(false);
               setAvailableIn15Days(true);
             }}
-            className={`w-full ${availableIn15Days ? "bg-red-500 text-white" : "bg-gray-200"} p-2 rounded`}
+            className={`w-full ${availableIn15Days ? "bg-black text-white" : " bg-red-500 text-white"} p-2 rounded`}
           >
             Disponible en 15 días
           </button>
