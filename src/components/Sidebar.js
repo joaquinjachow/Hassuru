@@ -11,16 +11,12 @@ const Sidebar = ({ handleLogout, fetchProducts, categoriasDisponibles }) => {
         <h1 className="text-3xl font-bold mb-6">Dashboard Panel</h1>
         <ul>
           <li className="mb-4">
-            <a 
-              href="#" 
-              onClick={(e) => {
-                e.preventDefault(); // Previene el comportamiento por defecto del enlace
-                setModalOpen(true); // Abre el modal
-              }} 
-              className="block py-2 px-4 rounded hover:bg-gray-700 transition duration-300"
+            <button
+              onClick={() => setModalOpen(true)} // Abre el modal al hacer clic
+              className="block w-full py-2 px-4 rounded bg-blue-500 hover:bg-blue-600 text-white transition duration-300"
             >
               Agregar Producto
-            </a>
+            </button>
           </li>
         </ul>
       </div>
