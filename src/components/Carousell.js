@@ -1,5 +1,6 @@
 import React, { useEffect, useRef } from "react";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
+import Link from "next/link";
 
 export default function Carousell({ title, products }) {
   const carouselRef = useRef(null);
@@ -17,7 +18,7 @@ export default function Carousell({ title, products }) {
 
   return (
     <div className="relative w-full">
-      <div className="container mx-auto p-4"> {/* Agregado padding aquí */}
+      <div className="container p-4 mx-auto"> {/* Agregado padding aquí */}
         <div className="flex items-center justify-between mb-2">
           <h1 className="text-2xl font-bold sm:text-4xl">{title}</h1>
           {/* Botones de navegación */}
@@ -54,14 +55,16 @@ export default function Carousell({ title, products }) {
         >
           {products.map((product, index) => (
             <div key={index} className="flex-none w-48 sm:w-64">
-              <div className="flex flex-col justify-between h-full">
-                <img
-                  src={product.image?.url || "/images/default.png"}
-                  alt={product.nombre}
-                  className="object-contain w-full h-48 mb-3 sm:h-64"
-                />
-                <h3 className="text-sm font-semibold sm:text-lg">{product.nombre}</h3>
-              </div>
+              <Link href={`/producto/${product._id}`}>
+                <div className="flex flex-col justify-between h-full">
+                  <img
+                    src={product.image?.url || "/images/default.png"}
+                    alt={product.nombre}
+                    className="object-contain w-full h-48 mb-3 sm:h-64"
+                  />
+                  <h3 className="text-sm font-semibold sm:text-lg">{product.nombre}</h3>
+                </div>
+              </Link>
             </div>
           ))}
         </div>
