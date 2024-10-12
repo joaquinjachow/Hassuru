@@ -35,7 +35,7 @@ export default function Home() {
   if (error) return <div>Error: {error}</div>;
 
   const destacados = allProducts.filter(product => product.destacado === true);
-  const zapatillas = allProducts.filter(product => product.categoria === "zapatillas");
+  const zapatillas = allProducts.filter(product => product.destacado_zapatillas === true);
 
   return (
     <div>
