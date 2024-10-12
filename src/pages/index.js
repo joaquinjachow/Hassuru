@@ -5,7 +5,6 @@ import Link from "next/link";
 import Newsletter from "../components/Newsletter";
 import { useState, useEffect } from "react";
 
-
 export default function Home() {
   const [allProducts, setAllProducts] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -27,6 +26,7 @@ export default function Home() {
       setLoading(false);
     }
   };
+
   useEffect(() => {
     fetchProducts();
   }, []);
@@ -40,8 +40,8 @@ export default function Home() {
   return (
     <div>
       <div className="container p-4 mx-auto">
-        <div className="flex items-center justify-between gap-x-4">
-        <Link className="w-[50.49%] h-auto block" href="/catalogo">
+        <div className="flex flex-col md:flex-row items-center justify-between gap-4">
+          <Link className="w-full md:w-[50.49%] h-auto block" href="/catalogo">
             <Image
               src="/images/Catalogo.jpg"
               alt="Catalogo"
@@ -50,7 +50,7 @@ export default function Home() {
               className="object-cover w-full h-full"
             />
           </Link>
-          <Link className="w-[49.51%] h-auto block" href="/encargos">
+          <Link className="w-full md:w-[49.51%] h-auto block" href="/encargos">
             <Image
               src="/images/Encargo.png"
               alt="Encargo"
@@ -61,13 +61,13 @@ export default function Home() {
           </Link>
         </div>
       </div>
-        <div className="mt-2">
-          <Carousell products={destacados} title={"Destacados"} />
-        </div>
-        <div className="mt-8 mb-10">
-          <Carousell products={zapatillas} title={"Zapatillas"} />
-        </div>
-        <Newsletter />
+      <div className="mt-2">
+        <Carousell products={destacados} title={"Destacados"} />
       </div>
+      <div className="mt-8 mb-10">
+        <Carousell products={zapatillas} title={"Zapatillas"} />
+      </div>
+      <Newsletter />
+    </div>
   );
 }
