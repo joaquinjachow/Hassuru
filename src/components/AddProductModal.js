@@ -7,7 +7,7 @@ const AddProductModal = ({ isOpen, onClose, fetchProducts }) => {
     descripcion: '',
     marca: '',
     categoria: '',
-    precios: { USD: ''},
+    precio: '',
     tallas: {},
     colores: [],
     image: { base64: '' },
@@ -47,14 +47,11 @@ const AddProductModal = ({ isOpen, onClose, fetchProducts }) => {
     const { name, value } = e.target;
 
     // Si el campo es parte de los precios, conviértelo en número
-    if (name === 'precios.USD') {
-      const priceUSD = value ? parseFloat(value) : ''; // Solo convertir si el valor no está vacío
+    if (name === 'precio') {
+      const price = value ? parseFloat(value) : ''; // Solo convertir si el valor no está vacío
       setProduct((prev) => ({
         ...prev,
-        precios: {
-          ...prev.precios,
-          USD: priceUSD,
-        },
+        precio: price,
       }));
     } else {
       setProduct((prev) => ({
@@ -124,9 +121,7 @@ const AddProductModal = ({ isOpen, onClose, fetchProducts }) => {
       descripcion: product.descripcion,
       marca: product.marca,
       categoria: product.categoria,
-      precios: {
-        USD: parseFloat(product.precios.USD),
-      },
+      precio: parseFloat(product.precio),
       tallas: product.tallas,
       colores: product.colores,
       image: { base64: product.image.base64 },
@@ -209,9 +204,9 @@ const AddProductModal = ({ isOpen, onClose, fetchProducts }) => {
           </select>
           <input
             type="text"
-            name="precios.USD"
+            name="precio"
             placeholder="Precio en USD"
-            value={product.precios.USD}
+            value={product.precio}
             onChange={handleInputChange}
             required
             className="border p-2 mb-4 w-full"

@@ -9,11 +9,9 @@ const ProductoSchema = new mongoose.Schema({
   descripcion: {
     type: String,
   },
-  precios: {
-    USD: {
-      type: Number,
-      required: [true, 'El precio en USD es obligatorio'],
-    },
+  precio: {
+    type: Number,
+    required: [true, 'El precio es obligatorio'],
   },
   marca: {
     type: String,
