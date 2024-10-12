@@ -10,7 +10,8 @@ export default function Catalogo() {
   const [currentPage, setCurrentPage] = useState(1);
   const productsPerPage = 20;
 
-  console.log(products)
+  console.log(products);
+  
   const fetchProducts = async () => {
     setLoading(true);
     setError(null);
@@ -38,14 +39,14 @@ export default function Catalogo() {
   const currentProducts = filteredProducts.slice(indexOfFirstProduct, indexOfLastProduct);
 
   return (
-    <div className="container flex py-10 mx-auto">
-      <aside>
+    <div className="container flex flex-col lg:flex-row py-10 mx-auto">
+      <aside className="w-full lg:w-1/4 mb-6 lg:mb-0">
         <Filter 
           products={products}
           setFilteredProducts={setFilteredProducts}
         />
       </aside>
-      <section className="w-3/4">
+      <section className="w-full lg:w-3/4">
         {loading ? (
           <p>Cargando productos...</p>
         ) : error ? (
