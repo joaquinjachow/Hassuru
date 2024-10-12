@@ -58,7 +58,7 @@ export default function Carousell({ title, products }) {
               <Link href={`/producto/${product._id}`}>
                 <div className="flex flex-col justify-between h-full">
                   <img
-                    src={product.image?.url || "/images/default.png"}
+                    src={product.image?.base64 || "/images/default.png"}
                     alt={product.nombre}
                     className="object-contain w-full h-48 mb-3 sm:h-64"
                   />
