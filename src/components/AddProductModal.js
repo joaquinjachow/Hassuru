@@ -10,7 +10,7 @@ const AddProductModal = ({ isOpen, onClose, fetchProducts }) => {
     precios: { USD: ''},
     tallas: {},
     colores: [],
-    image: { url: '' },
+    image: { base64: '' },
     destacado: false,
   });
 
@@ -46,15 +46,6 @@ const AddProductModal = ({ isOpen, onClose, fetchProducts }) => {
   const handleInputChange = (e) => {
     const { name, value } = e.target;
 
-    // Verifica si el campo es para la URL de la imagen
-    if (name === 'image.url') {
-      setProduct((prev) => ({
-        ...prev,
-        image: { url: value },
-      }));
-      return;
-    }
-
     // Si el campo es parte de los precios, conviértelo en número
     if (name === 'precios.USD') {
       const priceUSD = value ? parseFloat(value) : ''; // Solo convertir si el valor no está vacío
@@ -70,6 +61,20 @@ const AddProductModal = ({ isOpen, onClose, fetchProducts }) => {
         ...prev,
         [name]: value,
       }));
+    }
+  };
+
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setProduct((prev) => ({
+          ...prev,
+          image: { base64: reader.result },
+        }));
+      };
+      reader.readAsDataURL(file);
     }
   };
 
@@ -109,10 +114,10 @@ const AddProductModal = ({ isOpen, onClose, fetchProducts }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!product.image.url) {
-      alert('Por favor, agrega una URL de imagen válida.');
-      return;
-    }
+    // if (!product.image.url) {
+    //   alert('Por favor, agrega una URL de imagen válida.');
+    //   return;
+    // }
 
     const productoAEnviar = {
       nombre: product.nombre,
@@ -124,9 +129,7 @@ const AddProductModal = ({ isOpen, onClose, fetchProducts }) => {
       },
       tallas: product.tallas,
       colores: product.colores,
-      image: {
-        url: product.image.url,
-      },
+      image: { base64: product.image.base64 },
       destacado: false,
     };
     console.log("Producto a enviar:", productoAEnviar);
@@ -161,7 +164,7 @@ const AddProductModal = ({ isOpen, onClose, fetchProducts }) => {
 
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-      <div className="bg-white p-6 rounded-lg shadow-lg w-1/3 text-black">
+      <div className="bg-white p-6 rounded-lg shadow-lg w-full sm:w-3/4 md:w-1/2 lg:w-1/3 text-black">
         <h2 className="text-xl mb-4">Agregar Producto</h2>
         <form onSubmit={handleSubmit}>
           <input
@@ -213,31 +216,31 @@ const AddProductModal = ({ isOpen, onClose, fetchProducts }) => {
             required
             className="border p-2 mb-4 w-full"
           />
-          
+
+          {/* Input de archivo para la imagen */}
           <input
-            type="text"
-            name="image.url"
-            placeholder="URL de imagen"
-            value={product.image.url}
-            onChange={handleInputChange}
+            type="file"
+            accept="image/*"
+            onChange={handleImageChange}
             className="border p-2 mb-4 w-full"
           />
-          <div className="mb-4">
+          
+          <div className="mb-4 flex flex-col sm:flex-row sm:space-x-2">
             <input
               type="text"
               value={tallaInput}
               onChange={(e) => setTallaInput(e.target.value)}
               placeholder="Agregar Talla"
-              className="border p-2 mr-2 w-1/4"
+              className="border p-2 mb-2 sm:mb-0 w-full sm:w-1/4"
             />
             <input
               type="number"
               value={cantidadTalla}
               onChange={(e) => setCantidadTalla(e.target.value)}
               placeholder="Cantidad"
-              className="border p-2 mr-2 w-1/4"
+              className="border p-2 mb-2 sm:mb-0 w-full sm:w-1/4"
             />
-            <button type="button" onClick={handleAddTalla} className="bg-blue-500 text-white px-4 py-2 rounded">Agregar Talla</button>
+            <button type="button" onClick={handleAddTalla} className="bg-blue-500 text-white px-4 py-2 rounded mt-2 sm:mt-0">Agregar Talla</button>
           </div>
           <ul className="mb-4">
             {Object.entries(product.tallas).map(([talla, cantidad], index) => (
@@ -252,15 +255,15 @@ const AddProductModal = ({ isOpen, onClose, fetchProducts }) => {
               </li>
             ))}
           </ul>
-          <div className="mb-4">
+          <div className="mb-4 flex flex-col sm:flex-row sm:space-x-2">
             <input
               type="text"
               value={colorInput}
               onChange={(e) => setColorInput(e.target.value)}
               placeholder="Agregar Color"
-              className="border p-2 mr-2 w-1/4"
+              className="border p-2 mb-2 sm:mb-0 w-full sm:w-1/4"
             />
-            <button type="button" onClick={handleAddColor} className="bg-blue-500 text-white px-4 py-2 rounded">Agregar Color</button>
+            <button type="button" onClick={handleAddColor} className="bg-blue-500 text-white px-4 py-2 rounded mt-2 sm:mt-0">Agregar Color</button>
           </div>
           <div className="mb-4">
             <h3>Colores:</h3>
@@ -280,7 +283,7 @@ const AddProductModal = ({ isOpen, onClose, fetchProducts }) => {
             ))}
           </div>
           <div className="flex justify-end">
-            <button type="button" onClick={onClose} className="bg-gray-500 text-white px-4 py-2 rounded mr-2">Cancelar</button>
+            <button type="button" onClick={onClose} className="bg-red-500 text-white px-4 py-2 rounded mr-2">Cancelar</button>
             <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded">Agregar Producto</button>
           </div>
         </form>

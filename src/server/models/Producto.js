@@ -39,8 +39,8 @@ const ProductoSchema = new mongoose.Schema({
   ],
   // Solo una imagen por producto
   image: {
-    url: {
-      type: String,
+    base64: {
+      type: String, // Almacena la imagen en base64
       required: true,
     },
   },

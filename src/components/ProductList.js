@@ -2,10 +2,15 @@
 import React, { useState } from "react";
 import ProductRow from "./ProductRow"; // Importa el componente ProductRow
 import { MdFilterAltOff } from "react-icons/md";
+import { MdAdd } from "react-icons/md";
+import useFetchDolar from "@/hooks/useFetchDolar";
+import AddProductModal from './AddProductModal'; 
 
 const ProductList = ({ editableProducts, setEditableProducts, selectedProduct, setSelectedProduct, fetchProducts, fetchProductsFiltered }) => {
   const [categoriaFilter, setCategoriaFilter] = useState(""); // Estado para la categoría
   const [nameFilter, setNameFilter] = useState(""); // Estado para el filtro de nombre
+  const { dolarBlue, loading, error } = useFetchDolar();
+  const [isModalOpen, setModalOpen] = useState(false);
 
   const handleProductSelect = (id) => {
     setSelectedProduct(id);
@@ -28,6 +33,15 @@ const ProductList = ({ editableProducts, setEditableProducts, selectedProduct, s
   return (
     <div className="bg-white p-6 rounded-lg shadow-md">
       <h2 className="text-xl font-semibold mb-6 text-black">Lista de Productos</h2>
+
+      <button
+        onClick={() => setModalOpen(true)} // Abre el modal al hacer clic
+        className="flex items-center bg-blue-500 text-white rounded-lg p-3 mb-4 shadow-lg transition duration-200 hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400 lg:hidden"
+      >
+        <MdAdd className="mr-2" />
+        Agregar Producto
+      </button>
+
 
       {/* Formulario de Filtros */}
       <form onSubmit={(e) => e.preventDefault()} className="mb-6 flex flex-col sm:flex-row items-center gap-4">
@@ -60,6 +74,12 @@ const ProductList = ({ editableProducts, setEditableProducts, selectedProduct, s
         >
           <MdFilterAltOff className="mr-1 hidden sm:inline-block" /> Remover Filtros
         </button>
+
+        {/* Cotización del Dólar */}
+        <div className="flex items-center bg-blue-100 p-2 rounded sm:w-auto text-center">
+          <span className="mr-2 text-lg font-bold text-green-500 hidden md:inline-block">Dólar Blue:</span>
+          <span className="text-lg font-semibold">${dolarBlue}</span>
+        </div>
       </form>
 
       {/* Tabla de Productos */}
@@ -99,6 +119,13 @@ const ProductList = ({ editableProducts, setEditableProducts, selectedProduct, s
           </tbody>
         </table>
       </div>
+
+      {/* Integración del modal */}
+      <AddProductModal 
+        isOpen={isModalOpen} 
+        onClose={() => setModalOpen(false)} 
+        fetchProducts={fetchProducts}
+      />
     </div>
   );
 };
