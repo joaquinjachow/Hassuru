@@ -30,7 +30,7 @@ export default function Detail({ product }) {
   return (
     <div className="container py-10 mx-auto sm:flex sm:flex-col lg:flex-row lg:space-x-10">
       {/* Imagen del producto */}
-      <div className="mb-6 lg:w-1/2 sm:w-full lg:mb-0">
+      <div className="px-2 mb-6 lg:w-1/2 sm:w-full lg:mb-0">
         <img
           src={product.image?.base64}
           alt={product.nombre}
@@ -70,7 +70,7 @@ export default function Detail({ product }) {
                 </button>
               ))}
               {/* Campo para ingresar talla personalizada */}
-              <div className="flex items-center justify-between px-4 py-2">
+              <div className="flex items-center justify-between px-4 py-2 space-x-4">
                 <input
                   type="text"
                   placeholder="Ingresa tu talle"
@@ -86,7 +86,7 @@ export default function Detail({ product }) {
                   }}
                   className="px-2 py-1 text-white bg-red-500 rounded-md"
                 >
-                  Pedir talle
+                  PEDIR
                 </button>
               </div>
             </div>

@@ -25,12 +25,12 @@ export default function Newsletter() {
   };
 
   return (
-    <div className="bg-white p-6 rounded-lg shadow-md container mt-10 mx-auto">
+    <div className="container p-6 mx-auto mt-10 bg-white rounded-lg shadow-md">
       {/* Contenedor ajustado para dispositivos móviles */}
-      <div className="flex flex-col items-center space-y-4 md:flex-row md:justify-between md:items-center md:space-y-0">
+      <div className="flex flex-col items-center md:flex-row md:justify-between md:items-center md:space-y-0">
         {/* Formulario de Newsletter */}
         <div className="w-full md:w-1/2">
-          <h1 className="text-lg font-bold text-left mb-4">
+          <h1 className="mb-4 text-lg font-bold text-left">
             Suscríbete a nuestra Newsletter
           </h1>
           <form onSubmit={handleSubscribe} className="flex flex-col md:flex-row">
@@ -40,11 +40,11 @@ export default function Newsletter() {
               onChange={(e) => setEmail(e.target.value)}
               placeholder="Ingresa tu correo electrónico"
               required
-              className="border p-2 rounded-t-lg md:rounded-l-lg md:rounded-t-none w-full mb-2 md:mb-0 focus:outline-none focus:ring-2 focus:ring-red-500"
+              className="w-full p-2 mb-2 border rounded-t-lg md:rounded-l-lg md:rounded-t-none md:mb-0 focus:outline-none focus:ring-2 focus:ring-red-500"
             />
             <button
               type="submit"
-              className="bg-red-500 text-white font-semibold px-4 py-2 rounded-b-lg md:rounded-r-lg md:rounded-b-none hover:bg-red-600 transition duration-300"
+              className="px-4 py-2 font-semibold text-white transition duration-300 bg-red-500 rounded-b-lg md:rounded-r-lg md:rounded-b-none hover:bg-red-600"
             >
               Suscribirse
             </button>
