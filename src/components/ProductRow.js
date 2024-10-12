@@ -244,13 +244,9 @@ const ProductRow = ({
               placeholder="Precio en USD"
             />
             {dolarBlue ? (
-              <input
-                type="text"
-                value={(producto.precios.USD * dolarBlue).toFixed(2)}
-                readOnly
-                className="border p-1 w-full"
-                placeholder="Precio en ARS"
-              />
+              <label className="p-1 w-full">
+                {(producto.precios.USD * dolarBlue).toFixed(2)} ARS
+              </label>
             ) : (
               <p>Cargando cotización...</p>
             )}
@@ -373,8 +369,8 @@ const ProductRow = ({
         )}
       </td>
       <td className="border px-4 py-2">
-        {producto.image?.url && (
-          <img src={producto.image.url} alt={producto.nombre} className="w-16 h-16 object-cover" />
+        {producto.image?.base64 && (
+          <img src={producto.image.base64} alt={producto.nombre} className="w-16 h-16 object-cover" />
         )}
       </td>
 
