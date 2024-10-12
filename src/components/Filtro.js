@@ -64,7 +64,7 @@ export default function Filter({ products, setFilteredProducts }) {
 
     if (precioMin || precioMax) {
       filtered = filtered.filter((product) => {
-        const precio = product.precios.USD;
+        const precio = product.precio;
         if (precioMin && precioMax) {
           return precio >= parseInt(precioMin) && precio <= parseInt(precioMax);
         } else if (precioMin) {
