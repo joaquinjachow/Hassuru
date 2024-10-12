@@ -200,7 +200,7 @@ export default function Filter({ products, setFilteredProducts }) {
               setStockOnly(true);
               setAvailableIn15Days(false);
             }}
-            className={`w-full ${stockOnly ? "bg-red-500 text-white" : "bg-black text-white"} p-2 rounded`}
+            className={`w-full ${stockOnly ? "bg-black text-white " : " bg-red-500 text-white"} p-2 rounded`}
           >
             Solo en stock
           </button>
@@ -209,7 +209,7 @@ export default function Filter({ products, setFilteredProducts }) {
               setStockOnly(false);
               setAvailableIn15Days(true);
             }}
-            className={`w-full ${availableIn15Days ? "bg-red-500 text-white" : "bg-black text-white"} p-2 rounded`}
+            className={`w-full ${availableIn15Days ? "bg-black text-white" : " bg-red-500 text-white"} p-2 rounded`}
           >
             Disponible en 15 días
           </button>
