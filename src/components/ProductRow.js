@@ -133,20 +133,18 @@ const ProductRow = ({
     return; 
   }
   
-    // Verificar si el campo es uno de los precios
-    if (field.includes('precios')) {
-      const [priceType, priceKey] = field.split('.'); // Obtiene 'precios' y 'USD' o 'AR'
-
-      updatedProducts[index][priceType][priceKey] = newValue;
-    } else if (field === 'categoria') {
-      // Manejar la categoría directamente
-      updatedProducts[index][field] = newValue; // Asignar el nuevo valor a la categoría
-    } else {
-      if (!updatedProducts[index][field]) {
-        updatedProducts[index][field] = ''; // Inicializar con un valor vacío si no existe
-      }
-      updatedProducts[index][field] = newValue; // Manejar otros campos
+  // Verificar si el campo es 'precio'
+  if (field === 'precio') {
+    updatedProducts[index][field] = newValue; // Asignar el nuevo valor al precio
+  } else if (field === 'categoria') {
+    // Manejar la categoría directamente
+    updatedProducts[index][field] = newValue; // Asignar el nuevo valor a la categoría
+  } else {
+    if (!updatedProducts[index][field]) {
+      updatedProducts[index][field] = ''; // Inicializar con un valor vacío si no existe
     }
+    updatedProducts[index][field] = newValue; // Manejar otros campos
+  }
   
     setEditableProducts(updatedProducts);
     console.log(`Productos actualizados:`, updatedProducts);
@@ -238,14 +236,14 @@ const ProductRow = ({
           <div className="flex flex-col">
             <input
               type="text"
-              value={producto.precios.USD}
-              onChange={(e) => handleProductChange(e, "precios.USD", index)}
+              value={producto.precio}
+              onChange={(e) => handleProductChange(e, "precio", index)}
               className="border p-1 mb-2 w-full"
               placeholder="Precio en USD"
             />
             {dolarBlue ? (
               <label className="p-1 w-full">
-                {(producto.precios.USD * dolarBlue).toFixed(2)} ARS
+                {(producto.precio * dolarBlue).toFixed(2)} ARS
               </label>
             ) : (
               <p>Cargando cotización...</p>
@@ -253,9 +251,9 @@ const ProductRow = ({
           </div>
         ) : (
           <div>
-            <p>{producto.precios.USD} USD</p>
+            <p>{producto.precio} USD</p>
             {dolarBlue ? (
-              <p>{(producto.precios.USD * dolarBlue).toFixed(2)} ARS</p>
+              <p>{(producto.precio * dolarBlue).toFixed(2)} ARS</p>
             ) : (
               <p>Cargando cotización...</p>
             )}
