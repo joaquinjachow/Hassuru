@@ -90,9 +90,9 @@ export default function Filter({ products, setFilteredProducts }) {
   };
 
   return (
-    <main className="px-12">
-      <div className="mb-4">
-        <h3 className="mb-3 text-xl font-semibold">Filtros</h3>
+    <main className="px-4 md:px-12">
+    <div className="mb-4">
+      <h3 className="mb-3 text-xl font-semibold">Filtros</h3>
   
         <div className="mb-4">
           {selectedTallaRopa && (

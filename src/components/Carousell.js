@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from "react";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 
-export default function Carousell({title, products}) {
+export default function Carousell({ title, products }) {
   const carouselRef = useRef(null);
 
   useEffect(() => {
@@ -16,10 +16,10 @@ export default function Carousell({title, products}) {
   }, []);
 
   return (
-    <div className="relative w-full overflow-hidden">
-      <div className="container mx-auto">
+    <div className="relative w-full">
+      <div className="container mx-auto p-4"> {/* Agregado padding aquí */}
         <div className="flex items-center justify-between mb-2">
-          <h1 className="text-4xl font-bold">{title}</h1>
+          <h1 className="text-2xl font-bold sm:text-4xl">{title}</h1>
           {/* Botones de navegación */}
           <div>
             <button
@@ -48,18 +48,19 @@ export default function Carousell({title, products}) {
         </div>
         <div
           ref={carouselRef}
-          className="flex gap-4 mt-8 overflow-x-hidden snap-x snap-mandatory scroll-smooth"
+          className="flex gap-4 mt-8"
           id="carousel"
+          style={{ overflow: "hidden" }} // Desactivando el scroll horizontal
         >
           {products.map((product, index) => (
-            <div key={index} className="flex-none w-64 snap-center">
+            <div key={index} className="flex-none w-48 sm:w-64">
               <div className="flex flex-col justify-between h-full">
                 <img
                   src={product.image?.url || "/images/default.png"}
                   alt={product.nombre}
-                  className="object-contain w-full mb-3"
+                  className="object-contain w-full h-48 mb-3 sm:h-64"
                 />
-                <h3 className="text-lg font-semibold">{product.nombre}</h3>
+                <h3 className="text-sm font-semibold sm:text-lg">{product.nombre}</h3>
               </div>
             </div>
           ))}
