@@ -20,7 +20,7 @@ export default function Navbar() {
     <nav className="relative p-8 bg-white shadow-md">
       <div className="container flex items-center mx-auto">
         {/* Espacio flexible a la izquierda para menú en desktop */}
-        <div className="justify-start flex-grow hidden md:flex md:items-center md:space-x-6">
+        <div className="justify-start flex-grow hidden xl:flex xl:items-center xl:space-x-6">
           <ul className="flex flex-row space-x-6">
             {navigation.map((menu, index) => (
               <li key={index}>
@@ -45,7 +45,7 @@ export default function Navbar() {
         {/* Hamburguesa visible solo en mobile */}
         <button
           onClick={toggleMenu}
-          className="text-black focus:outline-none md:hidden"
+          className="text-black focus:outline-none xl:hidden"
         >
           <svg
             className="w-8 h-8"
@@ -66,7 +66,7 @@ export default function Navbar() {
 
       {/* Menú desplegable en mobile, debajo del logo */}
       {isOpen && (
-        <div className="mt-8 md:hidden">
+        <div className="mt-8 xl:hidden">
           <ul className="space-y-4">
             {navigation.map((menu, index) => (
               <li key={index}>

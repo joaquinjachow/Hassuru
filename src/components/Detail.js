@@ -1,9 +1,11 @@
 import React, { useState } from "react";
+import useFetchDolar from "@/hooks/useFetchDolar";
 
 export default function Detail({ product }) {
   const [showTallas, setShowTallas] = useState(false);
   const [selectedTalla, setSelectedTalla] = useState(null);
   const [customTalla, setCustomTalla] = useState("");
+  const { dolarBlue, loading, error } = useFetchDolar();
 
   const handleCompraClick = () => {
     const message = selectedTalla
@@ -28,21 +30,21 @@ export default function Detail({ product }) {
   return (
     <div className="container py-10 mx-auto sm:flex sm:flex-col lg:flex-row lg:space-x-10">
       {/* Imagen del producto */}
-      <div className="lg:w-1/2 sm:w-full mb-6 lg:mb-0">
+      <div className="px-2 mb-6 lg:w-1/2 sm:w-full lg:mb-0">
         <img
-          src={product.image.url}
+          src={product.image?.base64}
           alt={product.nombre}
           className="object-contain w-full h-auto"
         />
       </div>
 
       {/* Detalles del producto */}
-      <div className="flex flex-col w-full lg:w-1/2 space-y-4 p-2"> {/* Padding ligero aquí */}
-        <h2 className="text-3xl lg:text-4xl font-bold text-gray-800">{product.nombre}</h2>
+      <div className="flex flex-col w-full p-2 space-y-4 lg:w-1/2"> {/* Padding ligero aquí */}
+        <h2 className="text-3xl font-bold text-gray-800 lg:text-4xl">{product.nombre}</h2>
         <div className="space-y-2 text-gray-800">
           <p className="text-lg font-semibold">{product.descripcion}</p>
-          <p className="text-2xl font-bold">${product.precios.AR.toLocaleString()} (ARS)</p>
-          <p className="text-lg text-gray-500">Aprox USD ${product.precios.USD}</p>
+          <p className="text-2xl font-bold">{(product.precio * dolarBlue).toFixed(2)} ARS</p>
+          <p className="text-lg text-gray-500">Aprox USD ${product.precio}</p>
         </div>
 
         {/* Mensaje de disponibilidad */}
@@ -68,7 +70,7 @@ export default function Detail({ product }) {
                 </button>
               ))}
               {/* Campo para ingresar talla personalizada */}
-              <div className="flex items-center justify-between px-4 py-2">
+              <div className="flex items-center justify-between px-4 py-2 space-x-4">
                 <input
                   type="text"
                   placeholder="Ingresa tu talle"
@@ -84,7 +86,7 @@ export default function Detail({ product }) {
                   }}
                   className="px-2 py-1 text-white bg-red-500 rounded-md"
                 >
-                  Pedir talle
+                  PEDIR
                 </button>
               </div>
             </div>
@@ -121,7 +123,7 @@ export default function Detail({ product }) {
           <span>⏰</span>
           <p>Stock bajo demanda. Ordena pronto.</p>
         </div>
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mt-4">
+        <div className="grid grid-cols-1 gap-4 mt-4 lg:grid-cols-2">
           <div className="p-4 text-sm text-center text-gray-600 border rounded-md">
             Envíos a todo el país. Córdoba en 24hs.
           </div>
