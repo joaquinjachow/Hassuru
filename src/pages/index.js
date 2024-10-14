@@ -1,9 +1,8 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Carousell from "@/components/Carousell";
 import Image from "next/image";
 import Link from "next/link";
 import Newsletter from "../components/Newsletter";
-import { useState, useEffect } from "react";
 
 export default function Home() {
   const [allProducts, setAllProducts] = useState([]);
@@ -34,11 +33,11 @@ export default function Home() {
   if (loading) return <div>Cargando...</div>;
   if (error) return <div>Error: {error}</div>;
 
-  const destacados = allProducts.filter(product => product.destacado === true);
-  const zapatillas = allProducts.filter(product => product.destacado_zapatillas === true);
+  const destacados = allProducts.filter((product) => product.destacado === true);
+  const zapatillas = allProducts.filter((product) => product.destacado_zapatillas === true);
 
   return (
-    <div>
+    <main>
       <div className="container p-4 mx-auto">
         <div className="flex flex-col items-center justify-between gap-4 md:flex-row">
           <Link className="w-full md:w-[50.49%] h-auto block" href="/catalogo">
@@ -67,9 +66,30 @@ export default function Home() {
       <div className="mt-8 mb-10">
         <Carousell products={zapatillas} title={"Zapatillas"} />
       </div>
+      <div className="container grid grid-cols-1 gap-4 px-24 mx-auto mt-8 md:grid-cols-3">
+        <iframe
+          src="https://www.tiktok.com/embed/7420249638982274310"
+          width="100%"
+          height="750"
+          allow="autoplay; encrypted-media"
+        ></iframe>
+        <iframe
+          src="https://www.tiktok.com/embed/7368541174270840069"
+          width="100%"
+          height="750"
+          allow="autoplay; encrypted-media"
+        ></iframe>
+        <iframe
+          src="https://www.tiktok.com/embed/7370028703503387909"
+          width="100%"
+          height="750"
+          allow="autoplay; encrypted-media"
+        ></iframe>
+      </div>
+
       <div className="mb-4">
         <Newsletter />
       </div>
-    </div>
+    </main>
   );
 }
