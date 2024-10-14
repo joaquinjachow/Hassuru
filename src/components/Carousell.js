@@ -4,7 +4,6 @@ import Link from "next/link";
 
 export default function Carousell({ title, products }) {
   const carouselRef = useRef(null);
-
   useEffect(() => {
     const interval = setInterval(() => {
       carouselRef.current.scrollBy({
@@ -12,16 +11,14 @@ export default function Carousell({ title, products }) {
         behavior: "smooth",
       });
     }, 3000);
-
     return () => clearInterval(interval);
   }, []);
 
   return (
     <div className="relative w-full">
-      <div className="container p-4 mx-auto"> {/* Agregado padding aquí */}
+      <div className="container p-4 mx-auto">
         <div className="flex items-center justify-between mb-2">
           <h1 className="text-2xl font-bold sm:text-4xl">{title}</h1>
-          {/* Botones de navegación */}
           <div>
             <button
               className="p-2 text-black transform hover:scale-105"
@@ -51,7 +48,7 @@ export default function Carousell({ title, products }) {
           ref={carouselRef}
           className="flex gap-4 mt-8"
           id="carousel"
-          style={{ overflow: "hidden" }} // Desactivando el scroll horizontal
+          style={{ overflow: "hidden" }}
         >
           {products.map((product, index) => (
             <div key={index} className="flex-none w-48 sm:w-64">

@@ -86,7 +86,6 @@ export default function Home() {
           allow="autoplay; encrypted-media"
         ></iframe>
       </div>
-
       <div className="mb-4">
         <Newsletter />
       </div>

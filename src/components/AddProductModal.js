@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import useFetchDolar from '../hooks/useFetchDolar';
 
 const AddProductModal = ({ isOpen, onClose, fetchProducts }) => {
   const [product, setProduct] = useState({
@@ -17,8 +16,7 @@ const AddProductModal = ({ isOpen, onClose, fetchProducts }) => {
   const [tallaInput, setTallaInput] = useState('');
   const [cantidadTalla, setCantidadTalla] = useState('');
   const [colorInput, setColorInput] = useState('');
-
-  const [dolarBlue, setDolarBlue] = useState(null); // Estado para el precio del dólar blue
+  const [dolarBlue, setDolarBlue] = useState(null);
 
   const categoriasDisponibles = [
     'ropa',
@@ -26,29 +24,23 @@ const AddProductModal = ({ isOpen, onClose, fetchProducts }) => {
     'accesorios',
   ];
 
-  // Obtener el precio del dólar blue al cargar el componente
   useEffect(() => {
     const fetchDolarBlue = async () => {
       try {
         const response = await fetch("https://dolarapi.com/v1/dolares/blue");
         const data = await response.json();
-        console.log(data);
-        console.log("Datos del Dólar Blue:", data?.venta);
         setDolarBlue(data?.venta);
       } catch (error) {
         console.error("Error al obtener el precio del dólar blue:", error);
       }
     };
-
     fetchDolarBlue();
   }, []);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-
-    // Si el campo es parte de los precios, conviértelo en número
     if (name === 'precio') {
-      const price = value ? parseFloat(value) : ''; // Solo convertir si el valor no está vacío
+      const price = value ? parseFloat(value) : '';
       setProduct((prev) => ({
         ...prev,
         precio: price,
@@ -111,11 +103,6 @@ const AddProductModal = ({ isOpen, onClose, fetchProducts }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // if (!product.image.url) {
-    //   alert('Por favor, agrega una URL de imagen válida.');
-    //   return;
-    // }
-
     const productoAEnviar = {
       nombre: product.nombre,
       descripcion: product.descripcion,
@@ -127,7 +114,6 @@ const AddProductModal = ({ isOpen, onClose, fetchProducts }) => {
       image: { base64: product.image.base64 },
       destacado: false,
     };
-    console.log("Producto a enviar:", productoAEnviar);
 
     try {
       const response = await fetch('http://localhost:5000/api/productos', {
@@ -138,14 +124,12 @@ const AddProductModal = ({ isOpen, onClose, fetchProducts }) => {
         },
         body: JSON.stringify(productoAEnviar),
       });
-
       if (!response.ok) {
         const errorData = await response.json();
         console.error('Error en la respuesta del servidor:', errorData);
         alert(`Error al agregar el producto: ${errorData.message || 'Error desconocido'}`);
         return;
       }
-
       alert('Producto agregado con éxito');
       fetchProducts();
       onClose();
@@ -159,8 +143,8 @@ const AddProductModal = ({ isOpen, onClose, fetchProducts }) => {
 
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-      <div className="bg-white p-6 rounded-lg shadow-lg w-full sm:w-3/4 md:w-1/2 lg:w-1/3 text-black">
-        <h2 className="text-xl mb-4">Agregar Producto</h2>
+      <div className="w-full p-6 text-black bg-white rounded-lg shadow-lg sm:w-3/4 md:w-1/2 lg:w-1/3">
+        <h2 className="mb-4 text-xl">Agregar Producto</h2>
         <form onSubmit={handleSubmit}>
           <input
             type="text"
@@ -169,7 +153,7 @@ const AddProductModal = ({ isOpen, onClose, fetchProducts }) => {
             value={product.nombre}
             onChange={handleInputChange}
             required
-            className="border p-2 mb-4 w-full"
+            className="w-full p-2 mb-4 border"
           />
           <input
             type="text"
@@ -177,7 +161,7 @@ const AddProductModal = ({ isOpen, onClose, fetchProducts }) => {
             placeholder="Descripción"
             value={product.descripcion}
             onChange={handleInputChange}
-            className="border p-2 mb-4 w-full"
+            className="w-full p-2 mb-4 border"
           />
           <input
             type="text"
@@ -186,14 +170,14 @@ const AddProductModal = ({ isOpen, onClose, fetchProducts }) => {
             value={product.marca}
             onChange={handleInputChange}
             required
-            className="border p-2 mb-4 w-full"
+            className="w-full p-2 mb-4 border"
           />
           <select
             name="categoria"
             value={product.categoria}
             onChange={handleInputChange}
             required
-            className="border p-2 mb-4 w-full"
+            className="w-full p-2 mb-4 border"
           >
             <option value="">Seleccione una categoría</option>
             {categoriasDisponibles.map((categoria, index) => (
@@ -209,61 +193,58 @@ const AddProductModal = ({ isOpen, onClose, fetchProducts }) => {
             value={product.precio}
             onChange={handleInputChange}
             required
-            className="border p-2 mb-4 w-full"
+            className="w-full p-2 mb-4 border"
           />
-
-          {/* Input de archivo para la imagen */}
           <input
             type="file"
             accept="image/*"
             onChange={handleImageChange}
-            className="border p-2 mb-4 w-full"
+            className="w-full p-2 mb-4 border"
           />
-          
-          <div className="mb-4 flex flex-col sm:flex-row sm:space-x-2">
+          <div className="flex flex-col mb-4 sm:flex-row sm:space-x-2">
             <input
               type="text"
               value={tallaInput}
               onChange={(e) => setTallaInput(e.target.value)}
               placeholder="Agregar Talla"
-              className="border p-2 mb-2 sm:mb-0 w-full sm:w-1/4"
+              className="w-full p-2 mb-2 border sm:mb-0 sm:w-1/4"
             />
             <input
               type="number"
               value={cantidadTalla}
               onChange={(e) => setCantidadTalla(e.target.value)}
               placeholder="Cantidad"
-              className="border p-2 mb-2 sm:mb-0 w-full sm:w-1/4"
+              className="w-full p-2 mb-2 border sm:mb-0 sm:w-1/4"
             />
-            <button type="button" onClick={handleAddTalla} className="bg-blue-500 text-white px-4 py-2 rounded mt-2 sm:mt-0">Agregar Talla</button>
+            <button type="button" onClick={handleAddTalla} className="px-4 py-2 mt-2 text-white bg-blue-500 rounded sm:mt-0">Agregar Talla</button>
           </div>
           <ul className="mb-4">
             {Object.entries(product.tallas).map(([talla, cantidad], index) => (
-              <li key={index} className="flex justify-between items-center">
+              <li key={index} className="flex items-center justify-between">
                 Talla {talla}: {cantidad} unidades
                 <button 
                   type="button" 
                   onClick={() => handleRemoveTalla(talla)} 
-                  className="bg-red-500 text-white px-4 py-2 rounded">
+                  className="px-4 py-2 text-white bg-red-500 rounded">
                     Eliminar
                 </button>
               </li>
             ))}
           </ul>
-          <div className="mb-4 flex flex-col sm:flex-row sm:space-x-2">
+          <div className="flex flex-col mb-4 sm:flex-row sm:space-x-2">
             <input
               type="text"
               value={colorInput}
               onChange={(e) => setColorInput(e.target.value)}
               placeholder="Agregar Color"
-              className="border p-2 mb-2 sm:mb-0 w-full sm:w-1/4"
+              className="w-full p-2 mb-2 border sm:mb-0 sm:w-1/4"
             />
-            <button type="button" onClick={handleAddColor} className="bg-blue-500 text-white px-4 py-2 rounded mt-2 sm:mt-0">Agregar Color</button>
+            <button type="button" onClick={handleAddColor} className="px-4 py-2 mt-2 text-white bg-blue-500 rounded sm:mt-0">Agregar Color</button>
           </div>
           <div className="mb-4">
             <h3>Colores:</h3>
             {product.colores.map((color, index) => (
-              <div key={index} className="flex justify-between items-center">
+              <div key={index} className="flex items-center justify-between">
                 {color.color}
                 <button 
                   type="button" 
@@ -271,15 +252,15 @@ const AddProductModal = ({ isOpen, onClose, fetchProducts }) => {
                     ...prev,
                     colores: prev.colores.filter((_, i) => i !== index)
                   }))} 
-                  className="bg-red-500 text-white px-4 py-2 rounded">
+                  className="px-4 py-2 text-white bg-red-500 rounded">
                     Eliminar
                 </button>
               </div>
             ))}
           </div>
           <div className="flex justify-end">
-            <button type="button" onClick={onClose} className="bg-red-500 text-white px-4 py-2 rounded mr-2">Cancelar</button>
-            <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded">Agregar Producto</button>
+            <button type="button" onClick={onClose} className="px-4 py-2 mr-2 text-white bg-red-500 rounded">Cancelar</button>
+            <button type="submit" className="px-4 py-2 text-white bg-blue-500 rounded">Agregar Producto</button>
           </div>
         </form>
       </div>

@@ -1,5 +1,3 @@
-// hooks/useAuth.js
-
 import { useEffect } from "react";
 import { useRouter } from "next/router";
 
@@ -9,7 +7,7 @@ export const useAuth = () => {
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (!token) {
-      router.push("/dashboard"); // Redirige a la página de login si no hay token
+      router.push("/dashboard");
     }
   }, [router]);
 };
