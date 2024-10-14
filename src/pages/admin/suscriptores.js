@@ -4,30 +4,25 @@ import { useState } from "react";
 
 export default function Suscriptores({ emails }) {
   const [currentPage, setCurrentPage] = useState(1);
-  const emailsPerPage = 39; // Cantidad de correos por página
-
-  // Calcular el índice de los emails para la paginación
+  const emailsPerPage = 39;
   const indexOfLastEmail = currentPage * emailsPerPage;
   const indexOfFirstEmail = indexOfLastEmail - emailsPerPage;
   const currentEmails = emails.slice(indexOfFirstEmail, indexOfLastEmail);
-
   const totalPages = Math.ceil(emails.length / emailsPerPage);
-
-  // Cambiar página
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
   };
 
   return (
-    <div className="container mx-auto p-4">
-      <h1 className="text-2xl font-bold mb-4">Lista de Suscriptores</h1>
-      <div className="bg-white shadow-md rounded-lg p-4">
+    <div className="container p-4 mx-auto">
+      <h1 className="mb-4 text-2xl font-bold">Lista de Suscriptores</h1>
+      <div className="p-4 bg-white rounded-lg shadow-md">
         {emails.length > 0 ? (
           <div className="grid grid-cols-3 gap-4">
             {currentEmails.map((email, index) => (
               <div
                 key={index}
-                className="py-2 px-4 bg-gray-100 rounded-lg shadow-sm text-gray-700"
+                className="px-4 py-2 text-gray-700 bg-gray-100 rounded-lg shadow-sm"
               >
                 {email}
               </div>
@@ -37,8 +32,6 @@ export default function Suscriptores({ emails }) {
           <p className="text-gray-500">No hay suscriptores.</p>
         )}
       </div>
-
-      {/* Paginación */}
       {emails.length > emailsPerPage && (
         <div className="flex justify-center mt-4 space-x-2">
           <button
@@ -85,14 +78,12 @@ export default function Suscriptores({ emails }) {
 export async function getStaticProps() {
   const filePath = path.join(process.cwd(), "suscriptores.json");
   let emails = [];
-
   try {
     const jsonData = fs.readFileSync(filePath, "utf-8");
     emails = JSON.parse(jsonData || "[]");
   } catch (error) {
     console.error("Error al leer el archivo:", error);
   }
-
   return {
     props: {
       emails,

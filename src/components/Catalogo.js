@@ -9,8 +9,6 @@ export default function Catalogo() {
   const [error, setError] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
   const productsPerPage = 20;
-
-  console.log(products);
   
   const fetchProducts = async () => {
     setLoading(true);
@@ -39,8 +37,8 @@ export default function Catalogo() {
   const currentProducts = filteredProducts.slice(indexOfFirstProduct, indexOfLastProduct);
 
   return (
-    <div className="container flex flex-col lg:flex-row py-10 mx-auto">
-      <aside className="w-full lg:w-1/4 mb-6 lg:mb-0">
+    <div className="container flex flex-col py-10 mx-auto lg:flex-row">
+      <aside className="w-full mb-6 lg:w-1/4 lg:mb-0">
         <Filter 
           products={products}
           setFilteredProducts={setFilteredProducts}

@@ -14,7 +14,6 @@ export default function Detail({ product }) {
     const whatsappUrl = `https://api.whatsapp.com/send?phone=3512591212&text=${encodeURIComponent(
       message
     )}`;
-
     window.open(whatsappUrl, "_blank");
   };
 
@@ -29,7 +28,6 @@ export default function Detail({ product }) {
 
   return (
     <div className="container py-10 mx-auto sm:flex sm:flex-col lg:flex-row lg:space-x-10">
-      {/* Imagen del producto */}
       <div className="px-2 mb-6 lg:w-1/2 sm:w-full lg:mb-0">
         <img
           src={product.image?.base64}
@@ -38,8 +36,7 @@ export default function Detail({ product }) {
         />
       </div>
 
-      {/* Detalles del producto */}
-      <div className="flex flex-col w-full p-2 space-y-4 lg:w-1/2"> {/* Padding ligero aquí */}
+      <div className="flex flex-col w-full p-2 space-y-4 lg:w-1/2">
         <h2 className="text-3xl font-bold text-gray-800 lg:text-4xl">{product.nombre}</h2>
         <div className="space-y-2 text-gray-800">
           <p className="text-lg font-semibold">{product.descripcion}</p>
@@ -47,7 +44,6 @@ export default function Detail({ product }) {
           <p className="text-lg text-gray-500">Aprox USD ${product.precio}</p>
         </div>
 
-        {/* Mensaje de disponibilidad */}
         <div className="relative">
           <button
             onClick={() => setShowTallas(!showTallas)}
@@ -69,7 +65,6 @@ export default function Detail({ product }) {
                   Talla {talla} {stock > 0 ? "(En stock)" : "(Sin stock)"}
                 </button>
               ))}
-              {/* Campo para ingresar talla personalizada */}
               <div className="flex items-center justify-between px-4 py-2 space-x-4">
                 <input
                   type="text"
@@ -93,7 +88,6 @@ export default function Detail({ product }) {
           )}
         </div>
 
-        {/* Mensaje de disponibilidad */}
         <div className="text-sm text-gray-600">
           {Object.entries(product.tallas).some(([_, stock]) => stock > 0) ? (
             <span className="text-green-500">Entrega inmediata</span>
@@ -102,12 +96,11 @@ export default function Detail({ product }) {
           )}
         </div>
 
-        {/* Mensaje de talla seleccionada */}
         {selectedTalla && (
           <div className="mt-2 text-sm text-gray-600">
             Has seleccionado la talla: <span className="font-bold">{selectedTalla}</span>
             <button
-              onClick={() => setSelectedTalla(null)} // Limpiar la talla seleccionada
+              onClick={() => setSelectedTalla(null)}
               className="ml-2 text-sm text-red-500 hover:underline"
             >
               Deseleccionar
@@ -132,7 +125,7 @@ export default function Detail({ product }) {
           <button
             className={`flex items-center justify-center w-full px-4 py-2 text-white bg-green-500 border border-gray-400 rounded-md hover:bg-green-600`}
             onClick={handleCompraClick}
-            disabled={!selectedTalla && !customTalla} // Deshabilita el botón si no hay talla seleccionada ni personalizada
+            disabled={!selectedTalla && !customTalla}
           >
             {selectedTalla ? "Comprar" : "Consultar stock"}
           </button>

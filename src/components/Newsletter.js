@@ -4,10 +4,8 @@ import WhatsButton from "./Whatsbutton";
 export default function Newsletter() {
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
-
   const handleSubscribe = async (e) => {
     e.preventDefault();
-
     const response = await fetch("http://localhost:3000/api/suscribirse", {
       method: "POST",
       headers: {
@@ -15,7 +13,6 @@ export default function Newsletter() {
       },
       body: JSON.stringify({ email }),
     });
-
     if (response.ok) {
       setMessage("¡Gracias por suscribirte!");
       setEmail("");
@@ -26,9 +23,7 @@ export default function Newsletter() {
 
   return (
     <div className="container p-6 mx-auto mt-10 bg-white rounded-lg shadow-md">
-      {/* Contenedor ajustado para dispositivos móviles */}
       <div className="flex flex-col items-center md:flex-row md:justify-between md:items-center md:space-y-0">
-        {/* Formulario de Newsletter */}
         <div className="w-full md:w-1/2">
           <h1 className="mb-4 text-lg font-bold text-left">
             Suscríbete a nuestra Newsletter
@@ -51,8 +46,6 @@ export default function Newsletter() {
           </form>
           {message && <p className="mt-2 text-left text-gray-700">{message}</p>}
         </div>
-
-        {/* Botón de WhatsApp ajustado para móviles */}
         <div className="w-full md:w-1/4">
           <WhatsButton />
         </div>
