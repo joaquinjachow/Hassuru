@@ -32,7 +32,7 @@ export default function Detail({ product }) {
         <img
           src={product.image?.base64}
           alt={product.nombre}
-          className="object-contain w-full h-auto"
+          className="object-contain w-full h-auto max-h-[700px]"
         />
       </div>
 
