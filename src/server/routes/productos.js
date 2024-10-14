@@ -77,7 +77,7 @@ router.post('/', authMiddleware, async (req, res) => {
   }
 });
 
-router.put('/:id', async (req, res) => {
+router.put('/:id', authMiddleware, async (req, res) => {
   try {
     const productoActualizado = await Producto.findByIdAndUpdate(req.params.id, req.body, { new: true });
     if (!productoActualizado) {
@@ -89,7 +89,7 @@ router.put('/:id', async (req, res) => {
   }
 });
 
-router.delete('/:id', async (req, res) => {
+router.delete('/:id', authMiddleware, async (req, res) => {
   try {
     const productoEliminado = await Producto.findByIdAndDelete(req.params.id);
     if (!productoEliminado) {

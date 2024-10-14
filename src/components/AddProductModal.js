@@ -16,26 +16,12 @@ const AddProductModal = ({ isOpen, onClose, fetchProducts }) => {
   const [tallaInput, setTallaInput] = useState('');
   const [cantidadTalla, setCantidadTalla] = useState('');
   const [colorInput, setColorInput] = useState('');
-  const [dolarBlue, setDolarBlue] = useState(null);
 
   const categoriasDisponibles = [
     'ropa',
     'zapatillas',
     'accesorios',
   ];
-
-  useEffect(() => {
-    const fetchDolarBlue = async () => {
-      try {
-        const response = await fetch("https://dolarapi.com/v1/dolares/blue");
-        const data = await response.json();
-        setDolarBlue(data?.venta);
-      } catch (error) {
-        console.error("Error al obtener el precio del dólar blue:", error);
-      }
-    };
-    fetchDolarBlue();
-  }, []);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
