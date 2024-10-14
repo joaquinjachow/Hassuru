@@ -10,7 +10,7 @@ export default function Footer() {
   };
 
   return (
-    <footer className="p-4 text-black bg-white shadow-md border-t-2 border-black">
+    <footer className="p-4 text-black bg-white border-t-2 border-black shadow-md">
       <div className="container flex flex-col items-center justify-between mx-auto space-y-4 rounded-sm md:flex-row md:space-y-0">
         <div className="flex space-x-6">
           <Link href="https://www.instagram.com/hassuru" aria-label="Instagram">
@@ -20,15 +20,11 @@ export default function Footer() {
             <FaTiktok className="w-6 h-6 hover:text-gray-500" />
           </Link>
         </div>
-
-        {/* Información de contacto */}
         <div className="text-sm text-center md:text-right">
           <p className='mt-4'>Email: hassuru.ar@gmail.com</p>
           <button className='text-green-700' onClick={handleSubmit}>Tel: 351 259 1212</button>
         </div>
       </div>
-
-      {/* Derechos reservados */}
       <div className="pb-4 mt-4 text-sm text-center">
         &copy; 2024 @Hassuru. Todos los derechos reservados.
       </div>

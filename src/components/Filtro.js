@@ -21,14 +21,12 @@ export default function Filter({ products, setFilteredProducts }) {
         Object.keys(product.tallas).forEach((talla) => tallasZapatillaSet.add(talla));
       }
     });
-
     setTallasRopa(Array.from(tallasRopaSet));
     setTallasZapatilla(Array.from(tallasZapatillaSet));
   }, [products]);
 
   useEffect(() => {
     let filtered = products;
-
     if (selectedTallaRopa) {
       filtered = filtered.filter(
         (product) =>
@@ -36,32 +34,27 @@ export default function Filter({ products, setFilteredProducts }) {
           product.tallas[selectedTallaRopa] !== undefined
       );
     }
-
     if (selectedTallaZapatilla) {
       filtered = filtered.filter(
         (product) =>
           product.categoria === "zapatillas" && product.tallas[selectedTallaZapatilla]
       );
     }
-
     if (stockOnly) {
       filtered = filtered.filter((product) =>
         Object.values(product.tallas).some((stock) => stock > 0)
       );
     }
-
     if (availableIn15Days) {
       filtered = filtered.filter((product) =>
         Object.values(product.tallas).every((stock) => stock <= 0)
       );
     }
-
     setFilteredProducts(filtered);
   }, [selectedTallaRopa, selectedTallaZapatilla, stockOnly, availableIn15Days, products]);
 
   const handleSearch = () => {
     let filtered = products;
-
     if (precioMin || precioMax) {
       filtered = filtered.filter((product) => {
         const precio = product.precio;
@@ -75,7 +68,6 @@ export default function Filter({ products, setFilteredProducts }) {
         return true;
       });
     }
-
     setFilteredProducts(filtered);
   };
 
@@ -93,7 +85,6 @@ export default function Filter({ products, setFilteredProducts }) {
     <main className="px-4 font-semibold md:px-12">
       <div className="mb-4">
         <h3 className="mb-3 text-xl font-semibold">Filtros</h3>
-
         <div className="mb-4">
           {selectedTallaRopa && (
             <div className="flex items-center mb-2">
@@ -103,7 +94,6 @@ export default function Filter({ products, setFilteredProducts }) {
               </button>
             </div>
           )}
-
           {selectedTallaZapatilla && (
             <div className="flex items-center mb-2">
               <span className="mr-2">Talla de Zapatillas: {selectedTallaZapatilla}</span>
@@ -112,7 +102,6 @@ export default function Filter({ products, setFilteredProducts }) {
               </button>
             </div>
           )}
-
           {stockOnly && (
             <div className="flex items-center mb-2">
               <span className="mr-2">Solo en stock</span>
@@ -121,7 +110,6 @@ export default function Filter({ products, setFilteredProducts }) {
               </button>
             </div>
           )}
-
           {availableIn15Days && (
             <div className="flex items-center mb-2">
               <span className="mr-2">Disponible en 15 días</span>
@@ -131,7 +119,6 @@ export default function Filter({ products, setFilteredProducts }) {
             </div>
           )}
         </div>
-
         {tallasRopa.length > 0 && (
           <div className="mb-4">
             <label className="block mb-1 font-medium">Talla de Ropa</label>
@@ -149,8 +136,6 @@ export default function Filter({ products, setFilteredProducts }) {
             </select>
           </div>
         )}
-
-        {/* Mostrar solo si hay tallas de zapatillas */}
         {tallasZapatilla.length > 0 && (
           <div className="mb-4">
             <label className="block mb-1 font-medium">Talla de Zapatillas</label>
@@ -168,7 +153,6 @@ export default function Filter({ products, setFilteredProducts }) {
             </select>
           </div>
         )}
-
         <div className="mb-4">
           <label className="block mb-1 font-medium">Precio mínimo (USD)</label>
           <input
@@ -179,7 +163,6 @@ export default function Filter({ products, setFilteredProducts }) {
             placeholder="Ej: 50"
           />
         </div>
-
         <div className="mb-4">
           <label className="block mb-1 font-medium">Precio máximo (USD)</label>
           <input
@@ -190,15 +173,12 @@ export default function Filter({ products, setFilteredProducts }) {
             placeholder="Ej: 100"
           />
         </div>
-
         <button onClick={handleSearch} className="w-full p-2 text-white bg-red-500 rounded">
           Buscar
         </button>
-
         <button onClick={resetFilters} className="w-full p-2 mt-2 text-white bg-black rounded">
           Resetear Filtros
         </button>
-
         <div className="flex gap-2 mt-4">
           <button
             onClick={() => {

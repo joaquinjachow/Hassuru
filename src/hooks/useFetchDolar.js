@@ -28,7 +28,6 @@ const useFetchDolar = () => {
         }
       }
     };
-
     fetchDolarBlue();
 
     return () => {
