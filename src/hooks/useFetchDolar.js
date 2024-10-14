@@ -17,7 +17,6 @@ const useFetchDolar = () => {
         setLoading(false);
       }
     };
-
     fetchDolarBlue();
   }, []);
 
