@@ -5,10 +5,10 @@ import Link from "next/link";
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const navigation = [
-    { name: "ZAPATILLAS", href: "/productos/categoria/zapatillas" },
-    { name: "ROPA", href: "/productos/categoria/ropa" },
-    { name: "ACCESORIOS", href: "/productos/categoria/accesorios" },
-    { name: "ENCARGOS", href: "/encargos" },
+    { name: "Zapatillas", href: "/productos/categoria/zapatillas" },
+    { name: "Ropa", href: "/productos/categoria/ropa" },
+    { name: "Accesorios", href: "/productos/categoria/accesorios" },
+    { name: "Encargos", href: "/encargos" },
   ];
   const toggleMenu = () => {
     setIsOpen(!isOpen);
