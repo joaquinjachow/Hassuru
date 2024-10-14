@@ -262,7 +262,13 @@ const ProductRow = ({
                   type="number" 
                   value={cantidad} 
                   onChange={(e) => handleTallaChange(e, talla)} 
-                  className="w-full p-1 mb-2 mr-2 border sm:w-1/3 sm:mb-0" 
+                  className="w-full p-1 mb-2 mr-2 border sm:w-1/3 sm:mb-0"
+                  min="0"
+                  onBlur={(e) => {
+                    if (e.target.value < 0) {
+                      e.target.value = 0;
+                    }
+                  }}
                 />
                 <button 
                   onClick={() => handleDeleteTalla(talla)} 
@@ -285,7 +291,13 @@ const ProductRow = ({
                 value={newStock} 
                 onChange={(e) => setNewStock(e.target.value)} 
                 placeholder="Stock" 
-                className="w-full p-1 border sm:w-1/3" 
+                className="w-full p-1 border sm:w-1/3"
+                min="0"
+                onBlur={(e) => {
+                  if (e.target.value < 0) {
+                    setNewStock(0);
+                  }
+                }} 
               />
               <button 
                 onClick={handleAddTalla} 
