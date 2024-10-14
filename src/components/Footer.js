@@ -10,7 +10,7 @@ export default function Footer() {
   };
 
   return (
-    <footer className="p-4 text-black bg-white border-t-2 border-black shadow-md">
+    <footer className="p-1 text-black bg-white border-t-2 border-black shadow-md">
       <div className="container flex flex-col items-center justify-between mx-auto space-y-4 rounded-sm md:flex-row md:space-y-0">
         <div className="flex space-x-6">
           <Link href="https://www.instagram.com/hassuru" aria-label="Instagram">
