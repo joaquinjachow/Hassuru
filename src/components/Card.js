@@ -23,8 +23,8 @@ export default function Card({ currentProducts }) {
                 <img
                   src={product.image?.base64}
                   alt={product.nombre}
-                  className="object-contain w-full mb-3"
-                />
+                  className="object-cover w-full mb-3 h-80"
+                  />
                 <h3 className="text-lg font-semibold">{product.nombre}</h3>
                 <div className="flex flex-col mt-2">
                   <p className="text-lg font-bold text-gray-800">${product.precio} USD</p>
