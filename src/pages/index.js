@@ -71,19 +71,19 @@ export default function Home() {
           src="https://www.tiktok.com/embed/7420249638982274310"
           width="100%"
           height="750"
-          allow="autoplay; encrypted-media"
+          allow="encrypted-media"
         ></iframe>
         <iframe
           src="https://www.tiktok.com/embed/7368541174270840069"
           width="100%"
           height="750"
-          allow="autoplay; encrypted-media"
+          allow="encrypted-media"
         ></iframe>
         <iframe
           src="https://www.tiktok.com/embed/7370028703503387909"
           width="100%"
           height="750"
-          allow="autoplay; encrypted-media"
+          allow="encrypted-media"
         ></iframe>
       </div>
       <div className="mb-4">
