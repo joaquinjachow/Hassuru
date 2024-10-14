@@ -41,7 +41,7 @@ export default function Detail({ product }) {
         <div className="space-y-2 text-gray-800">
           <p className="text-lg font-semibold">{product.descripcion}</p>
           <p className="text-2xl font-bold">{(product.precio * dolarBlue).toFixed(2)} ARS</p>
-          <p className="text-lg text-gray-500">Aprox USD ${product.precio}</p>
+          <p className="text-lg text-gray-500">${product.precio} USD</p>
         </div>
 
         <div className="relative">
