@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import useFetchDolar from '../hooks/useFetchDolar';
 
 const AddProductModal = ({ isOpen, onClose, fetchProducts }) => {
   const [product, setProduct] = useState({
@@ -18,30 +17,11 @@ const AddProductModal = ({ isOpen, onClose, fetchProducts }) => {
   const [cantidadTalla, setCantidadTalla] = useState('');
   const [colorInput, setColorInput] = useState('');
 
-  const [dolarBlue, setDolarBlue] = useState(null); // Estado para el precio del dólar blue
-
   const categoriasDisponibles = [
     'ropa',
     'zapatillas',
     'accesorios',
   ];
-
-  // Obtener el precio del dólar blue al cargar el componente
-  useEffect(() => {
-    const fetchDolarBlue = async () => {
-      try {
-        const response = await fetch("https://dolarapi.com/v1/dolares/blue");
-        const data = await response.json();
-        console.log(data);
-        console.log("Datos del Dólar Blue:", data?.venta);
-        setDolarBlue(data?.venta);
-      } catch (error) {
-        console.error("Error al obtener el precio del dólar blue:", error);
-      }
-    };
-
-    fetchDolarBlue();
-  }, []);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
