@@ -1,12 +1,8 @@
-// routes/productos.js
 const authMiddleware = require('../middlewares/authMiddleware');
-
 const express = require('express');
 const Producto = require('../models/Producto');
-
 const router = express.Router();
 
-// Ruta para obtener todos los productos
 router.get('/', async (req, res) => {
   try {
     const productos = await Producto.find();
@@ -16,7 +12,6 @@ router.get('/', async (req, res) => {
   }
 });
 
-// Ruta para obtener un producto por ID
 router.get('/:id', async (req, res) => {
   try {
     const producto = await Producto.findById(req.params.id);
@@ -29,24 +24,16 @@ router.get('/:id', async (req, res) => {
   }
 });
 
-
-// Ruta para filtrar productos por nombre usando params
 router.get('/nombre/:nombre', async (req, res) => {
   try {
     const { nombre } = req.params;
-
-    // Validación: Verifica si el nombre está vacío o solo contiene espacios
     if (!nombre || nombre.trim() === '') {
       return res.status(400).json({ error: 'Debes proporcionar un nombre para filtrar.' });
     }
-
-    // Validación: Verifica si el nombre contiene caracteres no permitidos
-    const caracteresNoPermitidos = /[^a-zA-Z0-9 áéíóúñÑ]/; // Solo permite letras, números y algunos caracteres
+    const caracteresNoPermitidos = /[^a-zA-Z0-9 áéíóúñÑ]/;
     if (caracteresNoPermitidos.test(nombre)) {
       return res.status(400).json({ error: 'El nombre contiene caracteres no permitidos.' });
     }
-
-    // Filtra los productos que contengan el nombre proporcionado, insensible a mayúsculas
     const productosFiltrados = await Producto.find({
       nombre: { $regex: new RegExp(nombre, 'i') }
     });
@@ -58,21 +45,14 @@ router.get('/nombre/:nombre', async (req, res) => {
   }
 });
 
-
-
-// Ruta para filtrar productos por categoría
 router.get('/categoria/:categoria', async (req, res) => {
   try {
-    const { categoria } = req.params; // Obtén la categoría desde los parámetros
-
-    // Lista de categorías válidas
+    const { categoria } = req.params;
     const categoriasValidas = ['zapatillas', 'ropa', 'accesorios'];
     const categoriaLower = categoria ? categoria.toLowerCase() : null;
-
-    // Verifica que la categoría proporcionada sea válida
     if (categoriaLower && categoriasValidas.includes(categoriaLower)) {
       const productosFiltrados = await Producto.find({
-        categoria: { $regex: new RegExp(categoria, 'i') } // Insensibilidad a mayúsculas
+        categoria: { $regex: new RegExp(categoria, 'i') }
       });
       return res.status(200).json(productosFiltrados);
     } else {
@@ -84,24 +64,19 @@ router.get('/categoria/:categoria', async (req, res) => {
   }
 });
 
-// Ruta para agregar un producto
 router.post('/', authMiddleware, async (req, res) => {
   try {
-    // Asegúrate de que 'tallas' sea un objeto y no un array
     if (typeof req.body.tallas !== 'object' || Array.isArray(req.body.tallas)) {
       return res.status(400).json({ error: 'El campo tallas debe ser un objeto con tallas y su stock' });
     }
-
     const nuevoProducto = new Producto(req.body);
     const productoGuardado = await nuevoProducto.save();
-
     res.status(201).json(productoGuardado);
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
 });
 
-// Ruta para actualizar un producto
 router.put('/:id', async (req, res) => {
   try {
     const productoActualizado = await Producto.findByIdAndUpdate(req.params.id, req.body, { new: true });
@@ -114,7 +89,6 @@ router.put('/:id', async (req, res) => {
   }
 });
 
-// Ruta para eliminar un producto
 router.delete('/:id', async (req, res) => {
   try {
     const productoEliminado = await Producto.findByIdAndDelete(req.params.id);

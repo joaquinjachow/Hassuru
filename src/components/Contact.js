@@ -7,7 +7,7 @@ export default function Contact() {
         prenda: "",
         talle: "",
         contacto: "",
-        url: "",  // URL opcional
+        url: "",
     });
 
     const handleInputChange = (e) => {
@@ -15,15 +15,9 @@ export default function Contact() {
         setFormData({ ...formData, [name]: value });
     };
 
-    const handleFileChange = (e) => {
-        setFormData({ ...formData, foto: e.target.files[0] });
-    };
-
     const handleSubmit = (e) => {
         e.preventDefault();
-
         const { nombre, apellido, prenda, talle, contacto, url, foto } = formData;
-        // Condicionalmente agregar URL y Foto si existen
         const mensaje = `Hola, me gustaría encargar lo siguiente:
         - Nombre: ${nombre}
         - Apellido: ${apellido}
@@ -31,11 +25,9 @@ export default function Contact() {
         - Talle: ${talle}
         - Número de contacto: ${contacto}
         ${url ? `- URL de referencia: ${url}` : ""}`
-
         const whatsappUrl = `https://api.whatsapp.com/send?phone=3512591212&text=${encodeURIComponent(mensaje)}`;
         window.open(whatsappUrl, "_blank");
     };
-
     const inputStyle = "p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#9F1E40]";
 
     return (
@@ -83,7 +75,6 @@ export default function Contact() {
                         onChange={handleInputChange}
                         className={inputStyle}
                     />
-                    {/* Campo opcional para URL */}
                     <input
                         type="url"
                         name="url"

@@ -10,7 +10,6 @@ export default function Categoria() {
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [productsPerPage] = useState(20);
-
   const router = useRouter();
   const { categoria } = router.query;
 
@@ -18,7 +17,6 @@ export default function Categoria() {
     setLoading(true);
     setError(null);
     try {
-      // Aquí utilizas la categoría como parte de la URL para filtrar productos
       const response = await fetch(`http://localhost:5000/api/productos/categoria/${categoria}`);
       if (!response.ok) {
         throw new Error("Error al cargar los productos");
@@ -42,7 +40,6 @@ export default function Categoria() {
   const indexOfLastProduct = currentPage * productsPerPage;
   const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
   const currentProducts = filteredProducts.slice(indexOfFirstProduct, indexOfLastProduct);
-  
   const totalPages = Math.ceil(filteredProducts.length / productsPerPage);
 
   return (
@@ -63,8 +60,6 @@ export default function Categoria() {
     ) : (
       <Card currentProducts={currentProducts} />
     )}
-    
-    {/* Paginado debajo de los productos */}
     <div className="flex justify-center mt-6">
       {Array.from({ length: totalPages }, (_, index) => (
         <button

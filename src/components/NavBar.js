@@ -4,14 +4,12 @@ import Link from "next/link";
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
-
   const navigation = [
     { name: "ZAPATILLAS", href: "/productos/categoria/zapatillas" },
     { name: "ROPA", href: "/productos/categoria/ropa" },
     { name: "ACCESORIOS", href: "/productos/categoria/accesorios" },
     { name: "ENCARGOS", href: "/encargos" },
   ];
-
   const toggleMenu = () => {
     setIsOpen(!isOpen);
   };
@@ -19,7 +17,6 @@ export default function Navbar() {
   return (
     <nav className="relative p-8 bg-white shadow-md">
       <div className="container flex items-center mx-auto">
-        {/* Espacio flexible a la izquierda para menú en desktop */}
         <div className="justify-start flex-grow hidden xl:flex xl:items-center xl:space-x-6">
           <ul className="flex flex-row space-x-6">
             {navigation.map((menu, index) => (
@@ -34,15 +31,11 @@ export default function Navbar() {
             ))}
           </ul>
         </div>
-
-        {/* Logo visible en todas las pantallas */}
         <div className="absolute transform -translate-x-1/2 left-[50.5%]">
           <Link href="/">
             <Image src="/logo.png" alt="Logo" width={100} height={100} />
           </Link>
         </div>
-
-        {/* Hamburguesa visible solo en mobile */}
         <button
           onClick={toggleMenu}
           className="text-black focus:outline-none xl:hidden"
@@ -63,8 +56,6 @@ export default function Navbar() {
           </svg>
         </button>
       </div>
-
-      {/* Menú desplegable en mobile, debajo del logo */}
       {isOpen && (
         <div className="mt-8 xl:hidden">
           <ul className="space-y-4">
