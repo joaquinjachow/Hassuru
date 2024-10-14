@@ -66,7 +66,7 @@ export default function Home() {
       <div className="mt-8 mb-10">
         <Carousell products={zapatillas} title={"Zapatillas"} />
       </div>
-      <div className="container grid grid-cols-1 gap-4 px-24 mx-auto mt-8 md:grid-cols-3">
+      <div className="container grid grid-cols-1 gap-4 px-2 mx-auto mt-8 lg:px-24 md:grid-cols-3">
         <iframe
           src="https://www.tiktok.com/embed/7420249638982274310"
           width="100%"
