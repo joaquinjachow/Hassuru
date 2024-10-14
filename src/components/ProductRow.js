@@ -19,7 +19,8 @@ const ProductRow = ({
   const [newStock, setNewStock] = useState(0);  // Para el stock de la nueva talla
   const [newColor, setNewColor] = useState(""); // Para el nuevo color
   const { dolarBlue, loading, error } = useFetchDolar();
-
+  
+  const [newImage, setNewImage] = useState(null);
 
 
   // Función para actualizar las tallas
@@ -104,7 +105,7 @@ const ProductRow = ({
     }
   };
 
- const handleProductDelete = async (id) => {
+  const handleProductDelete = async (id) => {
     const confirmDelete = window.confirm("¿Estás seguro que quieres eliminar este producto?");
     if (confirmDelete) {
       const response = await fetch(`http://localhost:5000/api/productos/${id}`, {
@@ -149,6 +150,26 @@ const ProductRow = ({
     setEditableProducts(updatedProducts);
     console.log(`Productos actualizados:`, updatedProducts);
   };
+
+  // Maneja la selección de una nueva imagen
+  const handleImageChange = (e) => {
+    const file = e.target.files[0]; // Obtiene el archivo seleccionado
+    const reader = new FileReader();
+    
+    reader.onloadend = () => {
+      const updatedProducts = [...editableProducts];
+      updatedProducts[index].image = { base64: reader.result }; // Actualiza la imagen en base64
+      setEditableProducts(updatedProducts);
+      setNewImage(file); // Almacena el archivo seleccionado si es necesario para el backend
+    };
+
+    if (file) {
+      reader.readAsDataURL(file); // Convierte la imagen a base64
+    }
+  };
+
+
+
 
   // Función para manejar el cambio de estado de "destacado"
   const handleDestacadoChange = (e) => {
@@ -366,11 +387,35 @@ const ProductRow = ({
           </div>
         )}
       </td>
+
+      
       <td className="border px-4 py-2">
+        {producto.image?.base64 && (
+          <img
+            src={producto.image.base64}
+            alt={producto.nombre}
+            className="w-16 h-16 object-cover"
+          />
+        )}
+        {selectedProduct === producto._id && (
+          <div>
+            <input
+              type="file"
+              accept="image/*"
+              onChange={handleImageChange} // Maneja el cambio de imagen
+              className="border p-1 w-full mt-2"
+            />
+          </div>
+        )}
+      </td>
+
+
+
+      {/* <td className="border px-4 py-2">
         {producto.image?.base64 && (
           <img src={producto.image.base64} alt={producto.nombre} className="w-16 h-16 object-cover" />
         )}
-      </td>
+      </td> */}
 
       {/* Switch para destacado */}
       <td className="border px-2 py-2">

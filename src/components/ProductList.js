@@ -72,7 +72,8 @@ const ProductList = ({ editableProducts, setEditableProducts, selectedProduct, s
           onClick={handleRemoveFilters} 
           className="bg-red-500 text-white rounded p-2 w-full sm:w-auto text-center"
         >
-          <MdFilterAltOff className="mr-1 hidden sm:inline-block" /> Remover Filtros
+          <MdFilterAltOff className="mr-1 inline-block" /> 
+          <span className="hidden md:inline-block">Remover Filtros</span>
         </button>
 
         {/* Cotización del Dólar */}
