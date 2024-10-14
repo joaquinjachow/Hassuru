@@ -10,7 +10,9 @@ const AddProductModal = ({ isOpen, onClose, fetchProducts }) => {
     tallas: {},
     colores: [],
     image: { base64: '' },
+    encargo: false,
     destacado: false,
+    destacado_zapatillas: false,
   });
 
   const [tallaInput, setTallaInput] = useState('');
@@ -24,7 +26,10 @@ const AddProductModal = ({ isOpen, onClose, fetchProducts }) => {
   ];
 
   const handleInputChange = (e) => {
-    const { name, value } = e.target;
+    const { name, value, type, checked } = e.target;
+
+    const newValue = type === 'checkbox' ? checked : value;
+  
     if (name === 'precio') {
       const price = value ? parseFloat(value) : '';
       setProduct((prev) => ({
@@ -34,7 +39,7 @@ const AddProductModal = ({ isOpen, onClose, fetchProducts }) => {
     } else {
       setProduct((prev) => ({
         ...prev,
-        [name]: value,
+        [name]: newValue,
       }));
     }
   };
@@ -98,7 +103,9 @@ const AddProductModal = ({ isOpen, onClose, fetchProducts }) => {
       tallas: product.tallas,
       colores: product.colores,
       image: { base64: product.image.base64 },
-      destacado: false,
+      destacado: product.destacado,
+      encargo: product.encargo,
+      destacado_zapatillas: product.destacado_zapatillas,
     };
 
     try {
@@ -227,6 +234,7 @@ const AddProductModal = ({ isOpen, onClose, fetchProducts }) => {
             />
             <button type="button" onClick={handleAddColor} className="px-4 py-2 mt-2 text-white bg-blue-500 rounded sm:mt-0">Agregar Color</button>
           </div>
+          
           <div className="mb-4">
             <h3>Colores:</h3>
             {product.colores.map((color, index) => (
@@ -244,6 +252,49 @@ const AddProductModal = ({ isOpen, onClose, fetchProducts }) => {
               </div>
             ))}
           </div>
+
+          <div className="mb-4">
+            <div className="flex items-center mb-2">
+              <input
+                type="checkbox"
+                name="encargo"
+                checked={product.encargo}
+                onChange={handleInputChange}
+                className="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
+              />
+              <label htmlFor="encargo" className="ml-2 text-sm font-medium text-gray-900">
+                Encargo
+              </label>
+            </div>
+
+            <div className="flex items-center mb-2">
+              <input
+                type="checkbox"
+                name="destacado"
+                checked={product.destacado}
+                onChange={handleInputChange}
+                className="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
+              />
+              <label htmlFor="destacado" className="ml-2 text-sm font-medium text-gray-900">
+                Destacado
+              </label>
+            </div>
+
+            <div className="flex items-center mb-2">
+              <input
+                type="checkbox"
+                name="destacado_zapatillas"
+                checked={product.destacado_zapatillas}
+                onChange={handleInputChange}
+                className="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
+              />
+              <label htmlFor="destacado_zapatillas" className="ml-2 text-sm font-medium text-gray-900">
+                Destacado Zapatillas
+              </label>
+            </div>
+          </div>
+
+
           <div className="flex justify-end">
             <button type="button" onClick={onClose} className="px-4 py-2 mr-2 text-white bg-red-500 rounded">Cancelar</button>
             <button type="submit" className="px-4 py-2 text-white bg-blue-500 rounded">Agregar Producto</button>
