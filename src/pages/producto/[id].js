@@ -1,28 +1,20 @@
 import React, { useState, useEffect } from "react";
 import Detail from "@/components/Detail";
 import { useRouter } from "next/router";
+import useStore from "@/store/store";
 
 export default function DetailPage() {
+    const { fetchProductById, product, loading, error } = useStore();
     const router = useRouter();
     const { id } = router.query;
-    const [product, setProduct] = useState(null);
 
     useEffect(() => {
         if (id) {
-            const fetchProduct = async () => {
-                const response = await fetch(`http://localhost:5000/api/productos/${id}`);
-                if (response.ok) {
-                    const data = await response.json();
-                    setProduct(data);
-                } else {
-                    console.error('Error al obtener el producto');
-                }
-            };
-            fetchProduct();
+            fetchProductById(id);
         }
-    }, [id]);
+    }, [id, fetchProductById]);
 
-    if (!product) return <div>Cargando...</div>
+    if (!product) return <div>No se encontró el producto.</div>;
 
     return (
         <div>

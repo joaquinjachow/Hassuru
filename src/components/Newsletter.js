@@ -1,26 +1,18 @@
 import React, { useState } from "react";
 import WhatsButton from "./Whatsbutton";
+import useStore from "@/store/store";
 
 export default function Newsletter() {
+  const { handleSubscribe } = useStore();
+
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
-  const handleSubscribe = async (e) => {
-    e.preventDefault();
-    const response = await fetch("http://localhost:3000/api/suscribirse", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ email }),
-    });
-    if (response.ok) {
-      setMessage("¡Gracias por suscribirte!");
-      setEmail("");
-    } else {
-      setMessage("Error al suscribirte. Intenta nuevamente.");
-    }
-  };
 
+  const onSubmit = (e) => {
+    e.preventDefault();
+    handleSubscribe(email);
+    setEmail("");
+  };
   return (
     <div className="container p-6 mx-auto mt-10 bg-white rounded-lg shadow-md">
       <div className="flex flex-col items-center md:flex-row md:justify-between md:items-center md:space-y-0">
@@ -28,7 +20,7 @@ export default function Newsletter() {
           <h1 className="mb-4 text-lg font-bold text-left">
             Suscríbete a nuestra Newsletter
           </h1>
-          <form onSubmit={handleSubscribe} className="flex flex-col md:flex-row">
+          <form onSubmit={onSubmit} className="flex flex-col md:flex-row">
             <input
               type="email"
               value={email}
