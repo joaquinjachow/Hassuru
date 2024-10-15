@@ -9,11 +9,16 @@ export default function Card({ currentProducts }) {
     fetchDolarBlue();
   }, [fetchDolarBlue]);
 
+
   const getDisponibilidad = (product) => {
-    if (product.tallas && Object.keys(product.tallas).length > 0) {
+    const hasTallas = product.tallas && Object.keys(product.tallas).length > 0;
+
+    if (hasTallas) {
       return { message: "Entrega inmediata", color: "text-green-500" };
-    } else {
+    } else if (product.encargo) {
       return { message: "Disponible en 15 días", color: "text-red-500" };
+    } else {
+      return { message: "Disponible en 3 días", color: "text-yellow-500" };
     }
   };
 
@@ -33,7 +38,9 @@ export default function Card({ currentProducts }) {
                 <h3 className="text-lg font-semibold">{product.nombre}</h3>
                 <div className="flex flex-col mt-2">
                   <p className="text-lg font-bold text-gray-800">${product.precio} USD</p>
-                  <p className="text-lg font-bold text-gray-800">{(product.precio * dolarBlue).toFixed(2)} ARS</p>
+                  <p className="text-lg font-bold text-gray-800">
+                    {(product.precio * dolarBlue).toFixed(2)} ARS
+                  </p>
                   <span className={disponibilidad.color}>{disponibilidad.message}</span>
                 </div>
               </div>
