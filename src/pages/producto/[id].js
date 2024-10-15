@@ -4,7 +4,7 @@ import { useRouter } from "next/router";
 import useStore from "@/store/store";
 
 export default function DetailPage() {
-    const { fetchProductById, product, loading, error } = useStore();
+    const { fetchProductById, product } = useStore();
     const router = useRouter();
     const { id } = router.query;
 
