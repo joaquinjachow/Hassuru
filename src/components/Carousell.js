@@ -4,6 +4,7 @@ import Link from "next/link";
 
 export default function Carousell({ title, products }) {
   const carouselRef = useRef(null);
+
   useEffect(() => {
     const interval = setInterval(() => {
       carouselRef.current.scrollBy({

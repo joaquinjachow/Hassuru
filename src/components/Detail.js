@@ -1,11 +1,15 @@
-import React, { useState } from "react";
-import useFetchDolar from "@/hooks/useFetchDolar";
+import React, { useState, useEffect } from "react";
+import useStore from "@/store/store";
 
 export default function Detail({ product }) {
   const [showTallas, setShowTallas] = useState(false);
   const [selectedTalla, setSelectedTalla] = useState(null);
   const [customTalla, setCustomTalla] = useState("");
-  const { dolarBlue, loading, error } = useFetchDolar();
+  const { dolarBlue, fetchDolarBlue } = useStore();
+
+  useEffect(() => {
+    fetchDolarBlue();
+  }, [fetchDolarBlue]);
 
   const handleCompraClick = () => {
     const message = selectedTalla
@@ -32,7 +36,7 @@ export default function Detail({ product }) {
         <img
           src={product.image?.base64}
           alt={product.nombre}
-          className="object-contain w-full h-auto"
+          className="object-contain w-full h-auto max-h-[700px]"
         />
       </div>
 
@@ -41,7 +45,7 @@ export default function Detail({ product }) {
         <div className="space-y-2 text-gray-800">
           <p className="text-lg font-semibold">{product.descripcion}</p>
           <p className="text-2xl font-bold">{(product.precio * dolarBlue).toFixed(2)} ARS</p>
-          <p className="text-lg text-gray-500">Aprox USD ${product.precio}</p>
+          <p className="text-lg text-gray-500">${product.precio} USD</p>
         </div>
 
         <div className="relative">

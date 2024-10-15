@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import AddProductModal from './AddProductModal';
 
-const Sidebar = ({ handleLogout, fetchProducts, categoriasDisponibles }) => {
+const Sidebar = ({ handleLogout, categoriasDisponibles }) => {
   const [isModalOpen, setModalOpen] = useState(false);
 
   return (
@@ -30,7 +30,6 @@ const Sidebar = ({ handleLogout, fetchProducts, categoriasDisponibles }) => {
       <AddProductModal 
         isOpen={isModalOpen} 
         onClose={() => setModalOpen(false)} 
-        fetchProducts={fetchProducts}
         categorias={categoriasDisponibles}
       />
     </aside>

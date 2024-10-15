@@ -9,9 +9,9 @@ const Layout = ({ children }) => {
   const whatsappNumber = "3512591212"
   
   return (
-    <div>
+    <div className='flex flex-col min-h-screen'>
       {showLayout && <Navbar />}
-        <main>{children}</main>
+        <main className='flex-grow'>{children}</main>
           <a 
             href={`https://wa.me/${whatsappNumber}`} 
             target="_blank" 
