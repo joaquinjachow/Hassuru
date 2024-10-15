@@ -1,15 +1,20 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import ProductRow from "./ProductRow";
 import { MdFilterAltOff } from "react-icons/md";
 import { MdAdd } from "react-icons/md";
 import useFetchDolar from "@/hooks/useFetchDolar";
 import AddProductModal from './AddProductModal'; 
+import useStore from "@/store/store";
 
 const ProductList = ({ editableProducts, setEditableProducts, selectedProduct, setSelectedProduct, fetchProducts, fetchProductsFiltered }) => {
-  const [categoriaFilter, setCategoriaFilter] = useState(""); 
-  const [nameFilter, setNameFilter] = useState(""); 
-  const { dolarBlue, loading, error } = useFetchDolar();
+  const [categoriaFilter, setCategoriaFilter] = useState("");
+  const [nameFilter, setNameFilter] = useState("");
+  const { dolarBlue, fetchDolarBlue } = useStore();
   const [isModalOpen, setModalOpen] = useState(false);
+  
+  useEffect(() => {
+    fetchDolarBlue();
+  }, [fetchDolarBlue]);
 
   const handleProductSelect = (id) => {
     setSelectedProduct(id);
@@ -27,7 +32,7 @@ const ProductList = ({ editableProducts, setEditableProducts, selectedProduct, s
     const categoryMatch = categoriaFilter ? producto.categoria === categoriaFilter : true;
     return nameMatch && categoryMatch;
   });
-
+  
   return (
     <div className="bg-white p-6 rounded-lg shadow-md">
       <h2 className="text-xl font-semibold mb-6 text-black">Lista de Productos</h2>
@@ -117,7 +122,6 @@ const ProductList = ({ editableProducts, setEditableProducts, selectedProduct, s
       <AddProductModal 
         isOpen={isModalOpen} 
         onClose={() => setModalOpen(false)} 
-        fetchProducts={fetchProducts}
       />
     </div>
   );
