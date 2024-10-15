@@ -58,7 +58,7 @@ export default function Carousell({ title, products }) {
                   <img
                     src={product.image?.base64 || "/images/default.png"}
                     alt={product.nombre}
-                    className="object-contain w-full h-48 mb-3 sm:h-64"
+                    className="object-cover w-full h-48 mb-3 sm:h-64"
                   />
                   <h3 className="text-sm font-semibold sm:text-lg">{product.nombre}</h3>
                 </div>
