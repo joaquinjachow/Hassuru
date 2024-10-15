@@ -3,28 +3,10 @@ import Carousell from "@/components/Carousell";
 import Image from "next/image";
 import Link from "next/link";
 import Newsletter from "../components/Newsletter";
+import useStore from "@/store/store";
 
 export default function Home() {
-  const [allProducts, setAllProducts] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-
-  const fetchProducts = async () => {
-    setLoading(true);
-    setError(null);
-    try {
-      const response = await fetch("http://localhost:5000/api/productos");
-      if (!response.ok) {
-        throw new Error("Error al cargar los productos");
-      }
-      const data = await response.json();
-      setAllProducts(data);
-    } catch (error) {
-      setError(error.message);
-    } finally {
-      setLoading(false);
-    }
-  };
+const { loading, error, products, fetchProducts } = useStore();
 
   useEffect(() => {
     fetchProducts();
@@ -33,8 +15,8 @@ export default function Home() {
   if (loading) return <div>Cargando...</div>;
   if (error) return <div>Error: {error}</div>;
 
-  const destacados = allProducts.filter((product) => product.destacado === true);
-  const zapatillas = allProducts.filter((product) => product.destacado_zapatillas === true);
+  const destacados = products.filter((product) => product.destacado === true);
+  const zapatillas = products.filter((product) => product.destacado_zapatillas === true);
 
   return (
     <main>
@@ -66,24 +48,24 @@ export default function Home() {
       <div className="mt-8 mb-10">
         <Carousell products={zapatillas} title={"Zapatillas"} />
       </div>
-      <div className="container grid grid-cols-1 gap-4 px-24 mx-auto mt-8 md:grid-cols-3">
+      <div className="container grid grid-cols-1 gap-4 px-2 mx-auto mt-8 lg:px-24 md:grid-cols-3">
         <iframe
           src="https://www.tiktok.com/embed/7420249638982274310"
           width="100%"
           height="750"
-          allow="autoplay; encrypted-media"
+          allow="encrypted-media"
         ></iframe>
         <iframe
           src="https://www.tiktok.com/embed/7368541174270840069"
           width="100%"
           height="750"
-          allow="autoplay; encrypted-media"
+          allow="encrypted-media"
         ></iframe>
         <iframe
           src="https://www.tiktok.com/embed/7370028703503387909"
           width="100%"
           height="750"
-          allow="autoplay; encrypted-media"
+          allow="encrypted-media"
         ></iframe>
       </div>
       <div className="mb-4">
