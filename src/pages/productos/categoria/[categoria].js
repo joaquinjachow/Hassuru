@@ -2,7 +2,8 @@ import React, { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import Card from "@/components/Card";
 import Filter from "@/components/Filtro";
-import Pagination from "@/components/Pagination"; // Importar el componente Pagination
+import Pagination from "@/components/Pagination";
+import { BounceLoader } from 'react-spinners';
 
 export default function Categoria() {
   const [products, setProducts] = useState([]);
@@ -53,7 +54,7 @@ export default function Categoria() {
       </aside>
       <section className="flex flex-col w-full lg:w-3/4">
         {loading ? (
-          <p>Cargando productos...</p>
+          <div className="flex items-center justify-center mt-[5%]"><BounceLoader color="#BE1A1D"/></div>
         ) : error ? (
           <p className="text-red-500">Error: {error}</p>
         ) : currentProducts.length === 0 ? (
@@ -61,9 +62,7 @@ export default function Categoria() {
         ) : (
           <Card currentProducts={currentProducts} />
         )}
-        
-        {/* Reemplazamos la paginación previa con el componente Pagination */}
-        <Pagination
+          <Pagination
           totalPages={totalPages}
           currentPage={currentPage}
           onPageChange={(page) => setCurrentPage(page)}
