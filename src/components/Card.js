@@ -1,9 +1,14 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Link from "next/link";
-import useFetchDolar from "@/hooks/useFetchDolar";
+import useStore from "@/store/store";
 
 export default function Card({ currentProducts }) {
-  const { dolarBlue, loading, error } = useFetchDolar();
+  const { dolarBlue, fetchDolarBlue } = useStore();
+  
+  useEffect(() => {
+    fetchDolarBlue();
+  }, [fetchDolarBlue]);
+
   const getDisponibilidad = (product) => {
     if (product.tallas && Object.keys(product.tallas).length > 0) {
       return { message: "Entrega inmediata", color: "text-green-500" };
@@ -15,11 +20,11 @@ export default function Card({ currentProducts }) {
   return (
     <div className="p-4">
       <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
-        {currentProducts.map((product, index) => {
+        {currentProducts.map((product) => {
           const disponibilidad = getDisponibilidad(product);
           return (
             <Link href={`/producto/${product._id}`} key={product.id}>
-              <div key={index} className="flex flex-col justify-between h-full transition-transform transform hover:scale-105">
+              <div key={product._id} className="flex flex-col justify-between h-full transition-transform transform hover:scale-105">
                 <img
                   src={product.image?.base64}
                   alt={product.nombre}

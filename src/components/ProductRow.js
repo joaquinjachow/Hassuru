@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { RiDeleteBin5Line } from "react-icons/ri";
 import { IoAddCircleOutline } from "react-icons/io5";
-import useFetchDolar from "@/hooks/useFetchDolar";
+import useStore from "@/store/store";
 
 const ProductRow = ({ 
   producto, 
@@ -17,9 +17,13 @@ const ProductRow = ({
   const [newTalla, setNewTalla] = useState("");
   const [newStock, setNewStock] = useState(0);
   const [newColor, setNewColor] = useState("");
-  const { dolarBlue, loading, error } = useFetchDolar();
+  const { dolarBlue, fetchDolarBlue } = useStore();
   const [newImage, setNewImage] = useState(null);
 
+  useEffect(() => {
+    fetchDolarBlue();
+  }, [fetchDolarBlue]);
+  
   const handleTallaChange = (e, talla) => {
     const updatedProducts = [...editableProducts];
     updatedProducts[index].tallas[talla] = e.target.value;
