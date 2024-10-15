@@ -262,7 +262,13 @@ const ProductRow = ({
                   type="number" 
                   value={cantidad} 
                   onChange={(e) => handleTallaChange(e, talla)} 
-                  className="w-full p-1 mb-2 mr-2 border sm:w-1/3 sm:mb-0" 
+                  className="w-full p-1 mb-2 mr-2 border sm:w-1/3 sm:mb-0"
+                  min="0"
+                  onBlur={(e) => {
+                    if (e.target.value < 0) {
+                      e.target.value = 0;
+                    }
+                  }}
                 />
                 <button 
                   onClick={() => handleDeleteTalla(talla)} 
@@ -285,7 +291,13 @@ const ProductRow = ({
                 value={newStock} 
                 onChange={(e) => setNewStock(e.target.value)} 
                 placeholder="Stock" 
-                className="w-full p-1 border sm:w-1/3" 
+                className="w-full p-1 border sm:w-1/3"
+                min="0"
+                onBlur={(e) => {
+                  if (e.target.value < 0) {
+                    setNewStock(0);
+                  }
+                }} 
               />
               <button 
                 onClick={handleAddTalla} 
@@ -415,12 +427,21 @@ const ProductRow = ({
       </td>
       <td className="px-2 py-2 text-center border">
         {selectedProduct === producto._id && (
-          <button 
-            onClick={() => handleProductUpdate(producto)} 
-            className="px-2 py-1 mb-1 text-white bg-blue-500 rounded"
-          >
-            Guardar
-          </button>
+          <div>
+            <button 
+              onClick={() => handleProductUpdate(producto)} 
+              className="px-2 py-1 text-white bg-blue-500 rounded"
+            >
+              Guardar
+            </button>
+
+            <button
+              onClick={() => setSelectedProduct(null)}
+              className="px-[6px] py-1 text-white bg-red-500 rounded my-1"
+            >
+              Cancelar
+            </button>
+          </div>
         )}
         <button 
           onClick={() => handleProductDelete(producto._id)} 
