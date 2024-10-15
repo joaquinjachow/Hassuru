@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
+import useStore from '@/store/store';
 
-const AddProductModal = ({ isOpen, onClose, fetchProducts }) => {
+const AddProductModal = ({ isOpen, onClose }) => {
   const [product, setProduct] = useState({
     nombre: '',
     descripcion: '',
@@ -13,9 +14,19 @@ const AddProductModal = ({ isOpen, onClose, fetchProducts }) => {
     destacado: false,
   });
 
+  const { addProduct, fetchProducts, productAdded } = useStore();
+
   const [tallaInput, setTallaInput] = useState('');
   const [cantidadTalla, setCantidadTalla] = useState('');
   const [colorInput, setColorInput] = useState('');
+
+  useEffect(() => {
+    if (productAdded) {
+      fetchProducts();
+      onClose();
+      window.location.reload();
+    }
+  }, [productAdded, fetchProducts, onClose]);
 
   const categoriasDisponibles = [
     'ropa',
@@ -100,29 +111,7 @@ const AddProductModal = ({ isOpen, onClose, fetchProducts }) => {
       image: { base64: product.image.base64 },
       destacado: false,
     };
-
-    try {
-      const response = await fetch('http://localhost:5000/api/productos', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${localStorage.getItem('token')}`,
-        },
-        body: JSON.stringify(productoAEnviar),
-      });
-      if (!response.ok) {
-        const errorData = await response.json();
-        console.error('Error en la respuesta del servidor:', errorData);
-        alert(`Error al agregar el producto: ${errorData.message || 'Error desconocido'}`);
-        return;
-      }
-      alert('Producto agregado con éxito');
-      fetchProducts();
-      onClose();
-    } catch (error) {
-      console.error('Error al agregar el producto:', error);
-      alert('Error al agregar el producto');
-    }
+    await addProduct(productoAEnviar);
   };
 
   if (!isOpen) return null;

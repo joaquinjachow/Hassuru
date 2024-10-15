@@ -1,11 +1,15 @@
-import React, { useState } from "react";
-import useFetchDolar from "@/hooks/useFetchDolar";
+import React, { useState, useEffect } from "react";
+import useStore from "@/store/store";
 
 export default function Detail({ product }) {
   const [showTallas, setShowTallas] = useState(false);
   const [selectedTalla, setSelectedTalla] = useState(null);
   const [customTalla, setCustomTalla] = useState("");
-  const { dolarBlue, loading, error } = useFetchDolar();
+  const { dolarBlue, fetchDolarBlue } = useStore();
+
+  useEffect(() => {
+    fetchDolarBlue();
+  }, [fetchDolarBlue]);
 
   const handleCompraClick = () => {
     const message = selectedTalla
