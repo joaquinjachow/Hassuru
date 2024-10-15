@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Card from "./Card";
 import Filter from "./Filtro";
+import Pagination from "./Pagination"; // Importamos el nuevo componente de paginación
 
 export default function Catalogo() {
   const [products, setProducts] = useState([]);
@@ -9,7 +10,7 @@ export default function Catalogo() {
   const [error, setError] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
   const productsPerPage = 20;
-  
+
   const fetchProducts = async () => {
     setLoading(true);
     setError(null);
@@ -36,14 +37,10 @@ export default function Catalogo() {
   const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
   const currentProducts = filteredProducts.slice(indexOfFirstProduct, indexOfLastProduct);
 
+  const totalPages = Math.ceil(filteredProducts.length / productsPerPage);
+
   return (
     <div className="container flex flex-col py-10 mx-auto lg:flex-row">
-      <aside className="w-full mb-6 lg:w-1/4 lg:mb-0">
-        <Filter 
-          products={products}
-          setFilteredProducts={setFilteredProducts}
-        />
-      </aside>
       <section className="w-full lg:w-3/4">
         {loading ? (
           <p>Cargando productos...</p>
@@ -52,9 +49,22 @@ export default function Catalogo() {
         ) : currentProducts.length === 0 ? (
           <p>No hay productos disponibles.</p>
         ) : (
-          <Card currentProducts={currentProducts}/>
+          <>
+            <Card currentProducts={currentProducts} />
+            <Pagination
+              currentPage={currentPage}
+              setCurrentPage={setCurrentPage}
+              totalPages={totalPages}
+            />
+          </>
         )}
       </section>
+      <aside className="w-full mb-6 lg:w-1/4 lg:mb-0 lg:order-first">
+        <Filter 
+          products={products}
+          setFilteredProducts={setFilteredProducts}
+        />
+      </aside>
     </div>
   );
 }
