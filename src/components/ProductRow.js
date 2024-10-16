@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { RiDeleteBin5Line } from "react-icons/ri";
 import { IoAddCircleOutline } from "react-icons/io5";
+import { toast } from 'react-hot-toast';
 import useStore from "@/store/store";
 
 const ProductRow = ({
@@ -84,11 +85,11 @@ const ProductRow = ({
     });
 
     if (response.ok) {
-      alert('Producto actualizado con éxito');
+      toast.success('Producto actualizado con éxito');
       fetchProducts();
       setSelectedProduct(null);
     } else {
-      alert('Error al actualizar el producto');
+      toast.error('Error al actualizar el producto');
       console.error('Error al actualizar el producto');
     }
   };
@@ -103,9 +104,10 @@ const ProductRow = ({
         },
       });
       if (response.ok) {
-        alert('Producto eliminado con èxito');
+        toast.success('Producto eliminado con éxito');
         fetchProducts();
       } else {
+        toast.error('Error al eliminar el producto');
         console.error('Error al eliminar el producto');
       }
     }

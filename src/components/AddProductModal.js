@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import toast, { Toaster } from 'react-hot-toast';
 import useStore from '@/store/store';
 
 const AddProductModal = ({ isOpen, onClose }) => {
@@ -16,7 +17,7 @@ const AddProductModal = ({ isOpen, onClose }) => {
     destacado_zapatillas: false,
   });
 
-  const { addProduct, fetchProducts, productAdded } = useStore();
+  const { addProduct, productAdded } = useStore();
 
   const [tallaInput, setTallaInput] = useState('');
   const [cantidadTalla, setCantidadTalla] = useState('');
@@ -24,11 +25,10 @@ const AddProductModal = ({ isOpen, onClose }) => {
 
   useEffect(() => {
     if (productAdded) {
-      fetchProducts();
       onClose();
       window.location.reload();
     }
-  }, [productAdded, fetchProducts, onClose]);
+  }, [onClose]);
 
   const categoriasDisponibles = [
     'ropa',
