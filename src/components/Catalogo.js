@@ -43,7 +43,7 @@ export default function Catalogo() {
     <div className="container flex flex-col py-10 mx-auto lg:flex-row">
       <section className="w-full lg:w-3/4">
         {loading ? (
-          <div className="flex items-center justify-center mt-[15%]"><BounceLoader color="#BE1A1D"/></div>
+          <div className="flex items-center justify-center mt-[15%]"><BounceLoader color="#BE1A1D" /></div>
         ) : error ? (
           <p className="text-red-500">Error: {error}</p>
         ) : currentProducts.length === 0 ? (
@@ -60,7 +60,7 @@ export default function Catalogo() {
         )}
       </section>
       <aside className="w-full mb-6 lg:w-1/4 lg:mb-0 lg:order-first">
-        <Filter 
+        <Filter
           products={products}
           setFilteredProducts={setFilteredProducts}
         />

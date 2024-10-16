@@ -40,7 +40,7 @@ const AddProductModal = ({ isOpen, onClose }) => {
     const { name, value, type, checked } = e.target;
 
     const newValue = type === 'checkbox' ? checked : value;
-  
+
     if (name === 'precio') {
       const price = value ? parseFloat(value) : '';
       setProduct((prev) => ({
@@ -204,11 +204,11 @@ const AddProductModal = ({ isOpen, onClose }) => {
             {Object.entries(product.tallas).map(([talla, cantidad], index) => (
               <li key={index} className="flex items-center justify-between">
                 Talla {talla}: {cantidad} unidades
-                <button 
-                  type="button" 
-                  onClick={() => handleRemoveTalla(talla)} 
+                <button
+                  type="button"
+                  onClick={() => handleRemoveTalla(talla)}
                   className="px-4 py-2 text-white bg-red-500 rounded">
-                    Eliminar
+                  Eliminar
                 </button>
               </li>
             ))}
@@ -223,25 +223,23 @@ const AddProductModal = ({ isOpen, onClose }) => {
             />
             <button type="button" onClick={handleAddColor} className="px-4 py-2 mt-2 text-white bg-blue-500 rounded sm:mt-0">Agregar Color</button>
           </div>
-          
           <div className="mb-4">
             <h3>Colores:</h3>
             {product.colores.map((color, index) => (
               <div key={index} className="flex items-center justify-between">
                 {color.color}
-                <button 
-                  type="button" 
+                <button
+                  type="button"
                   onClick={() => setProduct((prev) => ({
                     ...prev,
                     colores: prev.colores.filter((_, i) => i !== index)
-                  }))} 
+                  }))}
                   className="px-4 py-2 text-white bg-red-500 rounded">
-                    Eliminar
+                  Eliminar
                 </button>
               </div>
             ))}
           </div>
-
           <div className="mb-4">
             <div className="flex items-center mb-2">
               <input
@@ -255,7 +253,6 @@ const AddProductModal = ({ isOpen, onClose }) => {
                 Encargo
               </label>
             </div>
-
             <div className="flex items-center mb-2">
               <input
                 type="checkbox"
@@ -268,7 +265,6 @@ const AddProductModal = ({ isOpen, onClose }) => {
                 Destacado
               </label>
             </div>
-
             <div className="flex items-center mb-2">
               <input
                 type="checkbox"
@@ -282,8 +278,6 @@ const AddProductModal = ({ isOpen, onClose }) => {
               </label>
             </div>
           </div>
-
-
           <div className="flex justify-end">
             <button type="button" onClick={onClose} className="px-4 py-2 mr-2 text-white bg-red-500 rounded">Cancelar</button>
             <button type="submit" className="px-4 py-2 text-white bg-blue-500 rounded">Agregar Producto</button>

@@ -1,7 +1,7 @@
 import { useAuth } from "../../hooks/useAuth";
 import { useEffect, useState } from "react";
-import { useRouter } from "next/router"; 
-import ProductList from "../../components/ProductList"; 
+import { useRouter } from "next/router";
+import ProductList from "../../components/ProductList";
 import Sidebar from "../../components/Sidebar";
 
 export default function AdminDashboard() {
@@ -73,7 +73,7 @@ export default function AdminDashboard() {
         {loading ? (
           <p>Cargando productos...</p>
         ) : (
-          <ProductList 
+          <ProductList
             editableProducts={editableProducts}
             setEditableProducts={setEditableProducts}
             selectedProduct={selectedProduct}

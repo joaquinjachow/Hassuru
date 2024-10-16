@@ -24,7 +24,7 @@ const ProductoSchema = new mongoose.Schema({
   tallas: {
     type: Map,
     of: Number,
-    required: true, 
+    required: true,
   },
   colores: [
     {

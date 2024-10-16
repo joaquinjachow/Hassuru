@@ -3,8 +3,8 @@ import { RiDeleteBin5Line } from "react-icons/ri";
 import { IoAddCircleOutline } from "react-icons/io5";
 import useStore from "@/store/store";
 
-const ProductRow = ({ 
-  producto, 
+const ProductRow = ({
+  producto,
   index,
   selectedProduct,
   handleProductSelect,
@@ -23,7 +23,7 @@ const ProductRow = ({
   useEffect(() => {
     fetchDolarBlue();
   }, [fetchDolarBlue]);
-  
+
   const handleTallaChange = (e, talla) => {
     const updatedProducts = [...editableProducts];
     updatedProducts[index].tallas[talla] = e.target.value;
@@ -73,7 +73,7 @@ const ProductRow = ({
       ...producto,
       categoria: producto.categoria,
     };
-  
+
     const response = await fetch(`http://localhost:5000/api/productos/${producto._id}`, {
       method: 'PUT',
       headers: {
@@ -82,7 +82,7 @@ const ProductRow = ({
       },
       body: JSON.stringify(updatedProduct),
     });
-  
+
     if (response.ok) {
       alert('Producto actualizado con éxito');
       fetchProducts();
@@ -105,7 +105,7 @@ const ProductRow = ({
       if (response.ok) {
         alert('Producto eliminado con èxito');
         fetchProducts();
-      } else { 
+      } else {
         console.error('Error al eliminar el producto');
       }
     }
@@ -114,20 +114,20 @@ const ProductRow = ({
   const handleProductChange = (e, field, index) => {
     const updatedProducts = [...editableProducts];
     const newValue = e.target.value;
-  if (!updatedProducts[index]) {
-    console.error(`Producto en el índice ${index} no existe.`);
-    return; 
-  }
-    if (field === 'precio') {
-    updatedProducts[index][field] = newValue;
-  } else if (field === 'categoria') {
-    updatedProducts[index][field] = newValue;
-  } else {
-    if (!updatedProducts[index][field]) {
-      updatedProducts[index][field] = '';
+    if (!updatedProducts[index]) {
+      console.error(`Producto en el índice ${index} no existe.`);
+      return;
     }
-    updatedProducts[index][field] = newValue;
-  }
+    if (field === 'precio') {
+      updatedProducts[index][field] = newValue;
+    } else if (field === 'categoria') {
+      updatedProducts[index][field] = newValue;
+    } else {
+      if (!updatedProducts[index][field]) {
+        updatedProducts[index][field] = '';
+      }
+      updatedProducts[index][field] = newValue;
+    }
     setEditableProducts(updatedProducts);
   };
 
@@ -147,17 +147,17 @@ const ProductRow = ({
 
   const handleDestacadoChange = (e) => {
     const updatedProducts = [...editableProducts];
-    updatedProducts[index].destacado = e.target.checked; 
+    updatedProducts[index].destacado = e.target.checked;
     setEditableProducts(updatedProducts);
   };
   const handleDestacadoZapatillasChange = (e) => {
     const updatedProducts = [...editableProducts];
-    updatedProducts[index].destacado_zapatillas = e.target.checked; 
+    updatedProducts[index].destacado_zapatillas = e.target.checked;
     setEditableProducts(updatedProducts);
   };
   const handleEncargoChange = (e) => {
     const updatedProducts = [...editableProducts];
-    updatedProducts[index].encargo = e.target.checked; 
+    updatedProducts[index].encargo = e.target.checked;
     setEditableProducts(updatedProducts);
   };
 
@@ -256,16 +256,16 @@ const ProductRow = ({
           <div>
             {Object.entries(producto.tallas).map(([talla, cantidad]) => (
               <div key={talla} className="flex flex-col items-center mb-1 sm:flex-row">
-                <input 
-                  type="text" 
-                  value={talla} 
-                  readOnly 
-                  className="w-full p-1 mb-2 mr-2 border sm:w-1/3 sm:mb-0" 
+                <input
+                  type="text"
+                  value={talla}
+                  readOnly
+                  className="w-full p-1 mb-2 mr-2 border sm:w-1/3 sm:mb-0"
                 />
-                <input 
-                  type="number" 
-                  value={cantidad} 
-                  onChange={(e) => handleTallaChange(e, talla)} 
+                <input
+                  type="number"
+                  value={cantidad}
+                  onChange={(e) => handleTallaChange(e, talla)}
                   className="w-full p-1 mb-2 mr-2 border sm:w-1/3 sm:mb-0"
                   min="0"
                   onBlur={(e) => {
@@ -274,8 +274,8 @@ const ProductRow = ({
                     }
                   }}
                 />
-                <button 
-                  onClick={() => handleDeleteTalla(talla)} 
+                <button
+                  onClick={() => handleDeleteTalla(talla)}
                   className="px-2 py-1 mt-2 ml-0 text-white bg-red-500 rounded sm:ml-2 sm:mt-0"
                 >
                   <RiDeleteBin5Line />
@@ -283,28 +283,28 @@ const ProductRow = ({
               </div>
             ))}
             <div className="flex flex-col mt-2 sm:flex-row">
-              <input 
-                type="text" 
-                value={newTalla} 
-                onChange={(e) => setNewTalla(e.target.value)} 
-                placeholder="Nueva talla" 
-                className="w-full p-1 mb-2 mr-2 border sm:w-1/3 sm:mb-0" 
+              <input
+                type="text"
+                value={newTalla}
+                onChange={(e) => setNewTalla(e.target.value)}
+                placeholder="Nueva talla"
+                className="w-full p-1 mb-2 mr-2 border sm:w-1/3 sm:mb-0"
               />
-              <input 
-                type="number" 
-                value={newStock} 
-                onChange={(e) => setNewStock(e.target.value)} 
-                placeholder="Stock" 
+              <input
+                type="number"
+                value={newStock}
+                onChange={(e) => setNewStock(e.target.value)}
+                placeholder="Stock"
                 className="w-full p-1 border sm:w-1/3"
                 min="0"
                 onBlur={(e) => {
                   if (e.target.value < 0) {
                     setNewStock(0);
                   }
-                }} 
+                }}
               />
-              <button 
-                onClick={handleAddTalla} 
+              <button
+                onClick={handleAddTalla}
                 className="px-2 py-1 mt-2 ml-0 text-white bg-blue-500 rounded sm:ml-2 sm:mt-0"
               >
                 <IoAddCircleOutline />
@@ -321,20 +321,19 @@ const ProductRow = ({
           </div>
         )}
       </td>
-
       <td className="px-2 py-2 border">
         {selectedProduct === producto._id ? (
           <div>
             {producto.colores.map(color => (
               <div key={color._id} className="flex items-center mb-1">
-                <input 
-                  type="text" 
-                  value={color.color} 
-                  onChange={(e) => handleColorChange(e, color._id)} 
-                  className="w-1/2 p-1 border" 
+                <input
+                  type="text"
+                  value={color.color}
+                  onChange={(e) => handleColorChange(e, color._id)}
+                  className="w-1/2 p-1 border"
                 />
-                <button 
-                  onClick={() => handleDeleteColor(color._id)} 
+                <button
+                  onClick={() => handleDeleteColor(color._id)}
                   className="px-2 py-1 ml-2 text-white bg-red-500 rounded"
                 >
                   <RiDeleteBin5Line />
@@ -342,15 +341,15 @@ const ProductRow = ({
               </div>
             ))}
             <div className="mt-2">
-              <input 
-                type="text" 
-                value={newColor} 
-                onChange={(e) => setNewColor(e.target.value)} 
-                placeholder="Nuevo color" 
-                className="w-1/2 p-1 mr-2 border" 
+              <input
+                type="text"
+                value={newColor}
+                onChange={(e) => setNewColor(e.target.value)}
+                placeholder="Nuevo color"
+                className="w-1/2 p-1 mr-2 border"
               />
-              <button 
-                onClick={handleAddColor} 
+              <button
+                onClick={handleAddColor}
                 className="px-2 py-1 mt-2 text-white bg-blue-500 rounded"
               >
                 <IoAddCircleOutline />
@@ -386,45 +385,45 @@ const ProductRow = ({
       </td>
       <td className="px-2 py-2 border">
         {selectedProduct === producto._id ? (
-        <label className="flex items-center">
-          <input
-            type="checkbox"
-            checked={producto.destacado}
-            onChange={handleDestacadoChange}
-            className="mr-2"
-          />
-          Destacado
-        </label>
+          <label className="flex items-center">
+            <input
+              type="checkbox"
+              checked={producto.destacado}
+              onChange={handleDestacadoChange}
+              className="mr-2"
+            />
+            Destacado
+          </label>
         ) : (
           producto.destacado ? "Sí" : "No"
         )}
       </td>
       <td className="px-2 py-2 border">
         {selectedProduct === producto._id ? (
-        <label className="flex items-center">
-          <input
-            type="checkbox"
-            checked={producto.destacado_zapatillas}
-            onChange={handleDestacadoZapatillasChange}
-            className="mr-2"
-          />
-          Destacado Zapatillas
-        </label>
+          <label className="flex items-center">
+            <input
+              type="checkbox"
+              checked={producto.destacado_zapatillas}
+              onChange={handleDestacadoZapatillasChange}
+              className="mr-2"
+            />
+            Destacado Zapatillas
+          </label>
         ) : (
           producto.destacado_zapatillas ? "Sí" : "No"
         )}
       </td>
       <td className="px-2 py-2 border">
         {selectedProduct === producto._id ? (
-        <label className="flex items-center">
-          <input
-            type="checkbox"
-            checked={producto.encargo}
-            onChange={handleEncargoChange}
-            className="mr-2"
-          />
-          Encargo
-        </label>
+          <label className="flex items-center">
+            <input
+              type="checkbox"
+              checked={producto.encargo}
+              onChange={handleEncargoChange}
+              className="mr-2"
+            />
+            Encargo
+          </label>
         ) : (
           producto.encargo ? "Sí" : "No"
         )}
@@ -432,13 +431,12 @@ const ProductRow = ({
       <td className="px-2 py-2 text-center border">
         {selectedProduct === producto._id && (
           <div>
-            <button 
-              onClick={() => handleProductUpdate(producto)} 
+            <button
+              onClick={() => handleProductUpdate(producto)}
               className="px-2 py-1 text-white bg-blue-500 rounded"
             >
               Guardar
             </button>
-
             <button
               onClick={() => setSelectedProduct(null)}
               className="px-[6px] py-1 text-white bg-red-500 rounded my-1"
@@ -447,8 +445,8 @@ const ProductRow = ({
             </button>
           </div>
         )}
-        <button 
-          onClick={() => handleProductDelete(producto._id)} 
+        <button
+          onClick={() => handleProductDelete(producto._id)}
           className="px-2 py-1 text-white bg-red-500 rounded"
         >
           Eliminar

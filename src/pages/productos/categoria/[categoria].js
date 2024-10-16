@@ -47,14 +47,14 @@ export default function Categoria() {
   return (
     <div className="container flex flex-col py-10 mx-auto lg:flex-row">
       <aside className="w-full mb-6 lg:w-1/4 lg:mb-0">
-        <Filter 
+        <Filter
           products={products}
           setFilteredProducts={setFilteredProducts}
         />
       </aside>
       <section className="flex flex-col w-full lg:w-3/4">
         {loading ? (
-          <div className="flex items-center justify-center mt-[5%]"><BounceLoader color="#BE1A1D"/></div>
+          <div className="flex items-center justify-center mt-[5%]"><BounceLoader color="#BE1A1D" /></div>
         ) : error ? (
           <p className="text-red-500">Error: {error}</p>
         ) : currentProducts.length === 0 ? (
@@ -62,7 +62,7 @@ export default function Categoria() {
         ) : (
           <Card currentProducts={currentProducts} />
         )}
-          <Pagination
+        <Pagination
           totalPages={totalPages}
           currentPage={currentPage}
           onPageChange={(page) => setCurrentPage(page)}
