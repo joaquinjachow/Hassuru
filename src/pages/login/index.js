@@ -1,10 +1,10 @@
 import { useState } from "react";
+import toast, { Toaster } from 'react-hot-toast';
 import { useRouter } from "next/router";
 
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [message, setMessage] = useState("");
   const router = useRouter();
 
   const handleSubmit = async (event) => {
@@ -22,10 +22,12 @@ export default function Login() {
 
     if (response.ok) {
       localStorage.setItem("token", data.token);
-      setMessage("Inicio de sesión exitoso!");
+      toast.success("Inicio de sesión exitoso!");
       router.push("/admin");
+    } else if (response.status === 400) {
+      toast.error("Datos inválidos. Verifica tu email y contraseña.");
     } else {
-      setMessage(data.error);
+      toast.error(data.error || "Error al iniciar sesión.");
     }
   };
 
@@ -63,7 +65,7 @@ export default function Login() {
             Iniciar Sesión
           </button>
         </form>
-        {message && <p className="mt-4 text-sm text-center text-red-500">{message}</p>}
+        <Toaster position="top-center" reverseOrder={false} />
       </div>
     </div>
   );
