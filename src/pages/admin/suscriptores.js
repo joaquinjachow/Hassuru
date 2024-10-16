@@ -1,7 +1,7 @@
 import fs from "fs";
 import path from "path";
 import { useState } from "react";
-import Pagination from "@/components/Pagination"; // Importar el componente Pagination
+import Pagination from "@/components/Pagination";
 
 export default function Suscriptores({ emails }) {
   const [currentPage, setCurrentPage] = useState(1);

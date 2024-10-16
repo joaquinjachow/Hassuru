@@ -11,22 +11,22 @@
     const [tallasRopa, setTallasRopa] = useState([]);
     const [tallasZapatilla, setTallasZapatilla] = useState([]);
 
-    const [selectedMarca, setSelectedMarca] = useState(""); // Nuevo estado para marcas
-    const [marcas, setMarcas] = useState([]); // Nuevo estado para marcas
+    const [selectedMarca, setSelectedMarca] = useState(""); 
+    const [marcas, setMarcas] = useState([]);
 
     useEffect(() => {
-      const marcasSet = new Set(); // Nuevo Set para marcas
+      const marcasSet = new Set();
 
       products.forEach((product) => {
-        marcasSet.add(product.marca); // Agregar marca al Set
+        marcasSet.add(product.marca);
       });
-      setMarcas(Array.from(marcasSet)); // Actualizar el estado de marcas
+      setMarcas(Array.from(marcasSet));
     }, [products]);
 
     useEffect(() => {
       let filtered = products;
 
-      if (selectedMarca) { // Filtrar por marca
+      if (selectedMarca) { 
         filtered = filtered.filter((product) => product.marca === selectedMarca);
       }
 
@@ -35,7 +35,7 @@
 
     const handleSelectMarca = (marca) => {
       if (selectedMarca === marca) {
-        setSelectedMarca(""); // Desmarcar si se selecciona de nuevo
+        setSelectedMarca("");
       } else {
         setSelectedMarca(marca);
       }
@@ -139,17 +139,17 @@
 
     const handleSelectTallaRopa = (talla) => {
       setSelectedTallaRopa(talla);
-      setSelectedTallaZapatilla(""); // Reset tallas de zapatillas
+      setSelectedTallaZapatilla("");
     };
 
     const handleSelectTallaZapatilla = (talla) => {
       setSelectedTallaZapatilla(talla);
-      setSelectedTallaRopa(""); // Reset tallas de ropa
+      setSelectedTallaRopa("");
     };
 
     const handleSelectDisponibilidad = (opcion) => {
       if (selectedDisponibilidad === opcion) {
-        setSelectedDisponibilidad(""); // Desmarcar si se selecciona de nuevo
+        setSelectedDisponibilidad("");
       } else {
         setSelectedDisponibilidad(opcion);
       }
@@ -224,7 +224,7 @@
                     onChange={() => handleSelectTallaRopa(talla)}
                     className="mr-2"
                   />
-                  <label htmlFor={`tallaRopa-${talla}`} className="cursor-pointer text-gray-600">
+                  <label htmlFor={`tallaRopa-${talla}`} className="text-gray-600 cursor-pointer">
                     {talla}
                   </label>
                 </div>
@@ -237,7 +237,7 @@
               <label className="block mb-1 font-medium text-gray-700">Talla de Zapatillas</label>
               <div className="overflow-auto max-h-32"> {/* Scroll enabled for Zapatillas */}
                 {tallasZapatilla.map((talla, index) => (
-                  <div key={index} className="mr-2 mb-2">
+                  <div key={index} className="mb-2 mr-2">
                     <input
                       type="radio"
                       id={`tallaZapatilla-${talla}`}
@@ -260,7 +260,7 @@
             <label className="block mb-1 font-medium ">Marca</label>
             <div className="overflow-auto max-h-32"> {/* Scroll habilitado para marcas */}
               {marcas.map((marca, index) => (
-                <div key={index} className="mr-2 mb-2">
+                <div key={index} className="mb-2 mr-2">
                   <input
                     type="radio"
                     id={`marca-${marca}`}
@@ -301,13 +301,13 @@
           <div className="mt-4">
             <button
               onClick={handleSearch}
-              className="p-2 bg-green-500 text-white rounded hover:bg-green-700 w-full mb-2"
+              className="w-full p-2 mb-2 text-white bg-green-500 rounded hover:bg-green-700"
             >
               Buscar
             </button>
             <button
               onClick={resetFilters}
-              className="p-2 bg-red-500 text-white rounded hover:bg-red-700 w-full"
+              className="w-full p-2 text-white bg-red-500 rounded hover:bg-red-700"
             >
               Reiniciar Filtros
             </button>

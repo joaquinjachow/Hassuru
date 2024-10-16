@@ -38,7 +38,7 @@ export default function AdminDashboard() {
   }, []);
 
   const fetchProductsFiltered = async (categoria) => {
-    setLoading(true); // Comienza la carga
+    setLoading(true);
     try {
       const response = await fetch(`http://localhost:5000/api/productos/categoria/${categoria}`, {
         headers: {
