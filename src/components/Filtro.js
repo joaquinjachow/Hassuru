@@ -1,15 +1,15 @@
-  import { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
-  export default function Filter({ products, setFilteredProducts }) {
-    const [selectedTallaRopa, setSelectedTallaRopa] = useState("");
-    const [selectedTallaZapatilla, setSelectedTallaZapatilla] = useState("");
-    const [precioMin, setPrecioMin] = useState("");
-    const [precioMax, setPrecioMax] = useState("");
-    const [stockOnly, setStockOnly] = useState(false);
-    const [selectedDisponibilidad, setSelectedDisponibilidad] = useState("");
+export default function Filter({ products, setFilteredProducts }) {
+  const [selectedTallaRopa, setSelectedTallaRopa] = useState("");
+  const [selectedTallaZapatilla, setSelectedTallaZapatilla] = useState("");
+  const [precioMin, setPrecioMin] = useState("");
+  const [precioMax, setPrecioMax] = useState("");
+  const [stockOnly, setStockOnly] = useState(false);
+  const [selectedDisponibilidad, setSelectedDisponibilidad] = useState("");
 
-    const [tallasRopa, setTallasRopa] = useState([]);
-    const [tallasZapatilla, setTallasZapatilla] = useState([]);
+  const [tallasRopa, setTallasRopa] = useState([]);
+  const [tallasZapatilla, setTallasZapatilla] = useState([]);
 
     const [selectedMarca, setSelectedMarca] = useState(""); 
     const [marcas, setMarcas] = useState([]);
@@ -23,15 +23,15 @@
       setMarcas(Array.from(marcasSet));
     }, [products]);
 
-    useEffect(() => {
-      let filtered = products;
+  useEffect(() => {
+    let filtered = products;
 
       if (selectedMarca) { 
         filtered = filtered.filter((product) => product.marca === selectedMarca);
       }
 
-      setFilteredProducts(filtered);
-    }, [selectedMarca, products]);
+    setFilteredProducts(filtered);
+  }, [selectedMarca, products]);
 
     const handleSelectMarca = (marca) => {
       if (selectedMarca === marca) {
@@ -42,100 +42,100 @@
     };
 
 
-    useEffect(() => {
-      const tallasRopaSet = new Set();
-      const tallasZapatillaSet = new Set();
+  useEffect(() => {
+    const tallasRopaSet = new Set();
+    const tallasZapatillaSet = new Set();
 
-      products.forEach((product) => {
-        if (product.categoria === "ropa" || product.categoria === "accesorios") {
-          Object.keys(product.tallas).forEach((talla) => tallasRopaSet.add(talla));
-        } else if (product.categoria === "zapatillas") {
-          Object.keys(product.tallas).forEach((talla) => tallasZapatillaSet.add(talla));
+    products.forEach((product) => {
+      if (product.categoria === "ropa" || product.categoria === "accesorios") {
+        Object.keys(product.tallas).forEach((talla) => tallasRopaSet.add(talla));
+      } else if (product.categoria === "zapatillas") {
+        Object.keys(product.tallas).forEach((talla) => tallasZapatillaSet.add(talla));
+      }
+    });
+    setTallasRopa(Array.from(tallasRopaSet));
+    setTallasZapatilla(Array.from(tallasZapatillaSet));
+  }, [products]);
+
+  const getDisponibilidad = (product) => {
+    const hasTallas = product.tallas && Object.keys(product.tallas).length > 0;
+
+    if (hasTallas) {
+      return "Entrega inmediata";
+    } else if (product.encargo) {
+      return "Disponible en 15 días";
+    } else {
+      return "Disponible en 3 días";
+    }
+  };
+
+  useEffect(() => {
+    let filtered = products;
+
+    if (selectedTallaRopa) {
+      filtered = filtered.filter(
+        (product) =>
+          (product.categoria === "ropa" || product.categoria === "accesorios") &&
+          product.tallas[selectedTallaRopa] !== undefined
+      );
+    }
+    if (selectedTallaZapatilla) {
+      filtered = filtered.filter(
+        (product) =>
+          product.categoria === "zapatillas" && product.tallas[selectedTallaZapatilla]
+      );
+    }
+    if (stockOnly) {
+      filtered = filtered.filter((product) =>
+        Object.values(product.tallas).some((stock) => stock > 0)
+      );
+    }
+    if (selectedDisponibilidad) {
+      filtered = filtered.filter((product) => {
+        if (selectedDisponibilidad === "Solo productos en stock") {
+          return Object.values(product.tallas).some((stock) => stock > 0) || getDisponibilidad(product) === "Entrega inmediata";
         }
+        return getDisponibilidad(product) === selectedDisponibilidad;
       });
-      setTallasRopa(Array.from(tallasRopaSet));
-      setTallasZapatilla(Array.from(tallasZapatillaSet));
-    }, [products]);
+    }
 
-    const getDisponibilidad = (product) => {
-      const hasTallas = product.tallas && Object.keys(product.tallas).length > 0;
+    setFilteredProducts(filtered);
+  }, [
+    selectedTallaRopa,
+    selectedTallaZapatilla,
+    stockOnly,
+    selectedDisponibilidad,
+    products,
+  ]);
 
-      if (hasTallas) {
-        return "Entrega inmediata";
-      } else if (product.encargo) {
-        return "Disponible en 15 días";
-      } else {
-        return "Disponible en 3 días";
-      }
-    };
+  const handleSearch = () => {
+    let filtered = products;
+    if (precioMin || precioMax) {
+      filtered = filtered.filter((product) => {
+        const precio = product.precio;
+        if (precioMin && precioMax) {
+          return precio >= parseInt(precioMin) && precio <= parseInt(precioMax);
+        } else if (precioMin) {
+          return precio >= parseInt(precioMin);
+        } else if (precioMax) {
+          return precio <= parseInt(precioMax);
+        }
+        return true;
+      });
+    }
+    setFilteredProducts(filtered);
+  };
 
-    useEffect(() => {
-      let filtered = products;
-
-      if (selectedTallaRopa) {
-        filtered = filtered.filter(
-          (product) =>
-            (product.categoria === "ropa" || product.categoria === "accesorios") &&
-            product.tallas[selectedTallaRopa] !== undefined
-        );
-      }
-      if (selectedTallaZapatilla) {
-        filtered = filtered.filter(
-          (product) =>
-            product.categoria === "zapatillas" && product.tallas[selectedTallaZapatilla]
-        );
-      }
-      if (stockOnly) {
-        filtered = filtered.filter((product) =>
-          Object.values(product.tallas).some((stock) => stock > 0)
-        );
-      }
-      if (selectedDisponibilidad) {
-        filtered = filtered.filter((product) => {
-          if (selectedDisponibilidad === "Solo productos en stock") {
-            return Object.values(product.tallas).some((stock) => stock > 0) || getDisponibilidad(product) === "Entrega inmediata";
-          }
-          return getDisponibilidad(product) === selectedDisponibilidad;
-        });
-      }
-
-      setFilteredProducts(filtered);
-    }, [
-      selectedTallaRopa,
-      selectedTallaZapatilla,
-      stockOnly,
-      selectedDisponibilidad,
-      products,
-    ]);
-
-    const handleSearch = () => {
-      let filtered = products;
-      if (precioMin || precioMax) {
-        filtered = filtered.filter((product) => {
-          const precio = product.precio;
-          if (precioMin && precioMax) {
-            return precio >= parseInt(precioMin) && precio <= parseInt(precioMax);
-          } else if (precioMin) {
-            return precio >= parseInt(precioMin);
-          } else if (precioMax) {
-            return precio <= parseInt(precioMax);
-          }
-          return true;
-        });
-      }
-      setFilteredProducts(filtered);
-    };
-
-    const resetFilters = () => {
-      setSelectedTallaRopa("");
-      setSelectedTallaZapatilla("");
-      setSelectedMarca("");
-      setPrecioMin("");
-      setPrecioMax("");
-      setStockOnly(false);
-      setSelectedDisponibilidad("");
-      setFilteredProducts(products);
-    };
+  const resetFilters = () => {
+    setSelectedTallaRopa("");
+    setSelectedTallaZapatilla("");
+    setSelectedMarca("");
+    setPrecioMin("");
+    setPrecioMax("");
+    setStockOnly(false);
+    setSelectedDisponibilidad("");
+    setFilteredProducts(products);
+  };
 
     const handleSelectTallaRopa = (talla) => {
       setSelectedTallaRopa(talla);
@@ -155,11 +155,11 @@
       }
     };
 
-    return (
-      <main className="px-4 font-semibold md:px-12">
+  return (
+    <main className="px-4 font-semibold md:px-12">
+      <div className="mb-4">
+        <h3 className="mb-3 text-xl font-semibold text-gray-800">Filtros</h3>
         <div className="mb-4">
-          <h3 className="mb-3 text-xl font-semibold text-gray-800">Filtros</h3>
-          <div className="mb-4">
           {selectedTallaRopa && (
             <div className="flex items-center mb-2">
               <span className="mr-2 text-gray-600">Talla de Ropa: {selectedTallaRopa}</span>
@@ -247,14 +247,18 @@
                       onChange={() => handleSelectTallaZapatilla(talla)}
                       className="mr-1"
                     />
-                    <label htmlFor={`tallaZapatilla-${talla}`} className={`cursor-pointer text-gray-600 p-2 rounded ${selectedTallaZapatilla === talla ? '' : 'bg-white'}`}>
+                    <label
+                      htmlFor={`tallaZapatilla-${talla}`}
+                      className={`cursor-pointer text-gray-600 p-2 rounded ${selectedTallaZapatilla === talla ? '' : 'bg-white'}`}
+                    >
                       {talla}
                     </label>
                   </div>
                 ))}
-              </div>
             </div>
-          )}
+          </div>
+        )}
+
 
           <div className="mb-4">
             <label className="block mb-1 font-medium ">Marca</label>
@@ -279,23 +283,23 @@
           </div>
 
 
-          <div className="mb-4">
-            <label className="block mb-1 font-medium text-gray-700">Precio</label>
-            <input
-              type="number"
-              value={precioMin}
-              onChange={(e) => setPrecioMin(e.target.value)}
-              className="w-full p-2 bg-gray-100 border border-gray-300 rounded"
-              placeholder="Min"
-            />
-            <input
-              type="number"
-              value={precioMax}
-              onChange={(e) => setPrecioMax(e.target.value)}
-              className="w-full p-2 mt-2 bg-gray-100 border border-gray-300 rounded"
-              placeholder="Max"
-            />
-          </div>
+        <div className="mb-4">
+          <label className="block mb-1 font-medium text-gray-700">Precio</label>
+          <input
+            type="number"
+            value={precioMin}
+            onChange={(e) => setPrecioMin(e.target.value)}
+            className="w-full p-2 bg-gray-100 border border-gray-300 rounded"
+            placeholder="Min"
+          />
+          <input
+            type="number"
+            value={precioMax}
+            onChange={(e) => setPrecioMax(e.target.value)}
+            className="w-full p-2 mt-2 bg-gray-100 border border-gray-300 rounded"
+            placeholder="Max"
+          />
+        </div>
 
           {/* Botones de acción */}
           <div className="mt-4">
@@ -313,32 +317,32 @@
             </button>
           </div>
 
-          <div className="mt-4">
-            <h4 className="mb-1 font-semibold">Disponibilidad</h4>
-            <div className="flex flex-col">
-              <button
-                onClick={() => handleSelectDisponibilidad("Entrega inmediata")}
-                className={`p-2 rounded w-full ${selectedDisponibilidad === "Entrega inmediata" ? 'bg-gray-600 text-white' : 'bg-gray-300 text-black'} hover:bg-green-500 mb-1`}
-              >
-                Entrega inmediata
-              </button>
-              <button
-                onClick={() => handleSelectDisponibilidad("Disponible en 3 días")}
-                className={`p-2 rounded w-full ${selectedDisponibilidad === "Disponible en 3 días" ? 'bg-gray-600 text-white' : 'bg-gray-300 text-black'} hover:bg-yellow-500 mb-1`}
-              >
-                Disponible en 3 días
-              </button>
-              <button
-                onClick={() => handleSelectDisponibilidad("Disponible en 15 días")}
-                className={`p-2 rounded w-full ${selectedDisponibilidad === "Disponible en 15 días" ? 'bg-gray-600 text-white' : 'bg-gray-300 text-black'} hover:bg-red-500`}
-              >
-                Disponible en 15 días
-              </button>
-            </div>
+        <div className="mt-4">
+          <h4 className="mb-1 font-semibold">Disponibilidad</h4>
+          <div className="flex flex-col">
+            <button
+              onClick={() => handleSelectDisponibilidad("Entrega inmediata")}
+              className={`p-2 rounded w-full ${selectedDisponibilidad === "Entrega inmediata" ? 'bg-gray-600 text-white' : 'bg-gray-300 text-black'} hover:bg-green-500 mb-1`}
+            >
+              Entrega inmediata
+            </button>
+            <button
+              onClick={() => handleSelectDisponibilidad("Disponible en 3 días")}
+              className={`p-2 rounded w-full ${selectedDisponibilidad === "Disponible en 3 días" ? 'bg-gray-600 text-white' : 'bg-gray-300 text-black'} hover:bg-yellow-500 mb-1`}
+            >
+              Disponible en 3 días
+            </button>
+            <button
+              onClick={() => handleSelectDisponibilidad("Disponible en 15 días")}
+              className={`p-2 rounded w-full ${selectedDisponibilidad === "Disponible en 15 días" ? 'bg-gray-600 text-white' : 'bg-gray-300 text-black'} hover:bg-red-500`}
+            >
+              Disponible en 15 días
+            </button>
           </div>
-
-
         </div>
-      </main>
-    );
-  }
+
+
+      </div>
+    </main>
+  );
+}

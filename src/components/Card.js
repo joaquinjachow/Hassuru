@@ -4,7 +4,7 @@ import useStore from "@/store/store";
 
 export default function Card({ currentProducts }) {
   const { dolarBlue, fetchDolarBlue } = useStore();
-  
+
   useEffect(() => {
     fetchDolarBlue();
   }, [fetchDolarBlue]);
@@ -33,8 +33,11 @@ export default function Card({ currentProducts }) {
                   src={product.image?.base64}
                   alt={product.nombre}
                   className="object-cover w-full mb-3 h-80"
-                  />
+                />
                 <h3 className="text-lg font-semibold">{product.nombre}</h3>
+                <h5 className="mt-2 text-sm text-gray-500 leading-relaxed">
+                  {product.description}
+                </h5>
                 <div className="flex flex-col mt-2">
                   <p className="text-lg font-bold text-gray-800">${product.precio} USD</p>
                   <p className="text-lg font-bold text-gray-800">
