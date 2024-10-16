@@ -11,35 +11,35 @@ export default function Filter({ products, setFilteredProducts }) {
   const [tallasRopa, setTallasRopa] = useState([]);
   const [tallasZapatilla, setTallasZapatilla] = useState([]);
 
-  const [selectedMarca, setSelectedMarca] = useState(""); // Nuevo estado para marcas
-  const [marcas, setMarcas] = useState([]); // Nuevo estado para marcas
+    const [selectedMarca, setSelectedMarca] = useState(""); 
+    const [marcas, setMarcas] = useState([]);
 
-  useEffect(() => {
-    const marcasSet = new Set(); // Nuevo Set para marcas
+    useEffect(() => {
+      const marcasSet = new Set();
 
-    products.forEach((product) => {
-      marcasSet.add(product.marca); // Agregar marca al Set
-    });
-    setMarcas(Array.from(marcasSet)); // Actualizar el estado de marcas
-  }, [products]);
+      products.forEach((product) => {
+        marcasSet.add(product.marca);
+      });
+      setMarcas(Array.from(marcasSet));
+    }, [products]);
 
   useEffect(() => {
     let filtered = products;
 
-    if (selectedMarca) { // Filtrar por marca
-      filtered = filtered.filter((product) => product.marca === selectedMarca);
-    }
+      if (selectedMarca) { 
+        filtered = filtered.filter((product) => product.marca === selectedMarca);
+      }
 
     setFilteredProducts(filtered);
   }, [selectedMarca, products]);
 
-  const handleSelectMarca = (marca) => {
-    if (selectedMarca === marca) {
-      setSelectedMarca(""); // Desmarcar si se selecciona de nuevo
-    } else {
-      setSelectedMarca(marca);
-    }
-  };
+    const handleSelectMarca = (marca) => {
+      if (selectedMarca === marca) {
+        setSelectedMarca("");
+      } else {
+        setSelectedMarca(marca);
+      }
+    };
 
 
   useEffect(() => {
@@ -137,23 +137,23 @@ export default function Filter({ products, setFilteredProducts }) {
     setFilteredProducts(products);
   };
 
-  const handleSelectTallaRopa = (talla) => {
-    setSelectedTallaRopa(talla);
-    setSelectedTallaZapatilla(""); // Reset tallas de zapatillas
-  };
+    const handleSelectTallaRopa = (talla) => {
+      setSelectedTallaRopa(talla);
+      setSelectedTallaZapatilla("");
+    };
 
-  const handleSelectTallaZapatilla = (talla) => {
-    setSelectedTallaZapatilla(talla);
-    setSelectedTallaRopa(""); // Reset tallas de ropa
-  };
+    const handleSelectTallaZapatilla = (talla) => {
+      setSelectedTallaZapatilla(talla);
+      setSelectedTallaRopa("");
+    };
 
-  const handleSelectDisponibilidad = (opcion) => {
-    if (selectedDisponibilidad === opcion) {
-      setSelectedDisponibilidad(""); // Desmarcar si se selecciona de nuevo
-    } else {
-      setSelectedDisponibilidad(opcion);
-    }
-  };
+    const handleSelectDisponibilidad = (opcion) => {
+      if (selectedDisponibilidad === opcion) {
+        setSelectedDisponibilidad("");
+      } else {
+        setSelectedDisponibilidad(opcion);
+      }
+    };
 
   return (
     <main className="px-4 font-semibold md:px-12">
@@ -210,36 +210,34 @@ export default function Filter({ products, setFilteredProducts }) {
           )}
         </div>
 
-        {tallasRopa.length > 0 && (
-          <div className="mb-4">
-            <label className="block mb-1 font-medium text-gray-700">Talla de Ropa</label>
-            {tallasRopa.map((talla, index) => (
-              <div key={index} className="flex items-center mb-2">
-                <input
-                  type="radio"
-                  id={`tallaRopa-${talla}`}
-                  name="tallaRopa"
-                  value={talla}
-                  checked={selectedTallaRopa === talla}
-                  onChange={() => handleSelectTallaRopa(talla)}
-                  className="mr-2"
-                />
-                <label htmlFor={`tallaRopa-${talla}`} className="cursor-pointer text-gray-600">
-                  {talla}
-                </label>
-              </div>
-            ))}
-          </div>
-        )}
+          {tallasRopa.length > 0 && (
+            <div className="mb-4">
+              <label className="block mb-1 font-medium text-gray-700">Talla de Ropa</label>
+              {tallasRopa.map((talla, index) => (
+                <div key={index} className="flex items-center mb-2">
+                  <input
+                    type="radio"
+                    id={`tallaRopa-${talla}`}
+                    name="tallaRopa"
+                    value={talla}
+                    checked={selectedTallaRopa === talla}
+                    onChange={() => handleSelectTallaRopa(talla)}
+                    className="mr-2"
+                  />
+                  <label htmlFor={`tallaRopa-${talla}`} className="text-gray-600 cursor-pointer">
+                    {talla}
+                  </label>
+                </div>
+              ))}
+            </div>
+          )}
 
-        {tallasZapatilla.length > 0 && (
-          <div className="mb-4">
-            <label className="block mb-1 font-medium text-gray-700">Talla de Zapatillas</label>
-            <div className="overflow-auto max-h-32"> {/* Scroll enabled for Zapatillas */}
-              {tallasZapatilla
-                .sort((a, b) => parseFloat(a) - parseFloat(b))  // Ordena de menor a mayor
-                .map((talla, index) => (
-                  <div key={index} className="mr-2 mb-2">
+          {tallasZapatilla.length > 0 && (
+            <div className="mb-4">
+              <label className="block mb-1 font-medium text-gray-700">Talla de Zapatillas</label>
+              <div className="overflow-auto max-h-32"> {/* Scroll enabled for Zapatillas */}
+                {tallasZapatilla.map((talla, index) => (
+                  <div key={index} className="mb-2 mr-2">
                     <input
                       type="radio"
                       id={`tallaZapatilla-${talla}`}
@@ -262,27 +260,27 @@ export default function Filter({ products, setFilteredProducts }) {
         )}
 
 
-        <div className="mb-4">
-          <label className="block mb-1 font-medium ">Marca</label>
-          <div className="overflow-auto max-h-32"> {/* Scroll habilitado para marcas */}
-            {marcas.map((marca, index) => (
-              <div key={index} className="mr-2 mb-2">
-                <input
-                  type="radio"
-                  id={`marca-${marca}`}
-                  name="marca"
-                  value={marca}
-                  checked={selectedMarca === marca}
-                  onChange={() => handleSelectMarca(marca)}
-                  className="mr-1"
-                />
-                <label htmlFor={`marca-${marca}`} className={`cursor-pointer  p-2 rounded ${selectedMarca === marca ? '' : 'bg-white'}`}>
-                  {marca}
-                </label>
-              </div>
-            ))}
+          <div className="mb-4">
+            <label className="block mb-1 font-medium ">Marca</label>
+            <div className="overflow-auto max-h-32"> {/* Scroll habilitado para marcas */}
+              {marcas.map((marca, index) => (
+                <div key={index} className="mb-2 mr-2">
+                  <input
+                    type="radio"
+                    id={`marca-${marca}`}
+                    name="marca"
+                    value={marca}
+                    checked={selectedMarca === marca}
+                    onChange={() => handleSelectMarca(marca)}
+                    className="mr-1"
+                  />
+                  <label htmlFor={`marca-${marca}`} className={`cursor-pointer  p-2 rounded ${selectedMarca === marca ? '' : 'bg-white'}`}>
+                    {marca}
+                  </label>
+                </div>
+              ))}
+            </div>
           </div>
-        </div>
 
 
         <div className="mb-4">
@@ -303,21 +301,21 @@ export default function Filter({ products, setFilteredProducts }) {
           />
         </div>
 
-        {/* Botones de acción */}
-        <div className="mt-4">
-          <button
-            onClick={handleSearch}
-            className="p-2 bg-green-500 text-white rounded hover:bg-green-700 w-full mb-2"
-          >
-            Buscar
-          </button>
-          <button
-            onClick={resetFilters}
-            className="p-2 bg-red-500 text-white rounded hover:bg-red-700 w-full"
-          >
-            Reiniciar Filtros
-          </button>
-        </div>
+          {/* Botones de acción */}
+          <div className="mt-4">
+            <button
+              onClick={handleSearch}
+              className="w-full p-2 mb-2 text-white bg-green-500 rounded hover:bg-green-700"
+            >
+              Buscar
+            </button>
+            <button
+              onClick={resetFilters}
+              className="w-full p-2 text-white bg-red-500 rounded hover:bg-red-700"
+            >
+              Reiniciar Filtros
+            </button>
+          </div>
 
         <div className="mt-4">
           <h4 className="mb-1 font-semibold">Disponibilidad</h4>

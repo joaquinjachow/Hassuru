@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import Card from "./Card";
 import Filter from "./Filtro";
-import Pagination from "./Pagination"; // Importamos el nuevo componente de paginación
+import Pagination from "./Pagination";
+import { BounceLoader } from 'react-spinners';
 
 export default function Catalogo() {
   const [products, setProducts] = useState([]);
@@ -36,14 +37,13 @@ export default function Catalogo() {
   const indexOfLastProduct = currentPage * productsPerPage;
   const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
   const currentProducts = filteredProducts.slice(indexOfFirstProduct, indexOfLastProduct);
-
   const totalPages = Math.ceil(filteredProducts.length / productsPerPage);
 
   return (
     <div className="container flex flex-col py-10 mx-auto lg:flex-row">
       <section className="w-full lg:w-3/4">
         {loading ? (
-          <p>Cargando productos...</p>
+          <div className="flex items-center justify-center mt-[15%]"><BounceLoader color="#BE1A1D"/></div>
         ) : error ? (
           <p className="text-red-500">Error: {error}</p>
         ) : currentProducts.length === 0 ? (

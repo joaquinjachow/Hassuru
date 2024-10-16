@@ -9,7 +9,6 @@ export default function Card({ currentProducts }) {
     fetchDolarBlue();
   }, [fetchDolarBlue]);
 
-
   const getDisponibilidad = (product) => {
     const hasTallas = product.tallas && Object.keys(product.tallas).length > 0;
 

@@ -4,15 +4,20 @@ import Image from "next/image";
 import Link from "next/link";
 import Newsletter from "../components/Newsletter";
 import useStore from "@/store/store";
+import { BounceLoader } from 'react-spinners';
 
 export default function Home() {
-const { loading, error, products, fetchProducts } = useStore();
+const { loading, error, products, fetchProducts, dolarBlue, fetchDolarBlue } = useStore();
 
   useEffect(() => {
     fetchProducts();
   }, []);
 
-  if (loading) return <div>Cargando...</div>;
+  useEffect(() => {
+    fetchDolarBlue();
+  }, []);
+
+  if (loading) return <div className="flex items-center justify-center mt-[15%]"><BounceLoader color="#BE1A1D"/></div>;
   if (error) return <div>Error: {error}</div>;
 
   const destacados = products.filter((product) => product.destacado === true);
@@ -43,10 +48,10 @@ const { loading, error, products, fetchProducts } = useStore();
         </div>
       </div>
       <div className="mt-2">
-        <Carousell products={destacados} title={"Destacados"} />
+        <Carousell dolarBlue={dolarBlue} products={destacados} title={"Destacados"} />
       </div>
       <div className="mt-8 mb-10">
-        <Carousell products={zapatillas} title={"Zapatillas"} />
+        <Carousell dolarBlue={dolarBlue} products={zapatillas} title={"Zapatillas"} />
       </div>
       <div className="container grid grid-cols-1 gap-4 px-2 mx-auto mt-8 lg:px-24 md:grid-cols-3">
         <iframe
