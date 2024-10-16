@@ -2,7 +2,7 @@ import React, { useEffect, useRef } from "react";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import Link from "next/link";
 
-export default function Carousell({ title, products }) {
+export default function Carousell({ title, products, dolarBlue }) {
   const carouselRef = useRef(null);
 
   useEffect(() => {
@@ -53,14 +53,20 @@ export default function Carousell({ title, products }) {
         >
           {products.map((product, index) => (
             <div key={index} className="flex-none w-48 sm:w-64">
-              <Link href={`/producto/${product._id}`}>
+              <Link href={`/producto/${product._id}`} key={product.id}>
                 <div className="flex flex-col justify-between h-full">
                   <img
-                    src={product.image?.base64 || "/images/default.png"}
+                    src={product.image?.base64}
                     alt={product.nombre}
-                    className="object-contain w-full h-48 mb-3 sm:h-64"
+                    className="object-cover w-full mb-3 h-80"
                   />
-                  <h3 className="text-sm font-semibold sm:text-lg">{product.nombre}</h3>
+                  <h3 className="text-lg font-semibold">{product.nombre}</h3>
+                  <div className="flex flex-col mt-2">
+                    <p className="text-lg font-bold text-gray-800">${product.precio} USD</p>
+                    <p className="text-lg font-bold text-gray-800">
+                      {(product.precio * dolarBlue).toFixed(2)} ARS
+                    </p>
+                  </div>
                 </div>
               </Link>
             </div>
