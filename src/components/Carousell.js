@@ -63,7 +63,7 @@ export default function Carousell({ title, products, dolarBlue }) {
                   <h3 className="text-lg font-semibold">{product.nombre}</h3>
                   <div className="flex flex-col mt-2">
                     <p className="text-lg font-bold text-gray-800">${product.precio} USD</p>
-                    <p className="text-lg font-bold text-gray-800">
+                    <p className="text-lg font-bold text-gray-800">$
                       {(product.precio * dolarBlue).toFixed(2)} ARS
                     </p>
                   </div>

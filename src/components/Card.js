@@ -15,7 +15,7 @@ export default function Card({ currentProducts }) {
     if (hasTallas) {
       return { message: "Entrega inmediata", color: "text-green-500" };
     } else if (product.encargo) {
-      return { message: "Disponible en 15 días", color: "text-red-500" };
+      return { message: "Disponible en 20 días", color: "text-red-500" };
     } else {
       return { message: "Disponible en 3 días", color: "text-yellow-500" };
     }
@@ -40,7 +40,7 @@ export default function Card({ currentProducts }) {
                 </h5>
                 <div className="flex flex-col mt-2">
                   <p className="text-lg font-bold text-gray-800">${product.precio} USD</p>
-                  <p className="text-lg font-bold text-gray-800">
+                  <p className="text-lg font-bold text-gray-800">$
                     {(product.precio * dolarBlue).toFixed(2)} ARS
                   </p>
                   <span className={disponibilidad.color}>{disponibilidad.message}</span>
