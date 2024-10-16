@@ -1,3 +1,4 @@
+import { toast } from 'react-hot-toast';
 import { create } from 'zustand';
 
 const useStore = create((set) => ({
@@ -47,16 +48,18 @@ const useStore = create((set) => ({
       if (!response.ok) {
         const errorData = await response.json();
         console.error('Error en la respuesta del servidor:', errorData);
-        alert(`Error al agregar el producto: ${errorData.message || 'Error desconocido'}`);
+        toast.error(`Error al agregar el producto: ${errorData.message || 'Error desconocido'}`);
         return;
       }
-      alert('Producto agregado con éxito');
+
+      toast.success('Producto agregado con éxito');
       set({ productAdded: true });
       await useStore.getState().fetchProducts();
+
     } catch (error) {
       set({ error: error.message });
       console.error('Error al agregar el producto:', error);
-      alert('Error al agregar el producto');
+      toast.error('Error al agregar el producto');
     } finally {
       set({ loading: false });
     }
