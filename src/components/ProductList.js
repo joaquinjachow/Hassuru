@@ -19,7 +19,6 @@ const ProductList = ({ editableProducts, setEditableProducts, selectedProduct, s
     setSelectedProduct(id);
   };
 
-  // Función para remover filtros
   const handleRemoveFilters = () => {
     setCategoriaFilter(""); 
     setNameFilter("");
