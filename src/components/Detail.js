@@ -43,8 +43,8 @@ export default function Detail({ product }) {
         <h2 className="text-3xl font-bold text-gray-800 lg:text-4xl">{product.nombre}</h2>
         <div className="space-y-2 text-gray-800">
           <p className="text-lg font-semibold">{product.descripcion}</p>
-          <p className="text-2xl font-bold">{(product.precio * dolarBlue).toFixed(2)} ARS</p>
-          <p className="text-lg text-gray-500">${product.precio} USD</p>
+          <p className="text-4xl font-bold">${product.precio} USD</p>
+          <p className="text-lg text-gray-400">${(product.precio * dolarBlue).toFixed(2)} ARS</p>
         </div>
         <div className="relative">
           <button
@@ -66,7 +66,8 @@ export default function Detail({ product }) {
                   Talla {talla} {stock > 0 ? "(En stock)" : "(Sin stock)"}
                 </button>
               ))}
-              <div className="flex items-center justify-between px-4 py-2 space-x-4">
+              <p className="px-4 py-2 text-left text-red-600" >¿No encontras el talle que buscas?</p>
+              <div className="flex items-center justify-between px-4 py-2  space-x-4">
                 <input
                   type="text"
                   placeholder="Ingresa tu talle"
@@ -82,7 +83,7 @@ export default function Detail({ product }) {
                   }}
                   className="px-2 py-1 text-white bg-red-500 rounded-md"
                 >
-                  PEDIR
+                  PEDILO YA
                 </button>
               </div>
             </div>
@@ -92,7 +93,7 @@ export default function Detail({ product }) {
           {Object.entries(product.tallas).some(([_, stock]) => stock > 0) ? (
             <span className="text-green-500">Entrega inmediata</span>
           ) : (
-            <span className="text-red-500">Disponible en 15 días</span>
+            <span className="text-red-500">Disponible en 20  días</span>
           )}
         </div>
         {selectedTalla && (
@@ -117,7 +118,10 @@ export default function Detail({ product }) {
         </div>
         <div className="grid grid-cols-1 gap-4 mt-4 lg:grid-cols-2">
           <div className="p-4 text-sm text-center text-gray-600 border rounded-md">
-            Envíos a todo el país. Córdoba en 24hs.
+            Envíos gratis a todo el pais.
+          </div>
+          <div className="p-4 text-sm text-center text-gray-600 border rounded-md">
+            Entrega en Córdoba Capital
           </div>
         </div>
         <div className="mt-4">

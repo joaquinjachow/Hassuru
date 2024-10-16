@@ -157,6 +157,7 @@ export default function Filter({ products, setFilteredProducts }) {
     <main className="px-4 font-semibold md:px-12">
       <div className="mb-4">
         <h3 className="mb-3 text-xl font-semibold text-gray-800">Filtros</h3>
+
         <div className="mb-4">
           {selectedTallaRopa && (
             <div className="flex items-center mb-2">
@@ -207,6 +208,28 @@ export default function Filter({ products, setFilteredProducts }) {
             </div>
           )}
         </div>
+
+        <div className="mb-4">
+          <label className="block mb-1 font-medium ">Marca</label>
+          <div className="overflow-auto max-h-32">
+            {marcas.map((marca, index) => (
+              <div key={index} className="mb-2 mr-2">
+                <input
+                  type="radio"
+                  id={`marca-${marca}`}
+                  name="marca"
+                  value={marca}
+                  checked={selectedMarca === marca}
+                  onChange={() => handleSelectMarca(marca)}
+                  className="mr-1"
+                />
+                <label htmlFor={`marca-${marca}`} className={`cursor-pointer  p-2 rounded ${selectedMarca === marca ? '' : 'bg-white'}`}>
+                  {marca}
+                </label>
+              </div>
+            ))}
+          </div>
+        </div>
         {tallasRopa.length > 0 && (
           <div className="mb-4">
             <label className="block mb-1 font-medium text-gray-700">Talla de Ropa</label>
@@ -232,49 +255,38 @@ export default function Filter({ products, setFilteredProducts }) {
           <div className="mb-4">
             <label className="block mb-1 font-medium text-gray-700">Talla de Zapatillas</label>
             <div className="overflow-auto max-h-32">
-              {tallasZapatilla.map((talla, index) => (
-                <div key={index} className="mb-2 mr-2">
-                  <input
-                    type="radio"
-                    id={`tallaZapatilla-${talla}`}
-                    name="tallaZapatilla"
-                    value={talla}
-                    checked={selectedTallaZapatilla === talla}
-                    onChange={() => handleSelectTallaZapatilla(talla)}
-                    className="mr-1"
-                  />
-                  <label
-                    htmlFor={`tallaZapatilla-${talla}`}
-                    className={`cursor-pointer text-gray-600 p-2 rounded ${selectedTallaZapatilla === talla ? '' : 'bg-white'}`}
-                  >
-                    {talla}
-                  </label>
-                </div>
-              ))}
+              {tallasZapatilla
+                .sort((a, b) => {
+                  // Extraemos el primer número de cada cadena
+                  const tallaA = parseInt(a.split(' ')[0], 10); // Extrae el primer número (EE. UU.)
+                  const tallaB = parseInt(b.split(' ')[0], 10); // Extrae el primer número (EE. UU.)
+                  return tallaA - tallaB; // Ordenar de menor a mayor
+                })
+                .map((talla, index) => (
+                  <div key={index} className="mb-2 mr-2">
+                    <input
+                      type="radio"
+                      id={`tallaZapatilla-${talla}`}
+                      name="tallaZapatilla"
+                      value={talla}
+                      checked={selectedTallaZapatilla === talla}
+                      onChange={() => handleSelectTallaZapatilla(talla)}
+                      className="mr-1"
+                    />
+                    <label
+                      htmlFor={`tallaZapatilla-${talla}`}
+                      className={`cursor-pointer text-gray-600 p-2 rounded ${selectedTallaZapatilla === talla ? '' : 'bg-white'
+                        }`}
+                    >
+                      {talla}
+                    </label>
+                  </div>
+                ))}
             </div>
           </div>
         )}
-        <div className="mb-4">
-          <label className="block mb-1 font-medium ">Marca</label>
-          <div className="overflow-auto max-h-32">
-            {marcas.map((marca, index) => (
-              <div key={index} className="mb-2 mr-2">
-                <input
-                  type="radio"
-                  id={`marca-${marca}`}
-                  name="marca"
-                  value={marca}
-                  checked={selectedMarca === marca}
-                  onChange={() => handleSelectMarca(marca)}
-                  className="mr-1"
-                />
-                <label htmlFor={`marca-${marca}`} className={`cursor-pointer  p-2 rounded ${selectedMarca === marca ? '' : 'bg-white'}`}>
-                  {marca}
-                </label>
-              </div>
-            ))}
-          </div>
-        </div>
+
+
         <div className="mb-4">
           <label className="block mb-1 font-medium text-gray-700">Precio</label>
           <input
@@ -295,7 +307,7 @@ export default function Filter({ products, setFilteredProducts }) {
         <div className="mt-4">
           <button
             onClick={handleSearch}
-            className="w-full p-2 mb-2 text-white bg-green-500 rounded hover:bg-green-700"
+            className="w-full p-2 mb-2 text-white bg-red-500 rounded hover:bg-red-700"
           >
             Buscar
           </button>
@@ -325,7 +337,7 @@ export default function Filter({ products, setFilteredProducts }) {
               onClick={() => handleSelectDisponibilidad("Disponible en 15 días")}
               className={`p-2 rounded w-full ${selectedDisponibilidad === "Disponible en 15 días" ? 'bg-gray-600 text-white' : 'bg-gray-300 text-black'} hover:bg-red-500`}
             >
-              Disponible en 15 días
+              Disponible en 20 días
             </button>
           </div>
         </div>
