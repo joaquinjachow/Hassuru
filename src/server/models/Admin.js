@@ -24,7 +24,7 @@ const adminSchema = new mongoose.Schema({
   }
 }, { timestamps: true });
 
-adminSchema.pre('save', async function(next) {
+adminSchema.pre('save', async function (next) {
   const admin = this;
   if (admin.isModified('password')) {
     try {
@@ -36,10 +36,8 @@ adminSchema.pre('save', async function(next) {
   next();
 });
 
-adminSchema.methods.compararPassword = function(password) {
+adminSchema.methods.compararPassword = function (password) {
   return bcrypt.compare(password, this.password);
 };
-
 const Admin = mongoose.model('Admin', adminSchema);
-
 module.exports = Admin;

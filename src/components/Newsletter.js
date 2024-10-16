@@ -4,7 +4,6 @@ import useStore from "@/store/store";
 
 export default function Newsletter() {
   const { handleSubscribe } = useStore();
-
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
 

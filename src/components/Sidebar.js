@@ -27,9 +27,9 @@ const Sidebar = ({ handleLogout, categoriasDisponibles }) => {
           Logout
         </button>
       </div>
-      <AddProductModal 
-        isOpen={isModalOpen} 
-        onClose={() => setModalOpen(false)} 
+      <AddProductModal
+        isOpen={isModalOpen}
+        onClose={() => setModalOpen(false)}
         categorias={categoriasDisponibles}
       />
     </aside>

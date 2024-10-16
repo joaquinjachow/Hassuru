@@ -39,7 +39,6 @@ export default function Detail({ product }) {
           className="object-contain w-full h-auto max-h-[700px]"
         />
       </div>
-
       <div className="flex flex-col w-full p-2 space-y-4 lg:w-1/2">
         <h2 className="text-3xl font-bold text-gray-800 lg:text-4xl">{product.nombre}</h2>
         <div className="space-y-2 text-gray-800">
@@ -47,7 +46,6 @@ export default function Detail({ product }) {
           <p className="text-2xl font-bold">{(product.precio * dolarBlue).toFixed(2)} ARS</p>
           <p className="text-lg text-gray-500">${product.precio} USD</p>
         </div>
-
         <div className="relative">
           <button
             onClick={() => setShowTallas(!showTallas)}
@@ -61,9 +59,8 @@ export default function Detail({ product }) {
               {Object.entries(product.tallas).map(([talla, stock], index) => (
                 <button
                   key={index}
-                  className={`w-full px-4 py-2 text-left hover:bg-gray-100 ${
-                    selectedTalla === talla ? "font-bold" : ""
-                  }`}
+                  className={`w-full px-4 py-2 text-left hover:bg-gray-100 ${selectedTalla === talla ? "font-bold" : ""
+                    }`}
                   onClick={() => handleTallaSelect(talla)}
                 >
                   Talla {talla} {stock > 0 ? "(En stock)" : "(Sin stock)"}
@@ -91,7 +88,6 @@ export default function Detail({ product }) {
             </div>
           )}
         </div>
-
         <div className="text-sm text-gray-600">
           {Object.entries(product.tallas).some(([_, stock]) => stock > 0) ? (
             <span className="text-green-500">Entrega inmediata</span>
@@ -99,7 +95,6 @@ export default function Detail({ product }) {
             <span className="text-red-500">Disponible en 15 días</span>
           )}
         </div>
-
         {selectedTalla && (
           <div className="mt-2 text-sm text-gray-600">
             Has seleccionado la talla: <span className="font-bold">{selectedTalla}</span>

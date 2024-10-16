@@ -30,8 +30,6 @@ export default function Suscriptores({ emails }) {
           <p className="text-gray-500">No hay suscriptores.</p>
         )}
       </div>
-
-      {/* Reemplazar la paginación previa con el componente Pagination */}
       {emails.length > emailsPerPage && (
         <Pagination
           totalPages={totalPages}
