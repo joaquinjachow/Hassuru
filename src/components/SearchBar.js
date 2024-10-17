@@ -36,6 +36,13 @@ export default function SearchBar({ isHamburgerOpen }) {
     }
   };
 
+  const handleSearch = () => {
+    setQuery("");
+    setFilteredProducts([]);
+    setIsFocused(false);
+  }
+
+
   const handleFocus = () => {
     setIsFocused(true);
   };
@@ -74,7 +81,7 @@ export default function SearchBar({ isHamburgerOpen }) {
           {filteredProducts.map((product) => (
             <li key={product._id} className="px-4 py-2 hover:bg-gray-100">
               <Link href={`/producto/${product._id}`}>
-                {product.nombre}
+                <p onClick={handleSearch}>{product.nombre}</p>
               </Link>
             </li>
           ))}
