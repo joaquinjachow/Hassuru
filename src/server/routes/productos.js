@@ -27,16 +27,18 @@ router.get('/:id', async (req, res) => {
 router.get('/nombre/:nombre', async (req, res) => {
   try {
     const { nombre } = req.params;
+    const limit = parseInt(req.query.limit) || 10;
+    const page = parseInt(req.query.page) || 1;
+
     if (!nombre || nombre.trim() === '') {
       return res.status(400).json({ error: 'Debes proporcionar un nombre para filtrar.' });
     }
-    const caracteresNoPermitidos = /[^a-zA-Z0-9 áéíóúñÑ]/;
-    if (caracteresNoPermitidos.test(nombre)) {
-      return res.status(400).json({ error: 'El nombre contiene caracteres no permitidos.' });
-    }
+
     const productosFiltrados = await Producto.find({
       nombre: { $regex: new RegExp(nombre, 'i') }
-    });
+    })
+    .skip((page - 1) * limit)
+    .limit(limit);
 
     res.status(200).json(productosFiltrados);
   } catch (error) {
