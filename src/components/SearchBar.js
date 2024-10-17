@@ -7,7 +7,6 @@ export default function SearchBar({ isHamburgerOpen }) {
   const [isFocused, setIsFocused] = useState(false);
   const [filteredProducts, setFilteredProducts] = useState([]);
 
-  // Función para realizar la búsqueda
   const fetchProducts = async (searchQuery) => {
     try {
       const res = await fetch(`http://localhost:5000/api/productos/nombre/${searchQuery}?limit=10`);
@@ -37,17 +36,14 @@ export default function SearchBar({ isHamburgerOpen }) {
   };
 
   const handleSearch = () => {
-    // Limpiar el input y cerrar las sugerencias al realizar la búsqueda
     setQuery("");
     setFilteredProducts([]);
     setIsFocused(false);
   };
 
   const handleToggleFocus = () => {
-    // Alternar el estado del input entre abierto y cerrado
     setIsFocused(!isFocused);
     if (isFocused) {
-      // Limpiar cuando se cierre
       setQuery("");
       setFilteredProducts([]);
     }
@@ -77,7 +73,7 @@ export default function SearchBar({ isHamburgerOpen }) {
       <button
         type="button"
         className="p-2 text-gray-500"
-        onClick={handleToggleFocus} // Alterna el foco y cierre
+        onClick={handleToggleFocus}
       >
         <FaSearch />
       </button>
