@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import SearchBar from "./SearchBar";
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
@@ -10,6 +11,7 @@ export default function Navbar() {
     { name: "Accesorios", href: "/productos/categoria/accesorios" },
     { name: "Encargos", href: "/encargos" },
   ];
+
   const toggleMenu = () => {
     setIsOpen(!isOpen);
   };
@@ -35,6 +37,9 @@ export default function Navbar() {
           <Link href="/">
             <Image src="/logo.png" alt="Logo" width={100} height={100} />
           </Link>
+        </div>
+        <div className="hidden xl:block ml-auto">
+          <SearchBar onSearch={(query) => console.log(query)} isHamburgerOpen={false} />
         </div>
         <button
           onClick={toggleMenu}
@@ -69,6 +74,9 @@ export default function Navbar() {
                 </Link>
               </li>
             ))}
+            <li>
+              <SearchBar onSearch={(query) => console.log(query)} isHamburgerOpen={isOpen} />
+            </li>
           </ul>
         </div>
       )}
