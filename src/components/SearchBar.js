@@ -1,52 +1,85 @@
-import React, { useState } from 'react';
-import { FaSearch } from 'react-icons/fa';
-import { debounce } from 'lodash';
+import React, { useState } from "react";
+import { FaSearch } from "react-icons/fa";
+import Link from "next/link";
 
-export default function SearchBar({ onSearch }) {
-  const [query, setQuery] = useState('');
-  const [isOpen, setIsOpen] = useState(false);
+export default function SearchBar({ isHamburgerOpen }) {
+  const [query, setQuery] = useState("");
+  const [isFocused, setIsFocused] = useState(false);
+  const [filteredProducts, setFilteredProducts] = useState([]);
 
-  const handleSearch = debounce((query) => {
-    if (query.trim()) {
-      onSearch(query);
-    } else {
-      onSearch('');
+  // Función para realizar la búsqueda
+  const fetchProducts = async (searchQuery) => {
+    try {
+      const res = await fetch(`http://localhost:5000/api/productos/nombre/${searchQuery}?limit=10`);
+      const data = await res.json();
+
+      if (res.ok) {
+        setFilteredProducts(data);
+      } else {
+        setFilteredProducts([]);
+        console.error("Error al obtener productos:", data.error);
+      }
+    } catch (error) {
+      console.error("Error en la búsqueda:", error);
+      setFilteredProducts([]);
     }
-  }, 300);
+  };
 
   const handleInputChange = (e) => {
-    setQuery(e.target.value);
-    handleSearch(e.target.value);
+    const searchQuery = e.target.value;
+    setQuery(searchQuery);
+
+    if (searchQuery.trim()) {
+      fetchProducts(searchQuery);
+    } else {
+      setFilteredProducts([]);
+    }
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    handleSearch(query);
+  const handleFocus = () => {
+    setIsFocused(true);
   };
 
-  const toggleSearchBar = () => {
-    setIsOpen(!isOpen);
+  const handleBlur = () => {
+    if (!query) setIsFocused(false);
   };
 
   return (
-    <div className="relative">
-      <form className="flex items-center" onSubmit={handleSubmit}>
-        <input
-          type="text"
-          value={query}
-          onChange={handleInputChange}
-          placeholder="Buscar"
-          className={`border border-gray-300 p-2 rounded-l-md focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all duration-300 absolute ${isOpen ? 'w-64 opacity-100' : 'w-0 opacity-0 pointer-events-none'}`}
-          style={{ right: '100%' }}
-        />
-        <button 
-          type="button" 
-          className="focus:outline-none ml-2" 
-          onClick={toggleSearchBar}
-        >
-          <FaSearch className="text-gray-600" size={20} />
-        </button>
-      </form>
+    <div className="relative flex items-center">
+      <input
+        type="text"
+        value={query}
+        onChange={handleInputChange}
+        onFocus={handleFocus}
+        onBlur={handleBlur}
+        placeholder="Buscar..."
+        className={`transition-all duration-300 ease-in-out p-2 border border-gray-300 outline-none ${
+          isHamburgerOpen
+            ? "w-40 opacity-100 rounded-l-md"
+            : isFocused
+            ? "w-40 opacity-100"
+            : "w-0 opacity-0 p-0"
+        }`}
+      />
+      <button
+        type="button"
+        className="p-2 text-gray-500"
+        onClick={() => setIsFocused(true)}
+      >
+        <FaSearch />
+      </button>
+
+      {filteredProducts.length > 0 && (
+        <ul className="absolute top-12 left-0 w-full bg-white border border-gray-300 rounded-md shadow-md">
+          {filteredProducts.map((product) => (
+            <li key={product._id} className="px-4 py-2 hover:bg-gray-100">
+              <Link href={`/producto/${product._id}`}>
+                {product.nombre}
+              </Link>
+            </li>
+          ))}
+        </ul>
+      )}
     </div>
   );
 }
