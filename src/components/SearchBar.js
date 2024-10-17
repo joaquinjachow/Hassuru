@@ -37,14 +37,20 @@ export default function SearchBar({ isHamburgerOpen }) {
   };
 
   const handleSearch = () => {
+    // Limpiar el input y cerrar las sugerencias al realizar la búsqueda
     setQuery("");
     setFilteredProducts([]);
     setIsFocused(false);
-  }
+  };
 
-
-  const handleFocus = () => {
-    setIsFocused(true);
+  const handleToggleFocus = () => {
+    // Alternar el estado del input entre abierto y cerrado
+    setIsFocused(!isFocused);
+    if (isFocused) {
+      // Limpiar cuando se cierre
+      setQuery("");
+      setFilteredProducts([]);
+    }
   };
 
   const handleBlur = () => {
@@ -57,7 +63,7 @@ export default function SearchBar({ isHamburgerOpen }) {
         type="text"
         value={query}
         onChange={handleInputChange}
-        onFocus={handleFocus}
+        onFocus={() => setIsFocused(true)}
         onBlur={handleBlur}
         placeholder="Buscar..."
         className={`transition-all duration-300 ease-in-out p-2 border border-gray-300 outline-none ${
@@ -71,7 +77,7 @@ export default function SearchBar({ isHamburgerOpen }) {
       <button
         type="button"
         className="p-2 text-gray-500"
-        onClick={() => setIsFocused(true)}
+        onClick={handleToggleFocus} // Alterna el foco y cierre
       >
         <FaSearch />
       </button>
