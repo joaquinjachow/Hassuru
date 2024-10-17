@@ -199,14 +199,6 @@ export default function Filter({ products, setFilteredProducts }) {
               </button>
             </div>
           )}
-          {(precioMin || precioMax) && (
-            <div className="flex items-center mb-2">
-              <span className="mr-2 text-gray-600">Precio: {precioMin ? `$${precioMin}` : ''} - {precioMax ? `$${precioMax}` : ''}</span>
-              <button onClick={() => { setPrecioMin(""); setPrecioMax(""); }} className="text-red-500">
-                X
-              </button>
-            </div>
-          )}
         </div>
 
         <div className="mb-4">
