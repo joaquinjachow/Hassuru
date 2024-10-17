@@ -249,10 +249,9 @@ export default function Filter({ products, setFilteredProducts }) {
             <div className="overflow-auto max-h-32">
               {tallasZapatilla
                 .sort((a, b) => {
-                  // Extraemos el primer número de cada cadena
-                  const tallaA = parseInt(a.split(' ')[0], 10); // Extrae el primer número (EE. UU.)
-                  const tallaB = parseInt(b.split(' ')[0], 10); // Extrae el primer número (EE. UU.)
-                  return tallaA - tallaB; // Ordenar de menor a mayor
+                  const tallaA = parseInt(a.split(' ')[0], 10); 
+                  const tallaB = parseInt(b.split(' ')[0], 10); 
+                  return tallaA - tallaB;
                 })
                 .map((talla, index) => (
                   <div key={index} className="mb-2 mr-2">

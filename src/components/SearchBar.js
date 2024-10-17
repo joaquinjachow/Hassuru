@@ -7,7 +7,6 @@ export default function SearchBar({ isHamburgerOpen }) {
   const [isFocused, setIsFocused] = useState(false);
   const [filteredProducts, setFilteredProducts] = useState([]);
 
-  // Función para realizar la búsqueda
   const fetchProducts = async (searchQuery) => {
     try {
       const res = await fetch(`http://localhost:5000/api/productos/nombre/${searchQuery}?limit=10`);
@@ -77,7 +76,7 @@ export default function SearchBar({ isHamburgerOpen }) {
       </button>
 
       {filteredProducts.length > 0 && (
-        <ul className="absolute top-12 left-0 w-full bg-white border border-gray-300 rounded-md shadow-md">
+        <ul className="absolute left-0 w-full bg-white border border-gray-300 rounded-md shadow-md top-12">
           {filteredProducts.map((product) => (
             <li key={product._id} className="px-4 py-2 hover:bg-gray-100">
               <Link href={`/producto/${product._id}`}>
