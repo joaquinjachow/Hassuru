@@ -59,7 +59,7 @@ export default function AdminDashboard() {
 
   const handleLogout = () => {
     localStorage.removeItem("token");
-    router.push("/dashboard");
+    router.push("/login");
   };
 
   return (
