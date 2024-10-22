@@ -342,7 +342,7 @@ export default function Filter({ products, setFilteredProducts }) {
                 : "bg-gray-300 text-black"
                 } hover:bg-red-500`}
             >
-              Disponible en 15 días
+              Disponible en 20 días
             </button>
           </div>
         </div>
