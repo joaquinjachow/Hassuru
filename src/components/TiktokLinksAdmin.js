@@ -31,6 +31,11 @@ const TiktokLinksAdmin = () => {
     setNewLink(tiktoks[index].link);
   };
 
+  const handleCancel = () => {
+    setEditIndex(null);
+    setNewLink('');
+  };
+
   const handleUpdate = async (id) => {
     try {
       const token = localStorage.getItem("token");
@@ -40,19 +45,19 @@ const TiktokLinksAdmin = () => {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${token}`,
         },
-        body: JSON.stringify({ link: newLink }), 
+        body: JSON.stringify({ link: newLink }),
       });
-  
+
       if (!response.ok) {
         throw new Error("Error al actualizar el enlace de TikTok");
       }
-  
+
       const updatedTiktok = await response.json();
       const updatedTiktoks = tiktoks.map((tiktok) =>
         tiktok._id === id ? updatedTiktok : tiktok
       );
       setTiktoks(updatedTiktoks);
-      setEditIndex(null); 
+      setEditIndex(null);
       setNewLink('');
     } catch (error) {
       console.error("Error al actualizar el enlace", error);
@@ -72,13 +77,7 @@ const TiktokLinksAdmin = () => {
                 {tiktok.link}
               </span>
               <div className="flex items-center mt-2 sm:mt-0">
-                <button
-                  onClick={() => handleEdit(index)}
-                  className="px-2 py-1 text-white bg-blue-500 rounded hover:bg-blue-600"
-                >
-                  Editar
-                </button>
-                {editIndex === index && (
+                {editIndex === index ? (
                   <>
                     <input
                       type="url"
@@ -93,7 +92,20 @@ const TiktokLinksAdmin = () => {
                     >
                       Guardar
                     </button>
+                    <button
+                      onClick={handleCancel}
+                      className="px-2 py-1 ml-2 text-white bg-red-500 rounded hover:bg-red-600"
+                    >
+                      Cancelar
+                    </button>
                   </>
+                ) : (
+                  <button
+                    onClick={() => handleEdit(index)}
+                    className="px-2 py-1 text-white bg-blue-500 rounded hover:bg-blue-600"
+                  >
+                    Editar
+                  </button>
                 )}
               </div>
             </li>
