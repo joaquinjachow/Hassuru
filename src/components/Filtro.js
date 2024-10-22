@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { IoFilterOutline } from "react-icons/io5";
 
 export default function Filter({ products, setFilteredProducts }) {
   const [selectedTallaRopa, setSelectedTallaRopa] = useState("");
@@ -197,7 +198,7 @@ export default function Filter({ products, setFilteredProducts }) {
 
         <button
           onClick={() => setShowFilters(!showFilters)}
-          className="mb-4 p-2 text-white bg-blue-500 rounded md:hidden"
+          className={`mb-4 px-4 py-2 text-white md:hidden bg-red-500 rounded-md shadow-md transition-all duration-300 ease-in-out transform hover:bg-red-600 hover:scale-105 active:scale-95 focus:outline-none focus:ring-4 focus:ring-red-300`}
         >
           {showFilters ? "Ocultar Filtros" : "Mostrar Filtros"}
         </button>
