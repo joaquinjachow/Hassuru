@@ -7,7 +7,7 @@ import useStore from "@/store/store";
 import { BounceLoader } from 'react-spinners';
 
 export default function Home() {
-const { loading, error, products, fetchProducts, dolarBlue, fetchDolarBlue } = useStore();
+const { loading, error, products, fetchProducts, dolarBlue, fetchDolarBlue, fetchTikTokLinks, tiktokLinks } = useStore();
 
   useEffect(() => {
     fetchProducts();
@@ -15,6 +15,10 @@ const { loading, error, products, fetchProducts, dolarBlue, fetchDolarBlue } = u
 
   useEffect(() => {
     fetchDolarBlue();
+  }, []);
+
+  useEffect(() => {
+    fetchTikTokLinks();
   }, []);
 
   if (loading) return <div className="flex items-center justify-center mt-[15%]"><BounceLoader color="#BE1A1D"/></div>;
@@ -54,24 +58,36 @@ const { loading, error, products, fetchProducts, dolarBlue, fetchDolarBlue } = u
         <Carousell dolarBlue={dolarBlue} products={zapatillas} title={"Zapatillas"} />
       </div>
       <div className="container grid grid-cols-1 gap-4 px-2 mx-auto mt-8 lg:px-24 md:grid-cols-3">
-        <iframe
-          src="https://www.tiktok.com/embed/7420249638982274310"
-          width="100%"
-          height="750"
-          allow="encrypted-media"
-        ></iframe>
-        <iframe
-          src="https://www.tiktok.com/embed/7368541174270840069"
-          width="100%"
-          height="750"
-          allow="encrypted-media"
-        ></iframe>
-        <iframe
-          src="https://www.tiktok.com/embed/7370028703503387909"
-          width="100%"
-          height="750"
-          allow="encrypted-media"
-        ></iframe>
+      {tiktokLinks[0]?.link && (
+          <iframe
+            src={tiktokLinks[0].link}
+            width="100%"
+            height="750"
+            style={{ border: "none" }}
+            allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; accelerometer; gyroscope;"
+            allowFullScreen
+          ></iframe>
+        )}
+        {tiktokLinks[1]?.link && (
+          <iframe
+            src={tiktokLinks[1].link}
+            width="100%"
+            height="750"
+            style={{ border: "none" }}
+            allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; accelerometer; gyroscope;"
+            allowFullScreen
+          ></iframe>
+        )}
+        {tiktokLinks[2]?.link && (
+          <iframe
+            src={tiktokLinks[2].link}
+            width="100%"
+            height="750"
+            style={{ border: "none" }}
+            allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; accelerometer; gyroscope;"
+            allowFullScreen
+          ></iframe>
+        )}
       </div>
       <div className="mb-4">
         <Newsletter />

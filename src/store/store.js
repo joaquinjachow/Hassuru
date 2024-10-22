@@ -11,6 +11,7 @@ const useStore = create((set) => ({
   filteredProducts: [],
   message: "",
   email: "",
+  tiktokLinks: [],
 
   fetchProducts: async () => {
     set({ loading: true });
@@ -134,6 +135,25 @@ const useStore = create((set) => ({
     } catch (error) {
       set({ message: "Error al suscribirte. Intenta nuevamente." });
       console.error("Error al suscribirte:", error);
+    } finally {
+      set({ loading: false });
+    }
+  },
+
+  fetchTikTokLinks: async () => {
+    set({ loading: true });
+    try {
+      const response = await fetch('http://localhost:5000/api/tiktoks', {
+        method: 'GET',
+      });
+      if (!response.ok) {
+        throw new Error('Error al cargar los enlaces de TikTok');
+      }
+      const data = await response.json();
+      set({ tiktokLinks: data });
+    } catch (error) {
+      set({ error: error.message });
+      console.error('Error al cargar los enlaces de TikTok:', error);
     } finally {
       set({ loading: false });
     }
