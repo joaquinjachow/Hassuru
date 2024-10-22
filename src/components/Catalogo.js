@@ -1,70 +1,90 @@
-  import React, { useState, useEffect } from "react";
-  import Card from "./Card";
-  import Filter from "./Filtro";
-  import Pagination from "./Pagination";
-  import { BounceLoader } from 'react-spinners';
+import React, { useState, useEffect } from "react";
+import { useRouter } from "next/router"; // Importa useRouter para manejar la búsqueda
+import Card from "./Card";
+import Filter from "./Filtro";
+import Pagination from "./Pagination";
+import { BounceLoader } from 'react-spinners';
 
-  export default function Catalogo() {
-    const [products, setProducts] = useState([]);
-    const [filteredProducts, setFilteredProducts] = useState([]);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
-    const [currentPage, setCurrentPage] = useState(1);
-    const productsPerPage = 20;
+export default function Catalogo() {
+  const router = useRouter(); // Inicializa useRouter
+  const { search } = router.query; // Extrae el parámetro de búsqueda de la URL
+  const [products, setProducts] = useState([]);
+  const [filteredProducts, setFilteredProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const productsPerPage = 20;
 
-    const fetchProducts = async () => {
-      setLoading(true);
-      setError(null);
-      try {
-        const response = await fetch("http://localhost:5000/api/productos");
-        if (!response.ok) {
-          throw new Error("Error al cargar los productos");
-        }
-        const data = await response.json();
-        setProducts(data);
-        setFilteredProducts(data);
-      } catch (error) {
-        setError(error.message);
-      } finally {
-        setLoading(false);
+  const fetchProducts = async () => {
+    setLoading(true);
+    setError(null);
+    try {
+      const response = await fetch("http://localhost:5000/api/productos");
+      if (!response.ok) {
+        throw new Error("Error al cargar los productos");
       }
-    };
+      const data = await response.json();
+      setProducts(data);
+      setFilteredProducts(data);
+    } catch (error) {
+      setError(error.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+  
 
-    useEffect(() => {
-      fetchProducts();
-    }, []);
+  useEffect(() => {
+    fetchProducts();
+  }, []);
 
-    const indexOfLastProduct = currentPage * productsPerPage;
-    const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
-    const currentProducts = filteredProducts.slice(indexOfFirstProduct, indexOfLastProduct);
-    const totalPages = Math.ceil(filteredProducts.length / productsPerPage);
+  // Aplica el filtro basado en la búsqueda en la URL
+  useEffect(() => {
+    if (search) {
+      const searchQuery = search.toLowerCase();
+      const filtered = products.filter(product =>
+        product.nombre.toLowerCase().includes(searchQuery)
+      );
+      setFilteredProducts(filtered);
+      setCurrentPage(1); // Resetea la página actual al aplicar el filtro
+    } else {
+      setFilteredProducts(products); // Si no hay búsqueda, muestra todos los productos
+    }
+  }, [search, products]); // Dependencias para el efecto
 
-    return (
-      <div className="container flex flex-col py-10 mx-auto lg:flex-row">
-        <aside className="w-full mb-6 lg:w-1/4 lg:mb-0">
-          <Filter
-            products={products}
-            setFilteredProducts={setFilteredProducts}
-          />
-        </aside>
-        <section className="w-full lg:w-3/4">
-          {loading ? (
-            <div className="flex items-center justify-center mt-[15%]"><BounceLoader color="#BE1A1D" /></div>
-          ) : error ? (
-            <p className="text-red-500">Error: {error}</p>
-          ) : currentProducts.length === 0 ? (
-            <p>No hay productos disponibles.</p>
-          ) : (
-            <>
-              <Card currentProducts={currentProducts} />
-              <Pagination
-                currentPage={currentPage}
-                setCurrentPage={setCurrentPage}
-                totalPages={totalPages}
-              />
-            </>
-          )}
-        </section>
-      </div>
-    );
-  }
+  const indexOfLastProduct = currentPage * productsPerPage;
+  const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
+  const currentProducts = filteredProducts.slice(indexOfFirstProduct, indexOfLastProduct);
+  const totalPages = Math.ceil(filteredProducts.length / productsPerPage);
+
+  return (
+    <div className="container flex flex-col py-10 mx-auto lg:flex-row">
+      <aside className="w-full mb-6 lg:w-1/4 lg:mb-0">
+        <Filter
+          products={products}
+          setFilteredProducts={setFilteredProducts}
+        />
+      </aside>
+      <section className="w-full lg:w-3/4">
+        {loading ? (
+          <div className="flex items-center justify-center mt-[15%]">
+            <BounceLoader color="#BE1A1D" />
+          </div>
+        ) : error ? (
+          <p className="text-red-500">Error: {error}</p>
+        ) : currentProducts.length === 0 ? (
+          <p>No hay productos disponibles.</p>
+        ) : (
+          <>
+            <Card currentProducts={currentProducts} />
+            <Pagination
+              currentPage={currentPage}
+              setCurrentPage={setCurrentPage}
+              totalPages={totalPages}
+            />
+          </>
+        )}
+      </section>
+    </div>
+  );
+}
