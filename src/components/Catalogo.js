@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from "react";
-import { useRouter } from "next/router"; // Importa useRouter para manejar la búsqueda
+import { useRouter } from "next/router";
 import Card from "./Card";
 import Filter from "./Filtro";
 import Pagination from "./Pagination";
 import { BounceLoader } from 'react-spinners';
 
 export default function Catalogo() {
-  const router = useRouter(); // Inicializa useRouter
-  const { search } = router.query; // Extrae el parámetro de búsqueda de la URL
+  const router = useRouter();
+  const { search } = router.query; 
   const [products, setProducts] = useState([]);
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -38,7 +38,6 @@ export default function Catalogo() {
     fetchProducts();
   }, []);
 
-  // Aplica el filtro basado en la búsqueda en la URL
   useEffect(() => {
     if (search) {
       const searchQuery = search.toLowerCase();
@@ -46,9 +45,9 @@ export default function Catalogo() {
         product.nombre.toLowerCase().includes(searchQuery)
       );
       setFilteredProducts(filtered);
-      setCurrentPage(1); // Resetea la página actual al aplicar el filtro
+      setCurrentPage(1);
     } else {
-      setFilteredProducts(products); // Si no hay búsqueda, muestra todos los productos
+      setFilteredProducts(products);
     }
   }, [search, products]); // Dependencias para el efecto
 
