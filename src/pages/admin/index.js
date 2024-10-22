@@ -2,6 +2,7 @@ import { useAuth } from "../../hooks/useAuth";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import ProductList from "../../components/ProductList";
+import TiktokLinksAdmin from "@/components/TiktokLinksAdmin";
 import Sidebar from "../../components/Sidebar";
 
 export default function AdminDashboard() {
@@ -70,6 +71,9 @@ export default function AdminDashboard() {
       />
       <div className="flex-1 w-full p-4 md:p-10">
         <h2 className="mb-6 text-2xl font-semibold text-black">Bienvenido al Dashboard</h2>
+
+        <TiktokLinksAdmin />
+
         {loading ? (
           <p>Cargando productos...</p>
         ) : (
