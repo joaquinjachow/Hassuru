@@ -6,7 +6,6 @@ const TiktokLinksAdmin = () => {
   const [editIndex, setEditIndex] = useState(null);
   const [newLink, setNewLink] = useState('');
 
-  // Fetch inicial para obtener los enlaces de TikTok
   const fetchTiktokLinks = async () => {
     setLoading(true);
     try {
@@ -15,7 +14,7 @@ const TiktokLinksAdmin = () => {
         throw new Error("Error al obtener los enlaces de TikTok");
       }
       const data = await response.json();
-      setTiktoks(data); // Asume que `data` es un array de objetos TikTok
+      setTiktoks(data);
     } catch (error) {
       console.error("Error al cargar los enlaces de TikTok", error);
     } finally {
@@ -29,7 +28,7 @@ const TiktokLinksAdmin = () => {
 
   const handleEdit = (index) => {
     setEditIndex(index);
-    setNewLink(tiktoks[index].link); // Cargar el enlace actual en el campo de texto
+    setNewLink(tiktoks[index].link);
   };
 
   const handleUpdate = async (id) => {
@@ -48,7 +47,6 @@ const TiktokLinksAdmin = () => {
         throw new Error("Error al actualizar el enlace de TikTok");
       }
   
-      // Actualizar la lista local de tiktoks
       const updatedTiktok = await response.json();
       const updatedTiktoks = tiktoks.map((tiktok) =>
         tiktok._id === id ? updatedTiktok : tiktok
@@ -69,8 +67,8 @@ const TiktokLinksAdmin = () => {
       ) : (
         <ul className="space-y-4">
           {tiktoks.map((tiktok, index) => (
-            <li key={tiktok._id} className="flex flex-col sm:flex-row items-center justify-between">
-              <span className="w-full sm:w-auto max-w-xs sm:max-w-none overflow-hidden whitespace-nowrap overflow-ellipsis" title={tiktok.link}>
+            <li key={tiktok._id} className="flex flex-col items-center justify-between sm:flex-row">
+              <span className="w-full max-w-xs overflow-hidden sm:w-auto sm:max-w-none whitespace-nowrap overflow-ellipsis" title={tiktok.link}>
                 {tiktok.link}
               </span>
               <div className="flex items-center mt-2 sm:mt-0">
@@ -86,12 +84,12 @@ const TiktokLinksAdmin = () => {
                       type="url"
                       value={newLink}
                       onChange={(e) => setNewLink(e.target.value)}
-                      className="border p-1 rounded ml-2 w-full sm:w-60"
+                      className="w-full p-1 ml-2 border rounded sm:w-60"
                       placeholder="Nuevo enlace"
                     />
                     <button
                       onClick={() => handleUpdate(tiktok._id)}
-                      className="ml-2 px-2 py-1 text-white bg-green-500 rounded hover:bg-green-600"
+                      className="px-2 py-1 ml-2 text-white bg-green-500 rounded hover:bg-green-600"
                     >
                       Guardar
                     </button>
