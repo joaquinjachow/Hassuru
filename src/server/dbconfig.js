@@ -16,20 +16,19 @@ app.use(express.urlencoded({ limit: '10mb', extended: true }));
 
 // CORS configuration
 app.use(cors({
-  origin: ['https://hassuru-production.up.railway.app', "https://hassuru.vercel.app"],
+  origin: 'http://localhost:3000',
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   credentials: true,
-  allowedHeaders: ['Content-Type', 'Authorization']
 }));
 
-// Manejar las solicitudes preflight
-app.options('*', (req, res) => {
-  res.setHeader('Access-Control-Allow-Origin', req.headers.origin); // Permitir dinámicamente el origen
-  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
-  res.setHeader('Access-Control-Allow-Credentials', 'true');
-  res.sendStatus(204); // Responder con 204 No Content para preflight
-});
+// // Manejar las solicitudes preflight
+// app.options('*', (req, res) => {
+//   res.setHeader('Access-Control-Allow-Origin', req.headers.origin); // Permitir dinámicamente el origen
+//   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+//   res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+//   res.setHeader('Access-Control-Allow-Credentials', 'true');
+//   res.sendStatus(204); // Responder con 204 No Content para preflight
+// });
 
 mongoose.connect(process.env.MONGODB_URI)
   .then(() => console.log('Conectado a MongoDB'))
