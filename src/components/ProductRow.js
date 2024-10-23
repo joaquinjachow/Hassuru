@@ -76,7 +76,7 @@ const ProductRow = ({
       categoria: producto.categoria,
     };
 
-    const response = await fetch(`http://localhost:5000/api/productos/${producto._id}`, {
+    const response = await fetch(`https://hassuru-production.up.railway.app/api/productos/${producto._id}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
@@ -98,7 +98,7 @@ const ProductRow = ({
   const handleProductDelete = async (id) => {
     const confirmDelete = window.confirm("¿Estás seguro que quieres eliminar este producto?");
     if (confirmDelete) {
-      const response = await fetch(`http://localhost:5000/api/productos/${id}`, {
+      const response = await fetch(`https://hassuru-production.up.railway.app/api/productos/${id}`, {
         method: 'DELETE',
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('token')}`,
