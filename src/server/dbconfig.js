@@ -16,7 +16,7 @@ app.use(express.urlencoded({ limit: '10mb', extended: true }));
 
 // CORS configuration
 app.use(cors({
-  origin: ['https://hassuru.vercel.app', 'http://localhost:3000', 'https://hassuru.vercel.app/admin'],
+  origin: '*',
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'], // Agregar OPTIONS para preflight
   credentials: true, // Cambiado a booleano
   allowedHeaders: ['Content-Type', 'Authorization']
