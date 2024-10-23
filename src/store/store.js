@@ -13,12 +13,15 @@ const useStore = create((set) => ({
   email: "",
   tiktokLinks: [],
 
+
   fetchProducts: async () => {
     set({ loading: true });
     try {
       const response = await fetch('https://hassuru-production.up.railway.app/api/productos', {
         method: 'GET',
-        
+        headers: {
+          'Authorization': `Bearer ${localStorage.getItem('token')}`,
+        },
       });
       if (!response.ok) {
         throw new Error('Error al cargar los productos');
@@ -38,7 +41,6 @@ const useStore = create((set) => ({
     try {
       const response = await fetch('https://hassuru-production.up.railway.app/api/productos', {
         method: 'POST',
-        mode: 'no-cors',
         headers: {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${localStorage.getItem('token')}`,
@@ -121,7 +123,6 @@ const useStore = create((set) => ({
     try {
       const response = await fetch("https://hassuru-production.up.railway.app/api/suscribirse", {
         method: "POST",
-        mode: 'no-cors',
         headers: {
           "Content-Type": "application/json",
         },
@@ -145,7 +146,6 @@ const useStore = create((set) => ({
     try {
       const response = await fetch('https://hassuru-production.up.railway.app/api/tiktoks', {
         method: 'GET',
-        mode: 'no-cors',
       });
       if (!response.ok) {
         throw new Error('Error al cargar los enlaces de TikTok');
