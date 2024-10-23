@@ -15,9 +15,10 @@ app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ limit: '10mb', extended: true }));
 
 app.use(cors({
-  origin: 'https://hassuru.vercel.app/',
+  origin: ['https://hassuru.vercel.app', 'http://localhost:3000', "https://hassuru.vercel.app/admin"],
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
-  credentials: true
+  credentials: "include",
+  allowedHeaders: ['Content-Type', 'Authorization']
 }));
 
 mongoose.connect(process.env.MONGODB_URI)
