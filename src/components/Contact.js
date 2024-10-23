@@ -38,7 +38,7 @@ export default function Contact() {
                 <Image
                 width={300}
                 height={300}
-                    src="/images/explicacion.png"
+                    src="/images/Explicacion.png"
                     alt="Explicación"
                     className="object-contain w-full h-full rounded-md shadow-xl lg:object-cover"
                 />
