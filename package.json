@@ -19,6 +19,7 @@
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.7.0",
     "next": "14.2.14",
+    "railway": "^2.0.17",
     "react": "^18",
     "react-dom": "^18",
     "react-hot-toast": "^2.4.1",
