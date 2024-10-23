@@ -11,7 +11,7 @@ export default function SearchBar({ isHamburgerOpen }) {
 
   const fetchProducts = async (searchQuery) => {
     try {
-      const res = await fetch(`http://localhost:5000/api/productos/nombre/${searchQuery}?limit=10`);
+      const res = await fetch(`https://hassuru-production.up.railway.app/api/productos/nombre/${searchQuery}?limit=10`);
       const data = await res.json();
 
       if (res.ok) {
@@ -86,7 +86,7 @@ export default function SearchBar({ isHamburgerOpen }) {
         />
         <button
           type="button"
-          className="absolute left-2 p-2 text-gray-500 hover:text-gray-700 transition-colors duration-300"
+          className="absolute p-2 text-gray-500 transition-colors duration-300 left-2 hover:text-gray-700"
           onClick={handleToggleFocus}
         >
           <FaSearch />
@@ -94,7 +94,7 @@ export default function SearchBar({ isHamburgerOpen }) {
       </div>
 
       {filteredProducts.length > 0 && isFocused && (
-        <ul className="absolute left-0 w-full bg-white border border-gray-300 rounded-md shadow-lg top-12 z-50">
+        <ul className="absolute left-0 z-50 w-full bg-white border border-gray-300 rounded-md shadow-lg top-12">
           {filteredProducts.map((product) => (
             <li key={product._id} className="px-4 py-2 hover:bg-gray-100">
               <Link href={`/producto/${product._id}`}>
