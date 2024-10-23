@@ -1,6 +1,7 @@
 import React, { useEffect, useRef } from "react";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import Link from "next/link";
+import Image from "next/image";
 
 export default function Carousell({ title, products, dolarBlue }) {
   const carouselRef = useRef(null);
@@ -55,7 +56,9 @@ export default function Carousell({ title, products, dolarBlue }) {
             <div key={index} className="flex-none w-48 sm:w-64">
               <Link href={`/producto/${product._id}`} key={product.id}>
                 <div className="flex flex-col justify-between h-full">
-                  <img
+                  <Image
+                    width={300}
+                    height={300}
                     src={product.image?.base64}
                     alt={product.nombre}
                     className="object-cover w-full mb-3 h-80"

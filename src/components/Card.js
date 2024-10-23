@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import Link from "next/link";
 import useStore from "@/store/store";
+import Image from "next/image";
 
 export default function Card({ currentProducts }) {
   const { dolarBlue, fetchDolarBlue } = useStore();
@@ -29,13 +30,15 @@ export default function Card({ currentProducts }) {
           return (
             <Link href={`/producto/${product._id}`} key={product.id}>
               <div key={product._id} className="flex flex-col justify-between h-full transition-transform transform hover:scale-105">
-                <img
+                <Image
                   src={product.image?.base64}
                   alt={product.nombre}
                   className="object-cover w-full mb-3 h-80"
+                  width={300}
+                  height={300}
                 />
                 <h3 className="text-lg font-semibold">{product.nombre}</h3>
-                <h5 className="mt-2 text-sm text-gray-500 leading-relaxed">
+                <h5 className="mt-2 text-sm leading-relaxed text-gray-500">
                   {product.description}
                 </h5>
                 <div className="flex flex-col mt-2">

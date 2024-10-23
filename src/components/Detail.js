@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import useStore from "@/store/store";
+import Image from "next/image";
 
 export default function Detail({ product }) {
   const [showTallas, setShowTallas] = useState(false);
@@ -40,7 +41,9 @@ export default function Detail({ product }) {
   return (
     <div className="container py-10 mx-auto sm:flex sm:flex-col lg:flex-row lg:space-x-10">
       <div className="px-2 mb-6 lg:w-1/2 sm:w-full lg:mb-0">
-        <img
+        <Image
+        width={300}
+        height={300}
           src={product.image?.base64}
           alt={product.nombre}
           className="object-contain w-full h-auto max-h-[700px]"
@@ -147,7 +150,7 @@ export default function Detail({ product }) {
         </div>
 
         {/* Métodos de Pago */}
-        <div className="mt-6 p-4 bg-white rounded-md shadow-md border border-gray-300">
+        <div className="p-4 mt-6 bg-white border border-gray-300 rounded-md shadow-md">
           <h3 className="text-lg font-semibold text-gray-800">Medios de pago disponibles:</h3>
           <ul className="mt-2 space-y-2 text-gray-700">
             <li className="flex items-center">
