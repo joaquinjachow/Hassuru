@@ -16,7 +16,7 @@ app.use(express.urlencoded({ limit: '10mb', extended: true }));
 
 // CORS configuration
 app.use(cors({
-  origin: ["https://hassuru.vercel.app", "http://localhost:3000"],
+  origin: ['*',"https://hassuru.vercel.app"],
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   credentials: true,
   allowedHeaders: ['Content-Type', 'Authorization']
@@ -29,7 +29,7 @@ app.options('*', (req, res) => {
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
   res.setHeader('Access-Control-Allow-Credentials', 'true');
   res.sendStatus(204); // Responder con 204 No Content para preflight
-});
+}); 
 
 mongoose.connect(process.env.MONGODB_URI)
   .then(() => console.log('Conectado a MongoDB'))
