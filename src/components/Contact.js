@@ -1,3 +1,4 @@
+import Image from "next/image";
 import React, { useState } from "react";
 
 export default function Contact() {
@@ -34,7 +35,9 @@ export default function Contact() {
     return (
         <div className="flex flex-col items-center justify-between gap-4 px-4 py-20 md:flex-row">
             <div className="w-full md:w-[49.5%] lg:h-[700px]">
-                <img
+                <Image
+                width={300}
+                height={300}
                     src="/images/explicacion.png"
                     alt="Explicación"
                     className="object-contain w-full h-full rounded-md shadow-xl lg:object-cover"

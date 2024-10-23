@@ -3,6 +3,7 @@ import { RiDeleteBin5Line } from "react-icons/ri";
 import { IoAddCircleOutline } from "react-icons/io5";
 import { toast } from 'react-hot-toast';
 import useStore from "@/store/store";
+import Image from "next/image";
 
 const ProductRow = ({
   producto,
@@ -368,7 +369,9 @@ const ProductRow = ({
       </td>
       <td className="px-4 py-2 border">
         {producto.image?.base64 && (
-          <img
+          <Image
+          width={300}
+          height={300}
             src={producto.image.base64}
             alt={producto.nombre}
             className="object-cover w-16 h-16"
