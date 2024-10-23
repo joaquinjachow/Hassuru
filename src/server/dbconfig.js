@@ -16,7 +16,7 @@ app.use(express.urlencoded({ limit: '10mb', extended: true }));
 
 // CORS configuration
 app.use(cors({
-  origin: ['https://hassuru-production.up.railway.app/productos', "https://hassuru.vercel.app"],
+  origin: ['https://hassuru-production.up.railway.app', "https://hassuru.vercel.app"],
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   credentials: true,
   allowedHeaders: ['Content-Type', 'Authorization']
