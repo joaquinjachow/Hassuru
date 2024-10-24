@@ -4,10 +4,8 @@
   "private": true,
   "main": "server/dbconfig.js",
   "scripts": {
-    "start": "node server/dbconfig.js", 
-    "dev": "nodemon server/dbconfig.js", 
-    "build": "cd backend && npm install",
-    "deploy": "npm start" 
+    "start": "node server/dbconfig.js",  
+    "dev": "nodemon server/dbconfig.js"
   },
   "dependencies": {
     "cors": "^2.8.5",
