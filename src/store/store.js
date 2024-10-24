@@ -17,7 +17,7 @@ const useStore = create((set) => ({
   fetchProducts: async () => {
     set({ loading: true });
     try {
-      const response = await fetch('https://hassuru-production.up.railway/api/productos', {
+      const response = await fetch('https://hassuru-production.up.railway.app/api/productos', {
         method: 'GET',
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('token')}`,
