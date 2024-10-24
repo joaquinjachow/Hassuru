@@ -17,7 +17,7 @@ const useStore = create((set) => ({
   fetchProducts: async () => {
     set({ loading: true });
     try {
-      const response = await fetch(`http://localhost:5001/api/productos`, {
+      const response = await fetch(`https://hassuru-production.up.railway.app/api/productos`, {
         method: 'GET',
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('token')}`,
@@ -39,7 +39,7 @@ const useStore = create((set) => ({
   addProduct: async (productoAEnviar) => {
     set({ loading: true });
     try {
-      const response = await fetch(`http://localhost:5001/api/productos`, {
+      const response = await fetch(`https://hassuru-production.up.railway.app/api/productos`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -70,7 +70,7 @@ const useStore = create((set) => ({
   fetchProductsByCategory: async (categoria) => {
     set({ loading: true, error: null });
     try {
-      const response = await fetch(`http://localhost:5001/api/productos/categoria/${categoria}`);
+      const response = await fetch(`https://hassuru-production.up.railway.app/api/productos/categoria/${categoria}`);
       if (!response.ok) {
         throw new Error("Error al cargar los productos");
       }
@@ -86,7 +86,7 @@ const useStore = create((set) => ({
   fetchProductById: async (id) => {
     set({ loading: true });
     try {
-      const response = await fetch(`http://localhost:5001/api/productos/${id}`);
+      const response = await fetch(`https://hassuru-production.up.railway.app/api/productos/${id}`);
       if (!response.ok) {
         throw new Error('Error al obtener el producto');
       }
@@ -121,7 +121,7 @@ const useStore = create((set) => ({
   handleSubscribe: async (email) => {
     set({ loading: true, message: "" });
     try {
-      const response = await fetch(`http://localhost:5001/api/suscribirse`, {
+      const response = await fetch(`https://hassuru-production.up.railway.app/api/suscribirse`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -144,7 +144,7 @@ const useStore = create((set) => ({
   fetchTikTokLinks: async () => {
     set({ loading: true });
     try {
-      const response = await fetch(`http://localhost:5001/api/tiktoks`, {
+      const response = await fetch(`https://hassuru-production.up.railway.app/api/tiktoks`, {
         method: 'GET',
       });
       if (!response.ok) {

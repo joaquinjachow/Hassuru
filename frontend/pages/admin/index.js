@@ -17,7 +17,7 @@ export default function AdminDashboard() {
   const fetchProducts = async () => {
     setLoading(true);
     try {
-      const response = await fetch(`http://localhost:5001/api/productos`, {
+      const response = await fetch(`https://hassuru-production.up.railway.app/api/productos`, {
         headers: {
           "Authorization": `Bearer ${localStorage.getItem("token")}`,
         },
@@ -42,7 +42,7 @@ export default function AdminDashboard() {
   const fetchProductsFiltered = async (categoria) => {
     setLoading(true);
     try {
-      const response = await fetch(`http://localhost:5001/api/productos/categoria/${categoria}`, {
+      const response = await fetch(`https://hassuru-production.up.railway.app/api/productos/categoria/${categoria}`, {
         headers: {
           "Authorization": `Bearer ${localStorage.getItem("token")}`,
         },

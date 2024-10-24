@@ -12,7 +12,7 @@ export default function SearchBar({ isHamburgerOpen }) {
 
   const fetchProducts = async (searchQuery) => {
     try {
-      const res = await fetch(`http://localhost:5001/api/nombre/${searchQuery}?limit=10`);
+      const res = await fetch(`https://hassuru-production.up.railway.app/api/nombre/${searchQuery}?limit=10`);
       const data = await res.json();
 
       if (res.ok) {
